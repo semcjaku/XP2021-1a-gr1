@@ -1,3 +1,4 @@
+Mikołaj Skrzyniarz
 Zuzanna Obajtek
 Szymon Borowy
 Jakub Semczyszyn
