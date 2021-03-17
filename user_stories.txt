@@ -1,0 +1,13 @@
+1. Możliwość zalogowania się do aplikacji za pomocą konta email + hasła lub za pomocą konta google.
+2. Możliwość dodawania przychodów i wydatków w złotówkach, również okresowych, wraz z (kilkoma) kategoriami.
+3. Lista gotowych kategorii.
+4. Dodawanie kategorii przez użytkownika.
+5. Współdzielenie portfela między użytkownikmai - dodawanie i usuwanie użytkowników.
+6. Lista transakcji.
+7. Filtrowanie transakcji po datach, kategoriach, kwotach + funkcje sumujące.
+8. Panel z analizą - statystyki, wykresy.
+9. Panel z prognozą przyszłych wydatków.
+10. Modyfikacja i usuwanie wydatków/przychodów.
+11. Możliwość rejestracji.
+12. Panel z wyborem portfeli.
+13. Stworzenie lub archwizacja portfela.
