@@ -1,5 +1,6 @@
 - otwarcie klamry w tej samej linii
-- domyślne dla intelliJ
+- tabulacje domyślne dla intelliJ
 - język angielski
 - zmienne i metody camelCase, klasy PascalCase
 - osobny plik na każdą klasę
+- pliki klas grupujemy względem roli
