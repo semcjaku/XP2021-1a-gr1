@@ -1,6 +1,4 @@
 import org.junit.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.Assert.assertEquals;
 
@@ -95,6 +93,34 @@ public class Tests {
         //Arrange
         String calculation = "10\n90,10\n20";
         int expected = 130;
+        Calculator calc = new Calculator();
+
+        //Act
+        int result = calc.Add(calculation);
+
+        //Assets
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void Add_AddsNumbersUsingCustomDelimiter_WhenStringIsValid() {
+        //Arrange
+        String calculation = "//;\n1;2";
+        int expected = 3;
+        Calculator calc = new Calculator();
+
+        //Act
+        int result = calc.Add(calculation);
+
+        //Assets
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void Add_AddsNumbersUsingCustomDelimiter_WhenStringIsValid_ForBigInput() {
+        //Arrange
+        String calculation = "//;\n1;2;1\n3,4,5";
+        int expected = 16;
         Calculator calc = new Calculator();
 
         //Act
