@@ -1,6 +1,7 @@
 public class Calculator {
     public int Add(String numbers) {
-        String[] splitNumbers = numbers.split(",");
+        String delimiters = "[,'\n']";
+        String[] splitNumbers = numbers.split(delimiters);
 
         if (splitNumbers.length == 0) {
             return 0;

@@ -75,4 +75,32 @@ public class Tests {
         //Assets
         assertEquals(expected, result);
     }
+
+    @Test
+    public void Add_AddsNumbersUsingNewLineDelimiter_WhenStringIsValid_ForOneNewLine() {
+        //Arrange
+        String calculation = "10\n90,10,20";
+        int expected = 130;
+        Calculator calc = new Calculator();
+
+        //Act
+        int result = calc.Add(calculation);
+
+        //Assets
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void Add_AddsNumbersUsingNewLineDelimiter_WhenStringIsValid_ForTwoNewLines() {
+        //Arrange
+        String calculation = "10\n90,10\n20";
+        int expected = 130;
+        Calculator calc = new Calculator();
+
+        //Act
+        int result = calc.Add(calculation);
+
+        //Assets
+        assertEquals(expected, result);
+    }
 }
