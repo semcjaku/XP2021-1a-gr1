@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Calculator {
-    public int Add(String numbers) {
+    public int Add(String numbers) throws Exception {
         List<String> del = new ArrayList<>();
         del.add(",");
         del.add("\n");
@@ -28,10 +28,19 @@ public class Calculator {
             }
         }
 
+        List<String> negativeNumbers = new ArrayList<>();
         int result = 0;
 
-        for (String number:splitNumbers) {
-            result +=Integer.parseInt(number);
+        for (String stringNumber:splitNumbers) {
+            int number = Integer.parseInt(stringNumber);
+            result += number;
+            if (number < 0) {
+                negativeNumbers.add(stringNumber);
+            }
+        }
+
+        if (negativeNumbers.size() > 0) {
+            throw new Exception("Negatives not allowed: " + String.join(",", negativeNumbers));
         }
 
         return result;
