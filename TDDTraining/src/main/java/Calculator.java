@@ -10,10 +10,14 @@ public class Calculator {
             if (splitNumbers[0].length() == 0) {
                 return 0;
             }
-
-            return Integer.parseInt(splitNumbers[0]);
         }
 
-        return Integer.parseInt(splitNumbers[0]) + Integer.parseInt(splitNumbers[1]);
+        int result = 0;
+
+        for (String number:splitNumbers) {
+            result +=Integer.parseInt(number);
+        }
+
+        return result;
     }
 }

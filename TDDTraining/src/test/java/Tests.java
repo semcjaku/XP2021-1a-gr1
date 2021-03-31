@@ -47,4 +47,32 @@ public class Tests {
         //Assets
         assertEquals(expected, result);
     }
+
+    @Test
+    public void Add_AddsUpToAnyNumber_WhenStringIsValid_ForThreeNumbers() {
+        //Arrange
+        String calculation = "1,2,3";
+        int expected = 6;
+        Calculator calc = new Calculator();
+
+        //Act
+        int result = calc.Add(calculation);
+
+        //Assets
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void Add_AddsUpToAnyNumber_WhenStringIsValid_ForFourNumber() {
+        //Arrange
+        String calculation = "10,90,10,20";
+        int expected = 130;
+        Calculator calc = new Calculator();
+
+        //Act
+        int result = calc.Add(calculation);
+
+        //Assets
+        assertEquals(expected, result);
+    }
 }
