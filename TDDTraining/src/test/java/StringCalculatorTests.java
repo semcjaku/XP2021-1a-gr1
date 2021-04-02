@@ -41,8 +41,8 @@ public class StringCalculatorTests {
 
     private Object[] parametersToTestAddNegativeNumbers() {
         return new Object[]{
-                new Object[]{"//;\n-1;2" , "-1"},
-                new Object[]{"1,-2,-3"    , "-2,-3"}
+                new Object[]{"//;\n-1;2" , "Negatives not allowed: -1"},
+                new Object[]{"1,-2,-3"   , "Negatives not allowed: -2,-3"}
         };
     }
 
@@ -84,7 +84,7 @@ public class StringCalculatorTests {
             calculator.Add(numbers);
             Assert.fail("Expected exception to be thrown"); // nie wyrzucilo wyjatku a powinno
         } catch (NegativesNotAllowedException e) {
-            Assert.assertEquals("Negatives not allowed: "+negativeNumbers, e.getMessage());
+            Assert.assertEquals(negativeNumbers, e.getMessage());
         }
 
     }
