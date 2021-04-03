@@ -1,3 +1,7 @@
+package utils;
+
+import utils.Calculator;
+import exceptions.NegativeNumbersNotAllowedException;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
