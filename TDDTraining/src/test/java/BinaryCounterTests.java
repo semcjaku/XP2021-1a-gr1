@@ -106,4 +106,19 @@ public class BinaryCounterTests {
         //Act
         int result = binaryCounter.noOfBits1(input);
     }
+
+    @Test
+    public void noOfBits1_ShouldGetManyNumberAsInput_WithDifferentDelimiters() throws Exception {
+        //Arrange
+        String input = "1;1 2;4 255";
+        int expected = 12;
+
+        BinaryCounter binaryCounter = new BinaryCounter();
+
+        //Act
+        int result = binaryCounter.noOfBits1(input);
+
+        //Assets
+        assertEquals(expected, result);
+    }
 }

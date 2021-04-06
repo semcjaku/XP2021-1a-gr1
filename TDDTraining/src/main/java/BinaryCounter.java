@@ -4,7 +4,7 @@ public class BinaryCounter {
             return 0;
 
         int result = 0;
-        String[] splitNumbers = numbers.split(";");
+        String[] splitNumbers = numbers.split("[;,' ']");
         for (String number : splitNumbers) {
             int numberAfterConversion = Integer.parseInt(number);
 
