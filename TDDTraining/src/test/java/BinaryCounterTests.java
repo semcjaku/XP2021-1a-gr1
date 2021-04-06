@@ -78,4 +78,32 @@ public class BinaryCounterTests {
         //Act
         int result = binaryCounter.noOfBits1(input);
     }
+
+    @Test
+    public void noOfBits1_ShouldGetManyNumberAsInput() throws Exception {
+        //Arrange
+        String input = "1;1;2;4;255";
+        int expected = 12;
+
+        BinaryCounter binaryCounter = new BinaryCounter();
+
+        //Act
+        int result = binaryCounter.noOfBits1(input);
+
+        //Assets
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void noOfBits1_ShouldThrowException_WhenGetManyNumberAsInputWithIncorrect() throws Exception {
+        //Arrange
+        String input = "1;1;2;4;255;-3";
+        BinaryCounter binaryCounter = new BinaryCounter();
+
+        exception.expect(Exception.class);
+        exception.expectMessage("Number out of range 0-255: " + input);
+
+        //Act
+        int result = binaryCounter.noOfBits1(input);
+    }
 }
