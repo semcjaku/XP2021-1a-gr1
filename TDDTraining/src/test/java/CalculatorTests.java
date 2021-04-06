@@ -4,7 +4,7 @@ import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertEquals;
 
-public class Tests {
+public class CalculatorTests {
 
     @Test
     public void Add_AddsUpToTwoNumber_WhenStringIsValid_ForEmptyString() throws Exception {
