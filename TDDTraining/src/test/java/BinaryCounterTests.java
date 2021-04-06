@@ -63,7 +63,7 @@ public class BinaryCounterTests {
         exception.expectMessage("Number out of range 0-255: " + input);
 
         //Act
-        int result = binaryCounter.noOfBits1(input);
+        binaryCounter.noOfBits1(input);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class BinaryCounterTests {
         exception.expectMessage("Number out of range 0-255: " + input);
 
         //Act
-        int result = binaryCounter.noOfBits1(input);
+        binaryCounter.noOfBits1(input);
     }
 
     @Test
@@ -104,7 +104,7 @@ public class BinaryCounterTests {
         exception.expectMessage("Number out of range 0-255: " + input);
 
         //Act
-        int result = binaryCounter.noOfBits1(input);
+        binaryCounter.noOfBits1(input);
     }
 
     @Test
@@ -135,5 +135,31 @@ public class BinaryCounterTests {
 
         //Assets
         assertEquals(expected, result);
+    }
+
+    @Test
+    public void noOfBits1_ShouldThrowException_WhenIncorrectDelimiter_Short() throws Exception {
+        //Arrange
+        String input = "1;1 ,3\n5";// 2;4 255;1,   1\n1;1  1        1      \n   \n         1";
+        BinaryCounter binaryCounter = new BinaryCounter();
+
+        exception.expect(Exception.class);
+        exception.expectMessage("Incorrect delimiter in : " + input);
+
+        //Act
+        binaryCounter.noOfBits1(input);
+    }
+
+    @Test
+    public void noOfBits1_ShouldThrowException_WhenIncorrectDelimiter_Long() throws Exception {
+        //Arrange
+        String input = "1;1 ,3\n5\n\n\n     2;4 255;1,   1\n1;1  1        1      \n   \n         1";
+        BinaryCounter binaryCounter = new BinaryCounter();
+
+        exception.expect(Exception.class);
+        exception.expectMessage("Incorrect delimiter in : " + input);
+
+        //Act
+        binaryCounter.noOfBits1(input);
     }
 }

@@ -1,10 +1,21 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class BinaryCounter {
     int noOfBits1(String numbers) throws Exception {
         if (numbers.isEmpty())
             return 0;
 
+        String delimiters = "[;' '\n]";
+        String[] splitNumbers = numbers.split(delimiters);
         int result = 0;
-        String[] splitNumbers = numbers.split("[;, ' ', '\n']");
+        String checkNumbers = numbers
+                .replaceAll("[0-9-]","")
+                .replaceAll(delimiters,"");
+
+        if(checkNumbers.length() != 0)
+            throw new Exception("Incorrect delimiter in : " + numbers);
+
         for (String number : splitNumbers) {
 
             if (number.isEmpty())
