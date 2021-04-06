@@ -162,4 +162,34 @@ public class BinaryCounterTests {
         //Act
         binaryCounter.noOfBits1(input);
     }
+
+    @Test
+    public void noOfBits1_ShouldConvertHexNumber() throws Exception {
+        //Arrange
+        String input = "$A4";
+        int expected = 3;
+
+        BinaryCounter binaryCounter = new BinaryCounter();
+
+        //Act
+        int result = binaryCounter.noOfBits1(input);
+
+        //Assets
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void noOfBits1_ShouldConvertHexNumbers() throws Exception {
+        //Arrange
+        String input = "10;$a4;$ff;253      1";
+        int expected = 21;
+
+        BinaryCounter binaryCounter = new BinaryCounter();
+
+        //Act
+        int result = binaryCounter.noOfBits1(input);
+
+        //Assets
+        assertEquals(expected, result);
+    }
 }
