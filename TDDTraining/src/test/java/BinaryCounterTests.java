@@ -1,10 +1,12 @@
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertEquals;
 
 public class BinaryCounterTests {
     @Test
-    public void noOfBits1_ReturnZero_WhenEmptyString() {
+    public void noOfBits1_ReturnZero_WhenEmptyString() throws Exception {
         //Arrange
         String input = "";
         int expected = 0;
@@ -19,7 +21,7 @@ public class BinaryCounterTests {
     }
 
     @Test
-    public void noOfBits1_ReturnZero_WhenZero() {
+    public void noOfBits1_ReturnZero_WhenZero() throws Exception {
         //Arrange
         String input = "0";
         int expected = 0;
@@ -34,7 +36,7 @@ public class BinaryCounterTests {
     }
 
     @Test
-    public void noOfBits1_ReturnEight_When255() {
+    public void noOfBits1_ReturnEight_When255() throws Exception {
         //Arrange
         String input = "255";
         int expected = 8;
@@ -46,5 +48,34 @@ public class BinaryCounterTests {
 
         //Assets
         assertEquals(expected, result);
+    }
+
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
+
+    @Test
+    public void noOfBits1_ShouldThrowAnException_WhenInputBelowRange() throws Exception {
+        //Arrange
+        String input = "-1";
+        BinaryCounter binaryCounter = new BinaryCounter();
+
+        exception.expect(Exception.class);
+        exception.expectMessage("Number out of range 0-255: " + input);
+
+        //Act
+        int result = binaryCounter.noOfBits1(input);
+    }
+
+    @Test
+    public void noOfBits1_ShouldThrowAnException_WhenInputAboveRange() throws Exception {
+        //Arrange
+        String input = "256";
+        BinaryCounter binaryCounter = new BinaryCounter();
+
+        exception.expect(Exception.class);
+        exception.expectMessage("Number out of range 0-255: " + input);
+
+        //Act
+        int result = binaryCounter.noOfBits1(input);
     }
 }
