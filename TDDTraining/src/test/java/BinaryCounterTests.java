@@ -121,4 +121,19 @@ public class BinaryCounterTests {
         //Assets
         assertEquals(expected, result);
     }
+
+    @Test
+    public void noOfBits1_ShouldGetManyNumberAsInput_WithDifferentWhiteDelimiters() throws Exception {
+        //Arrange
+        String input = "1;1 2;4 255;1   1\n1;1  1        1      \n   \n         1";
+        int expected = 19;
+
+        BinaryCounter binaryCounter = new BinaryCounter();
+
+        //Act
+        int result = binaryCounter.noOfBits1(input);
+
+        //Assets
+        assertEquals(expected, result);
+    }
 }

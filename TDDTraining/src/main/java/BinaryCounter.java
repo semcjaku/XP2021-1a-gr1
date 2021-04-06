@@ -4,8 +4,11 @@ public class BinaryCounter {
             return 0;
 
         int result = 0;
-        String[] splitNumbers = numbers.split("[;,' ']");
+        String[] splitNumbers = numbers.split("[;, ' ', '\n']");
         for (String number : splitNumbers) {
+
+            if (number.isEmpty())
+                continue;
             int numberAfterConversion = Integer.parseInt(number);
 
             if (numberAfterConversion < 0 || numberAfterConversion > 255)
