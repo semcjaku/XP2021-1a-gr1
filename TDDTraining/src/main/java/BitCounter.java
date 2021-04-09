@@ -32,7 +32,7 @@ public class BitCounter  {
             }
 
             if (!(number > LOWER_BOUNDARY && number < UPPER_BOUNDARY)) {
-                throw new NumberExceedsBoundariesException("Number " + number + " exceeds one of 8 bit number boundary!");
+                throw new NumberExceedsBoundariesException("Number " + number + " exceeds one of 8 bit number boundaries!");
             }
 
             String binaryNumber = Integer.toBinaryString(number);

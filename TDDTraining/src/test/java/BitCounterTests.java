@@ -38,7 +38,7 @@ public class BitCounterTests {
         try {
             int result = bitCounter.noOfBits1(number);
         } catch (NumberExceedsBoundariesException e) {
-            assertEquals("Number " + number + " exceeds one of 8 bit number boundary!", e.getMessage());
+            assertEquals("Number " + number + " exceeds one of 8 bit number boundaries!", e.getMessage());
             throw e;
         }
     }
