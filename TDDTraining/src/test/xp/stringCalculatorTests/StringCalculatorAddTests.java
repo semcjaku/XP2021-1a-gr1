@@ -1,16 +1,14 @@
-package xp;
+package xp.stringCalculatorTests;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
+import xp.StringCalculator;
 
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 import static org.junit.Assert.*;
 
-public class StringCalculatorTests {
+public class StringCalculatorAddTests {
     private StringCalculator calculator;
 
     @Before
