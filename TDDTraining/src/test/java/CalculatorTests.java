@@ -5,7 +5,8 @@ import org.junit.rules.ExpectedException;
 import static org.junit.Assert.assertEquals;
 
 public class CalculatorTests {
-    @Test public void Add_AddsUpToTwoNumbers_WhenStringIsValid() throws Exception{
+    @Test
+    public void Add_AddsUpToTwoNumbers_WhenStringIsValid() throws Exception {
         // Arrange
         String calculation1 = "";
         String calculation2 = "1";
@@ -28,7 +29,8 @@ public class CalculatorTests {
         assertEquals(expected3, result3);
     }
 
-    @Test public void Add_AddsUpToAnyNumber_WhenStringIsValid() throws Exception{
+    @Test
+    public void Add_AddsUpToAnyNumber_WhenStringIsValid() throws Exception {
         // Arrange
         String calculation1 = "1,2,3";
         String calculation2 = "10,90,10,20";
@@ -47,7 +49,8 @@ public class CalculatorTests {
         assertEquals(expected2, result2);
     }
 
-    @Test public void Add_AddsNumbersUsingNewLineDelimiter_WhenStringIsValid() throws Exception{
+    @Test
+    public void Add_AddsNumbersUsingNewLineDelimiter_WhenStringIsValid() throws Exception {
         // Arrange
         String calculation1 = "1\n2,3";
         String calculation2 = "10\n90,10\n20";
@@ -66,7 +69,8 @@ public class CalculatorTests {
         assertEquals(expected2, result2);
     }
 
-    @Test public void Add_AddsNumbersUsingCustomDelimiter_WhenStringIsValid() throws Exception{
+    @Test
+    public void Add_AddsNumbersUsingCustomDelimiter_WhenStringIsValid() throws Exception {
         // Arrange
         String calculation1 = "//;\n1;2";
         String calculation2 = "//;\n1;2;4";
@@ -85,7 +89,8 @@ public class CalculatorTests {
         assertEquals(expected2, result2);
     }
 
-    @Test public void Add_AddsNumbersUsingCustomLengthDelimiter_WhenStringIsValid() throws Exception{
+    @Test
+    public void Add_AddsNumbersUsingCustomLengthDelimiter_WhenStringIsValid() throws Exception {
         // Arrange
         String calculation1 = "//***\n1***2";
         String calculation2 = "//***\n1***2***4";
@@ -104,7 +109,8 @@ public class CalculatorTests {
         assertEquals(expected2, result2);
     }
 
-    @Test public void Add_IgnoresNumbersBiggerThan1000_WhenStringIsValid() throws Exception{
+    @Test
+    public void Add_IgnoresNumbersBiggerThan1000_WhenStringIsValid() throws Exception {
         // Arrange
         String calculation1 = "1\n2077,3";
         String calculation2 = "10\n90,1200\n20";
@@ -126,7 +132,8 @@ public class CalculatorTests {
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();
 
-    @Test public void Add_ShouldThrowAnException_WhenNegativeNumbersAreUsedSimple() throws Exception{
+    @Test
+    public void Add_ShouldThrowAnException_WhenNegativeNumbersAreUsedSimple() throws Exception {
         // Arrange
         String calculation = "1,2,-1";
 
@@ -142,7 +149,8 @@ public class CalculatorTests {
         sut.Add(calculation);
     }
 
-    @Test public void Add_ShouldThrowAnException_WhenNegativeNumbersAreUsedComplex() throws Exception{
+    @Test
+    public void Add_ShouldThrowAnException_WhenNegativeNumbersAreUsedComplex() throws Exception {
         // Arrange
         String calculation = "//;\n1;-2;-4";
 

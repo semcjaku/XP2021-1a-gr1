@@ -5,7 +5,8 @@ import org.junit.rules.ExpectedException;
 import static org.junit.Assert.assertEquals;
 
 public class BitsCounterTests {
-    @Test public void noOfBits1_CountsBitsInOneNumber_WhenInputIsValid() throws Exception{
+    @Test
+    public void noOfBits1_CountsBitsInOneNumber_WhenInputIsValid() throws Exception {
         // Arrange
         String number1 = "";
         String number2 = "0";
@@ -32,7 +33,8 @@ public class BitsCounterTests {
         assertEquals(expected4, result4);
     }
 
-    @Test public void noOfBits1_CountsBitsInManyNumbersSeparatedBySemicolon_WhenInputIsValid() throws Exception{
+    @Test
+    public void noOfBits1_CountsBitsInManyNumbersSeparatedBySemicolon_WhenInputIsValid() throws Exception {
         // Arrange
         String number1 = "";
         String number2 = "0;10";
@@ -55,7 +57,8 @@ public class BitsCounterTests {
         assertEquals(expected3, result3);
     }
 
-    @Test public void noOfBits1_CountsBitsInManyNumbersSeparatedBySemicolonOrSpace_WhenInputIsValid() throws Exception{
+    @Test
+    public void noOfBits1_CountsBitsInManyNumbersSeparatedBySemicolonOrSpace_WhenInputIsValid() throws Exception {
         // Arrange
         String number1 = "2 15";
         String number2 = "0;10";
@@ -78,7 +81,8 @@ public class BitsCounterTests {
         assertEquals(expected3, result3);
     }
 
-    @Test public void noOfBits1_CountsBitsInManyNumbersSeparatedBySemicolonOrWhitespaces_WhenInputIsValid() throws Exception{
+    @Test
+    public void noOfBits1_CountsBitsInManyNumbersSeparatedBySemicolonOrWhitespaces_WhenInputIsValid() throws Exception {
         // Arrange
         String number1 = "2    15";
         String number2 = "0;10";
@@ -101,7 +105,8 @@ public class BitsCounterTests {
         assertEquals(expected3, result3);
     }
 
-    @Test public void noOfBits1_CountsBitsInManyNumbersDecimalAndHexadecimal_WhenInputIsValid() throws Exception{
+    @Test
+    public void noOfBits1_CountsBitsInManyNumbersDecimalAndHexadecimal_WhenInputIsValid() throws Exception {
         // Arrange
         String number1 = "2;15";
         String number2 = "$a4;$cd";
@@ -127,7 +132,8 @@ public class BitsCounterTests {
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();
 
-    @Test public void noOfBits1_ShouldThrowAnException_WhenNumberAbove255() throws Exception{
+    @Test
+    public void noOfBits1_ShouldThrowAnException_WhenNumberAbove255() throws Exception {
         // Arrange
         String number = "400";
 
@@ -143,7 +149,8 @@ public class BitsCounterTests {
         bc.noOfBits1(number);
     }
 
-    @Test public void noOfBits1_ShouldThrowAnException_WhenNumberBelow0() throws Exception{
+    @Test
+    public void noOfBits1_ShouldThrowAnException_WhenNumberBelow0() throws Exception {
         // Arrange
         String number = "-1";
 
@@ -159,7 +166,8 @@ public class BitsCounterTests {
         bc.noOfBits1(number);
     }
 
-    @Test public void noOfBits1_ShouldThrowAnException_WhenInvalidCharacterInInput_Variant1() throws Exception{
+    @Test
+    public void noOfBits1_ShouldThrowAnException_WhenInvalidCharacterInInput_Variant1() throws Exception {
         // Arrange
         String number = "21as3;4[[5";
 
@@ -175,7 +183,8 @@ public class BitsCounterTests {
         bc.noOfBits1(number);
     }
 
-    @Test public void noOfBits1_ShouldThrowAnException_WhenInvalidCharacterInInput_Variant2() throws Exception{
+    @Test
+    public void noOfBits1_ShouldThrowAnException_WhenInvalidCharacterInInput_Variant2() throws Exception {
         // Arrange
         String number = "1,2,3";
 

@@ -1,6 +1,9 @@
 - otwarcie klamry w tej samej linii
+- spacja przed otwarciem klamry
 - tabulacje domyślne dla intelliJ
 - język angielski
 - zmienne i metody camelCase, klasy PascalCase
+- nazwa testu: [nazwa etstowanej metody]_[co robi metoda]_[kiedy to robi]
+- adnotacje w osobnej linii
 - osobny plik na każdą klasę
 - pliki klas grupujemy względem roli
