@@ -1,3 +1,4 @@
+import exceptions.NegativeNumbersNotAllowedException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -6,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 
 public class CalculatorTests {
     @Test
-    public void Add_AddsUpToTwoNumbers_WhenStringIsValid() throws Exception {
+    public void Add_AddsUpToTwoNumbers_WhenStringIsValid() throws NegativeNumbersNotAllowedException {
         // Arrange
         String calculation1 = "";
         String calculation2 = "1";
@@ -30,7 +31,7 @@ public class CalculatorTests {
     }
 
     @Test
-    public void Add_AddsUpToAnyNumber_WhenStringIsValid() throws Exception {
+    public void Add_AddsUpToAnyNumber_WhenStringIsValid() throws NegativeNumbersNotAllowedException {
         // Arrange
         String calculation1 = "1,2,3";
         String calculation2 = "10,90,10,20";
@@ -50,7 +51,7 @@ public class CalculatorTests {
     }
 
     @Test
-    public void Add_AddsNumbersUsingNewLineDelimiter_WhenStringIsValid() throws Exception {
+    public void Add_AddsNumbersUsingNewLineDelimiter_WhenStringIsValid() throws NegativeNumbersNotAllowedException {
         // Arrange
         String calculation1 = "1\n2,3";
         String calculation2 = "10\n90,10\n20";
@@ -70,7 +71,7 @@ public class CalculatorTests {
     }
 
     @Test
-    public void Add_AddsNumbersUsingCustomDelimiter_WhenStringIsValid() throws Exception {
+    public void Add_AddsNumbersUsingCustomDelimiter_WhenStringIsValid() throws NegativeNumbersNotAllowedException {
         // Arrange
         String calculation1 = "//;\n1;2";
         String calculation2 = "//;\n1;2;4";
@@ -90,7 +91,7 @@ public class CalculatorTests {
     }
 
     @Test
-    public void Add_AddsNumbersUsingCustomLengthDelimiter_WhenStringIsValid() throws Exception {
+    public void Add_AddsNumbersUsingCustomLengthDelimiter_WhenStringIsValid() throws NegativeNumbersNotAllowedException {
         // Arrange
         String calculation1 = "//***\n1***2";
         String calculation2 = "//***\n1***2***4";
@@ -110,7 +111,7 @@ public class CalculatorTests {
     }
 
     @Test
-    public void Add_IgnoresNumbersBiggerThan1000_WhenStringIsValid() throws Exception {
+    public void Add_IgnoresNumbersBiggerThan1000_WhenStringIsValid() throws NegativeNumbersNotAllowedException {
         // Arrange
         String calculation1 = "1\n2077,3";
         String calculation2 = "10\n90,1200\n20";
@@ -133,7 +134,7 @@ public class CalculatorTests {
     public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
-    public void Add_ShouldThrowAnException_WhenNegativeNumbersAreUsedSimple() throws Exception {
+    public void Add_ShouldThrowAnException_WhenNegativeNumbersAreUsedSimple() throws NegativeNumbersNotAllowedException {
         // Arrange
         String calculation = "1,2,-1";
 
@@ -142,7 +143,7 @@ public class CalculatorTests {
         Calculator sut = new Calculator();
 
         // Expect
-        exceptionRule.expect(Exception.class);
+        exceptionRule.expect(NegativeNumbersNotAllowedException.class);
         exceptionRule.expectMessage("Negatives not allowed: " + expected);
 
         // Act
@@ -150,7 +151,7 @@ public class CalculatorTests {
     }
 
     @Test
-    public void Add_ShouldThrowAnException_WhenNegativeNumbersAreUsedComplex() throws Exception {
+    public void Add_ShouldThrowAnException_WhenNegativeNumbersAreUsedComplex() throws NegativeNumbersNotAllowedException {
         // Arrange
         String calculation = "//;\n1;-2;-4";
 
@@ -159,7 +160,7 @@ public class CalculatorTests {
         Calculator sut = new Calculator();
 
         // Expect
-        exceptionRule.expect(Exception.class);
+        exceptionRule.expect(NegativeNumbersNotAllowedException.class);
         exceptionRule.expectMessage("Negatives not allowed: " + expected);
 
         // Act

@@ -1,3 +1,5 @@
+import exceptions.NegativeNumbersNotAllowedException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -5,7 +7,7 @@ import static java.lang.Integer.parseInt;
 
 public class Calculator {
 
-    public int Add(String numbers) throws Exception{
+    public int Add(String numbers) throws NegativeNumbersNotAllowedException {
         if (null == numbers || numbers.isEmpty()) {
             return 0;
         }
@@ -42,7 +44,7 @@ public class Calculator {
             ArrayList<String> stringNegatives = new ArrayList<>();
             negativeNumbers.forEach(n -> stringNegatives.add(Integer.toString(n)));
             exceptionString += String.join(",",stringNegatives);
-            throw new Exception(exceptionString);
+            throw new NegativeNumbersNotAllowedException(exceptionString);
         }
 
         return parsedNumbers.stream().mapToInt(a -> a).sum();

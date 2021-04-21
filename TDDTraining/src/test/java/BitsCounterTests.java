@@ -1,3 +1,5 @@
+import exceptions.InvalidFormatException;
+import exceptions.NumberOutOfRangeException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -6,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 public class BitsCounterTests {
     @Test
-    public void noOfBits1_CountsBitsInOneNumber_WhenInputIsValid() throws Exception {
+    public void noOfBits1_CountsBitsInOneNumber_WhenInputIsValid() throws InvalidFormatException, NumberOutOfRangeException {
         // Arrange
         String number1 = "";
         String number2 = "0";
@@ -34,7 +36,7 @@ public class BitsCounterTests {
     }
 
     @Test
-    public void noOfBits1_CountsBitsInManyNumbersSeparatedBySemicolon_WhenInputIsValid() throws Exception {
+    public void noOfBits1_CountsBitsInManyNumbersSeparatedBySemicolon_WhenInputIsValid() throws InvalidFormatException, NumberOutOfRangeException {
         // Arrange
         String number1 = "";
         String number2 = "0;10";
@@ -58,7 +60,7 @@ public class BitsCounterTests {
     }
 
     @Test
-    public void noOfBits1_CountsBitsInManyNumbersSeparatedBySemicolonOrSpace_WhenInputIsValid() throws Exception {
+    public void noOfBits1_CountsBitsInManyNumbersSeparatedBySemicolonOrSpace_WhenInputIsValid() throws InvalidFormatException, NumberOutOfRangeException {
         // Arrange
         String number1 = "2 15";
         String number2 = "0;10";
@@ -82,7 +84,7 @@ public class BitsCounterTests {
     }
 
     @Test
-    public void noOfBits1_CountsBitsInManyNumbersSeparatedBySemicolonOrWhitespaces_WhenInputIsValid() throws Exception {
+    public void noOfBits1_CountsBitsInManyNumbersSeparatedBySemicolonOrWhitespaces_WhenInputIsValid() throws InvalidFormatException, NumberOutOfRangeException {
         // Arrange
         String number1 = "2    15";
         String number2 = "0;10";
@@ -106,7 +108,7 @@ public class BitsCounterTests {
     }
 
     @Test
-    public void noOfBits1_CountsBitsInManyNumbersDecimalAndHexadecimal_WhenInputIsValid() throws Exception {
+    public void noOfBits1_CountsBitsInManyNumbersDecimalAndHexadecimal_WhenInputIsValid() throws InvalidFormatException, NumberOutOfRangeException {
         // Arrange
         String number1 = "2;15";
         String number2 = "$a4;$cd";
@@ -133,7 +135,7 @@ public class BitsCounterTests {
     public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
-    public void noOfBits1_ShouldThrowAnException_WhenNumberAbove255() throws Exception {
+    public void noOfBits1_ShouldThrowAnException_WhenNumberAbove255() throws InvalidFormatException, NumberOutOfRangeException {
         // Arrange
         String number = "400";
 
@@ -142,7 +144,7 @@ public class BitsCounterTests {
         BitsCounter bc = new BitsCounter();
 
         // Expect
-        exceptionRule.expect(Exception.class);
+        exceptionRule.expect(NumberOutOfRangeException.class);
         exceptionRule.expectMessage("Allowed range is 0-255.");
 
         // Act
@@ -150,7 +152,7 @@ public class BitsCounterTests {
     }
 
     @Test
-    public void noOfBits1_ShouldThrowAnException_WhenNumberBelow0() throws Exception {
+    public void noOfBits1_ShouldThrowAnException_WhenNumberBelow0() throws InvalidFormatException, NumberOutOfRangeException {
         // Arrange
         String number = "-1";
 
@@ -159,7 +161,7 @@ public class BitsCounterTests {
         BitsCounter bc = new BitsCounter();
 
         // Expect
-        exceptionRule.expect(Exception.class);
+        exceptionRule.expect(NumberOutOfRangeException.class);
         exceptionRule.expectMessage("Allowed range is 0-255.");
 
         // Act
@@ -167,7 +169,7 @@ public class BitsCounterTests {
     }
 
     @Test
-    public void noOfBits1_ShouldThrowAnException_WhenInvalidCharacterInInput_Variant1() throws Exception {
+    public void noOfBits1_ShouldThrowAnException_WhenInvalidCharacterInInput_Variant1() throws InvalidFormatException, NumberOutOfRangeException {
         // Arrange
         String number = "21as3;4[[5";
 
@@ -176,7 +178,7 @@ public class BitsCounterTests {
         BitsCounter bc = new BitsCounter();
 
         // Expect
-        exceptionRule.expect(Exception.class);
+        exceptionRule.expect(InvalidFormatException.class);
         exceptionRule.expectMessage("Invalid character.");
 
         // Act
@@ -184,7 +186,7 @@ public class BitsCounterTests {
     }
 
     @Test
-    public void noOfBits1_ShouldThrowAnException_WhenInvalidCharacterInInput_Variant2() throws Exception {
+    public void noOfBits1_ShouldThrowAnException_WhenInvalidCharacterInInput_Variant2() throws InvalidFormatException, NumberOutOfRangeException {
         // Arrange
         String number = "1,2,3";
 
@@ -193,7 +195,7 @@ public class BitsCounterTests {
         BitsCounter bc = new BitsCounter();
 
         // Expect
-        exceptionRule.expect(Exception.class);
+        exceptionRule.expect(InvalidFormatException.class);
         exceptionRule.expectMessage("Invalid character.");
 
         // Act
