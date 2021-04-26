@@ -1,13 +1,74 @@
-1. Możliwość zalogowania się do aplikacji za pomocą konta email + hasła lub za pomocą konta google. {manhours: 30; priority: ; story points:}
-2. Możliwość dodawania przychodów i wydatków w złotówkach, również okresowych, wraz z (kilkoma) kategoriami.  {manhours: 24; priority: ; story points:}
-3. Lista gotowych kategorii.  {manhours: 7; priority: ; story points:}
-4. Dodawanie kategorii przez użytkownika.  {manhours: 10; priority: ; story points:}
-5. Współdzielenie portfela między użytkownikmai - dodawanie i usuwanie użytkowników.  {manhours: 40; priority: ; story points:}
-6. Lista transakcji.  {manhours: 24; priority: ; story points:}
-7. Filtrowanie transakcji po datach, kategoriach, kwotach + funkcje sumujące.  {manhours: 40; priority: ; story points:}
-8. Panel z analizą - statystyki, wykresy.  {manhours: 58; priority: ; story points:}
-9. Panel z prognozą przyszłych wydatków.  {manhours: 60; priority: ; story points:}
-10. Modyfikacja i usuwanie wydatków/przychodów.  {manhours: 30; priority: ; story points:}
-11. Możliwość rejestracji.  {manhours: 28; priority: ; story points:}
-12. Panel z wyborem portfeli.  {manhours: 30 ; priority: ; story points:}
-13. Stworzenie lub archwizacja portfela.  {manhours: 24 ; priority: ; story points:}
+1. Możliwość zalogowania się do aplikacji za pomocą konta email + hasła lub za pomocą konta google. {manhours: 30; priority: ; story points: 6 ; poker points: }
+	Ryzyka(0-2):
+	 - niedookreśloności: 0  
+	 - zmienności:	1
+	 - technologiczne: 1
+2. Możliwość dodawania przychodów i wydatków w złotówkach, również okresowych, wraz z (kilkoma) kategoriami.  {manhours: 24; priority: ; story points: 4; poker points: }
+	Ryzyka:
+	 - niedookreśloności: 1  
+	 - zmienności:	1
+	 - technologiczne: 0
+3. Lista gotowych kategorii.  {manhours: 7; priority: ; story points: 1; poker points: }
+	Ryzyka:
+	 - niedookreśloności: 0  
+	 - zmienności:	1
+	 - technologiczne: 0	 
+4. Dodawanie kategorii przez użytkownika.  {manhours: 10; priority: ; story points: 2; poker points: } - referencyjna => 1SP - 5h
+	Ryzyka:
+	 - niedookreśloności: 1  
+	 - zmienności:	0
+	 - technologiczne: 0
+5. Współdzielenie portfela między użytkownikmai - dodawanie i usuwanie użytkowników.  {manhours: 40; priority: ; story points: 8; poker points: }
+	Ryzyka:
+	 - niedookreśloności: 1  
+	 - zmienności:	0
+	 - technologiczne: 1
+6. Lista transakcji.  {manhours: 24; priority: ; story points: 4; poker points: }
+	Ryzyka:
+	 - niedookreśloności: 1  
+	 - zmienności:	1
+	 - technologiczne: 0
+7. Filtrowanie transakcji po datach, kategoriach, kwotach + funkcje sumujące.  {manhours: 40; priority: ; story points: 8; poker points: }
+	Ryzyka:
+	 - niedookreśloności: 0  
+	 - zmienności:	1
+	 - technologiczne: 0
+8. Panel z analizą - statystyki, wykresy.  {manhours: 58; priority: ; story points: 11; poker points: }
+	Ryzyko:
+	 - niedookreśloności: 2  
+	 - zmienności:	1
+	 - technologiczne: 1
+9. Panel z prognozą przyszłych wydatków.  {manhours: 60; priority: ; story points: 12; poker points: }
+	Ryzyko:
+	 - niedookreśloności: 1  
+	 - zmienności:	1
+	 - technologiczne: 2
+10. Modyfikacja i usuwanie wydatków/przychodów.  {manhours: 30; priority: ; story points: 6; poker points: }
+	Ryzyko:
+	 - niedookreśloności: 0  
+	 - zmienności:	0
+	 - technologiczne: 0
+11. Możliwość rejestracji.  {manhours: 28; priority: ; story points: 5; poker points: }
+	Ryzyko:
+	 - niedookreśloności: 1  
+	 - zmienności:	1
+	 - technologiczne: 0
+12. Panel z wyborem portfeli.  {manhours: 30 ; priority: ; story points: 6; poker points: }
+	Ryzyko:
+	 - niedookreśloności: 0  
+	 - zmienności:	1
+	 - technologiczne: 0
+13. Stworzenie lub archwizacja portfela.  {manhours: 24 ; priority: ; story points: 4; poker points: }
+	Ryzyko:
+	 - niedookreśloności: 1  
+	 - zmienności:	0
+	 - technologiczne: 0
+
+manhours sum: 405
+
+
+Estymacja historyjek online:
+	https://systemy.pentacomp.pl/planningpoker/
+	https://www.planitpoker.com/ 
+	https://www.scrumpoker-online.org/en/
+
