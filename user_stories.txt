@@ -9,5 +9,5 @@
 9. Panel z prognozą przyszłych wydatków.  {manhours: 60; priority: ; story points:}
 10. Modyfikacja i usuwanie wydatków/przychodów.  {manhours: 30; priority: ; story points:}
 11. Możliwość rejestracji.  {manhours: 28; priority: ; story points:}
-12. Panel z wyborem portfeli.  {manhours: ; priority: ; story points:}
-13. Stworzenie lub archwizacja portfela.  {manhours: ; priority: ; story points:}
+12. Panel z wyborem portfeli.  {manhours: 30 ; priority: ; story points:}
+13. Stworzenie lub archwizacja portfela.  {manhours: 24 ; priority: ; story points:}
