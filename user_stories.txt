@@ -71,19 +71,29 @@ manhours sum: 405
 
 Estymacja historyjek online:
 
-https://systemy.pentacomp.pl/planningpoker/
+1) https://systemy.pentacomp.pl/planningpoker/
 + Najlepsza szata graficzna aplikacji
 + Najszybsze szacowanie historyjek
 + Rozbudowane statystyki
 - Każdy członek zespołu może wyczyścić wyniki
 
-https://www.planitpoker.com/
+2) https://www.planitpoker.com/
 + Najbardziej intuicyjny dla programistów
 + Możliwość wcześniejszego przygotowania historyjek do oszacowania
 - Wymagane zalogowanie dla tworzącego pokój
 
-https://www.scrumpoker-online.org/en/
+3) https://www.scrumpoker-online.org/en/
 - Brak wyliczania statystyk
 - Brak nazwy historyjki, która jest estymowana
+
+
+
+Oprogramowanie do programowania w parach:
+
+1) Jet Brains CodeWithMe - rozwiązanie wbudowane IntellijIDEA (https://www.jetbrains.com/code-with-me/)
+
+2) Live Share - wtyczka do Visual Studio Code (https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare-pack)
+
+3) CodeTogether - wtyczka do IntellijIDEA, VS Code, Eclipse (https://www.codetogether.com/)
 
 
