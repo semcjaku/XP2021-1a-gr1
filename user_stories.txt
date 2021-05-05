@@ -66,6 +66,9 @@
 
 Priority zostało przedstawione w skali od 1 (najważniejsza historia) do 13 (historia najmniej ważna).
 
+Wybrane historyjki do zaimplementowania:
+2, 1, 6, 4, 10, 3, 5, 13
+
 manhours sum: 405
 
 
