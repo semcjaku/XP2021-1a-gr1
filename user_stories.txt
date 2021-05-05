@@ -100,3 +100,5 @@ Oprogramowanie do programowania w parach:
 3) CodeTogether - wtyczka do IntellijIDEA, VS Code, Eclipse (https://www.codetogether.com/)
 
 
+Podział na taski:
+https://docs.google.com/document/d/1SWGItSBvuvrQx1ddQXxqlpmjNOjoi-vCUrzqj3rWAew/edit?usp=sharing
