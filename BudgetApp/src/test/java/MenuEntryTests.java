@@ -1,12 +1,7 @@
-import mockit.Mocked;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
-
 import java.io.ByteArrayInputStream;
-import java.io.Console;
-import java.io.InputStream;
 import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -15,11 +10,10 @@ public class MenuEntryTests {
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 
-
     @Test
-    public void MenuEntryShowShouldShowMenuTest() throws Exception {
+    public void MenuEntryShowShouldShowMenuTest() {
         // Arrange
-        MenuEntry menuEntry = new MenuEntry();
+        AbstractMenu menuEntry = new MenuEntry();
 
         // Act
         String result = menuEntry.show();
@@ -38,13 +32,13 @@ public class MenuEntryTests {
     public void MenuEntryReadShouldReturnErrorWhenOverRangeTest() throws Exception {
         // Arrange
         MenuEntry menuEntry = new MenuEntry();
-        String input = "5";
+        String input = "15";
 
         exception.expect(InvalidInputException.class);
         exception.expectMessage("Input number out of range");
 
         // Act
-        int result = menuEntry.read(input);
+        menuEntry.read(input);
 
         // Assert
         // throw exception
@@ -56,12 +50,14 @@ public class MenuEntryTests {
         MenuEntry menuEntry = new MenuEntry();
         String input = "-1";
 
-        // Assert
         exception.expect(InvalidInputException.class);
         exception.expectMessage("Input number out of range");
 
         // Act
-        int result = menuEntry.read(input);
+        menuEntry.read(input);
+
+        // Assert
+        // throw exception
     }
 
     @Test
@@ -70,12 +66,14 @@ public class MenuEntryTests {
         MenuEntry menuEntry = new MenuEntry();
         String input = null;
 
-        // Assert
         exception.expect(InvalidInputException.class);
         exception.expectMessage("Empty input");
 
         // Act
-        int result = menuEntry.read(input);
+        menuEntry.read(input);
+
+        // Assert
+        // throw exception
     }
 
     @Test
@@ -84,12 +82,14 @@ public class MenuEntryTests {
         MenuEntry menuEntry = new MenuEntry();
         String input = "";
 
-        // Assert
         exception.expect(InvalidInputException.class);
         exception.expectMessage("Empty input");
 
         // Act
-        int result = menuEntry.read(input);
+        menuEntry.read(input);
+
+        // Assert
+        // throw exception
     }
 
     @Test
@@ -115,38 +115,34 @@ public class MenuEntryTests {
         exception.expectMessage("Input not a number");
 
         // Act
-        int result = menuEntry.read(input);
+        menuEntry.read(input);
 
         // Assert
         // throw exception
     }
 
     @Test
-    public void MenuEntryGetAmountInputShow() {
+    public void MenuEntryGetAmountInputShowTest() {
         // Arrange
-        MenuEntry menuEntry = new MenuEntry();
-
-
         ByteArrayInputStream in = new ByteArrayInputStream("20".getBytes());
 
-        int result = menuEntry.getAmountInputShow(in);
+        MenuEntry menuEntry = new MenuEntry(in);
+
+        // Act
+        int result = menuEntry.getAmountInputShow();
 
         // Assert
         assertEquals(20, result);
-
     }
 
-
-
     @Test
-    public void MenuEntryGetCategoryInputShow() {
+    public void MenuEntryGetCategoryInputShowTest() {
         // Arrange
-        MenuEntry menuEntry = new MenuEntry();
-
         ByteArrayInputStream in = new ByteArrayInputStream("aa;bb".getBytes());
+        MenuEntry menuEntry = new MenuEntry(in);
 
         // Act
-        List<String> result = menuEntry.getCategoryInputShow(in);
+        List<String> result = menuEntry.getCategoryInputShow();
 
         // Assert
         assertEquals(2, result.size());
@@ -155,16 +151,28 @@ public class MenuEntryTests {
     }
 
     @Test
-    public void MenuEntryGetCyclicDayInputShow() {
+    public void MenuEntryGetCyclicDayInputShowTest() {
         // Arrange
-        MenuEntry menuEntry = new MenuEntry();
-
         ByteArrayInputStream in = new ByteArrayInputStream("12".getBytes());
+        MenuEntry menuEntry = new MenuEntry(in);
 
         // Act
-        int result = menuEntry.getCyclicDayInputShow(in);
+        int result = menuEntry.getCyclicDayInputShow();
 
         // Assert
         assertEquals(12, result);
+    }
+
+    @Test
+    public void MenuEntryShowInputsByChoiceFirstTest() {
+        // Arrange
+        ByteArrayInputStream in = new ByteArrayInputStream("12".getBytes());
+        MenuEntry menuEntry = new MenuEntry(in);
+
+        // Act
+        Entry result = menuEntry.showInputsByChoice(1);
+
+        // Assert
+        assertEquals(12, result.getAmount());
     }
 }

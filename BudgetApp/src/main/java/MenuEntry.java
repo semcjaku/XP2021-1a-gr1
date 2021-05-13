@@ -1,11 +1,16 @@
-import java.io.Console;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class MenuEntry extends AbstractMenu {
+    public MenuEntry() {
+        this.in = System.in;
+    }
+
+    public MenuEntry(InputStream inputStream) {
+        this.in = inputStream;
+    }
 
     @Override
     public int getMinInputNumber() {
@@ -32,44 +37,44 @@ public class MenuEntry extends AbstractMenu {
         return super.read(line);
     }
 
-    public int getAmountInputShow(InputStream in) {
+    public int getAmountInputShow() {
         System.out.println("Provide amount:");
         Scanner keyboard = new Scanner(in);
         String line = keyboard.next();
         return Integer.parseInt(line);
     }
 
-    public List<String> getCategoryInputShow(InputStream in) {
+    public List<String> getCategoryInputShow() {
         System.out.println("Provide category (delimeter ;):");
         Scanner keyboard = new Scanner(in);
         String line = keyboard.next();
         return Arrays.asList(line.split(";"));
     }
 
-    public int getCyclicDayInputShow(InputStream in) {
+    public int getCyclicDayInputShow() {
         System.out.println("Provide cyclicDay:");
         Scanner keyboard = new Scanner(in);
         String line = keyboard.next();
         return Integer.parseInt(line);
     }
 
-    public Entry showInputsByChoice(InputStream in, int choice){
-        int amount = getAmountInputShow(in);
-        List<String> catList = null;
+    public Entry showInputsByChoice(int choice){
+        int amount = getAmountInputShow();
+        List<String> catList;
         int cyclicDay;
         Entry entry;
         switch(choice) {
             case 2:
-                catList = getCategoryInputShow(in);
+                catList = getCategoryInputShow();
                 entry = new Entry(amount, catList);
                 break;
             case 3:
-                cyclicDay = getCyclicDayInputShow(in);
+                cyclicDay = getCyclicDayInputShow();
                 entry = new Entry(amount, cyclicDay);
                 break;
             case 4:
-                catList = getCategoryInputShow(in);
-                cyclicDay = getCyclicDayInputShow(in);
+                catList = getCategoryInputShow();
+                cyclicDay = getCyclicDayInputShow();
                 entry = new Entry(amount, catList, cyclicDay);
                 break;
             case 1:
