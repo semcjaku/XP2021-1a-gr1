@@ -1,5 +1,3 @@
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
 
 public class BudgetAppApplication {
@@ -8,7 +6,7 @@ public class BudgetAppApplication {
         System.out.println("Budget application has started!");
 
         EntryList entryList = new EntryList();
-        List<Category> categoryList = new LinkedList<>();
+        CategoryList categoryList = new CategoryList();
 
         Menu menu = new Menu();
         MenuEntry menuEntry = new MenuEntry();
@@ -19,7 +17,7 @@ public class BudgetAppApplication {
             Scanner keyboard = new Scanner(System.in);
             String line = keyboard.next();
             choice = menu.read(line);
-            switch(choice){
+            switch (choice) {
                 case 1:
                     System.out.println(menuEntry.show());
                     line = keyboard.next();
@@ -31,8 +29,8 @@ public class BudgetAppApplication {
                     System.out.println(menuCategory.show());
                     line = keyboard.next();
                     int categoryChoice = menuCategory.read(line);
-                    Category category = menuCategory.showInputsByChoice(categoryChoice);
-                    categoryList.add(category);
+                    String category = menuCategory.showInputsByChoice(categoryChoice);
+                    categoryList.addCategory(category);
                     break;
                 case 3:
                     System.out.println(entryList);
@@ -43,6 +41,6 @@ public class BudgetAppApplication {
                 default:
                     break;
             }
-        } while(choice != 0);
+        } while (choice != 0);
     }
 }

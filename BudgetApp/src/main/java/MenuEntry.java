@@ -24,7 +24,7 @@ public class MenuEntry extends AbstractMenu {
 
     @Override
     public String show() {
-        return "MENU ENTRY\n" +
+        return "\nMENU ENTRY\n" +
                 "1.Add Entry with amount\n" +
                 "2.Add Entry with amount and category list\n" +
                 "3.Add Entry with amount and cyclicDay\n" +

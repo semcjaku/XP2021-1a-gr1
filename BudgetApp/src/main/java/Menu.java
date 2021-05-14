@@ -11,7 +11,7 @@ public class Menu extends AbstractMenu {
 
     @Override
     public String show() {
-        return "MENU\n" +
+        return "\nMENU\n" +
                 "1.Add Entry\n" +
                 "2.Add Category\n" +
                 "3.Show Entry List\n" +

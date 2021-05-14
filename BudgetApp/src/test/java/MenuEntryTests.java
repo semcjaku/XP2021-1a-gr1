@@ -20,7 +20,7 @@ public class MenuEntryTests {
 
         // Assert
         assertNotNull(result);
-        assertEquals("MENU ENTRY\n" +
+        assertEquals("\nMENU ENTRY\n" +
                 "1.Add Entry with amount\n" +
                 "2.Add Entry with amount and category list\n" +
                 "3.Add Entry with amount and cyclicDay\n" +

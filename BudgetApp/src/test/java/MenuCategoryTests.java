@@ -21,7 +21,7 @@ public class MenuCategoryTests {
 
         // Assert
         assertNotNull(result);
-        assertEquals("MENU CATEGORY\n" +
+        assertEquals("\nMENU CATEGORY\n" +
                 "1.Add Category\n" +
                 "Please select 1!", result);
     }
@@ -139,9 +139,9 @@ public class MenuCategoryTests {
         MenuCategory menuCategory = new MenuCategory(in);
 
         // Act
-        Category result = menuCategory.showInputsByChoice(1);
+        String result = menuCategory.showInputsByChoice(1);
 
         // Assert
-        assertEquals("category1", result.getName());
+        assertEquals("category1", result);
     }
 }

@@ -22,7 +22,7 @@ public class MenuCategory extends AbstractMenu {
 
     @Override
     public String show() {
-        return "MENU CATEGORY\n" +
+        return "\nMENU CATEGORY\n" +
                 "1.Add Category\n" +
                 "Please select 1!";
     }
@@ -34,13 +34,11 @@ public class MenuCategory extends AbstractMenu {
         return line;
     }
 
-    public Category showInputsByChoice(int choice) {
-        String name;
-        Category category = null;
+    public String showInputsByChoice(int choice) {
+        String category = null;
 
         if (choice == 1) {
-            name = getNameInputShow();
-            category = new Category(name);
+            category = getNameInputShow();
         }
         return category;
     }

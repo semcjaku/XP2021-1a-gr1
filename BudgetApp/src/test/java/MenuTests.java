@@ -19,7 +19,7 @@ public class MenuTests {
 
         // Assert
         assertNotNull(result);
-        assertEquals("MENU\n" +
+        assertEquals("\nMENU\n" +
                 "1.Add Entry\n" +
                 "2.Add Category\n" +
                 "3.Show Entry List\n" +
