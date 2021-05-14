@@ -1,7 +1,7 @@
-import java.io.InputStream;
+import java.util.Scanner;
 
 public abstract class AbstractMenu {
-    protected InputStream in = System.in;
+    protected Scanner scanner = new Scanner(System.in);
 
     public abstract int getMinInputNumber();
 

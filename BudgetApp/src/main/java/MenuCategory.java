@@ -3,11 +3,11 @@ import java.util.Scanner;
 
 public class MenuCategory extends AbstractMenu {
     public MenuCategory() {
-        this.in = System.in;
+        this.scanner = new Scanner(System.in);
     }
 
     public MenuCategory(InputStream inputStream) {
-        this.in = inputStream;
+        this.scanner = new Scanner(inputStream);
     }
 
     @Override
@@ -29,8 +29,7 @@ public class MenuCategory extends AbstractMenu {
 
     public String getNameInputShow() {
         System.out.println("Provide name:");
-        Scanner keyboard = new Scanner(in);
-        String line = keyboard.next();
+        String line = scanner.nextLine();
         return line;
     }
 

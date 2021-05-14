@@ -5,11 +5,11 @@ import java.util.Scanner;
 
 public class MenuEntry extends AbstractMenu {
     public MenuEntry() {
-        this.in = System.in;
+        this.scanner= new Scanner(System.in);
     }
 
     public MenuEntry(InputStream inputStream) {
-        this.in = inputStream;
+        this.scanner = new Scanner(inputStream);
     }
 
     @Override
@@ -39,22 +39,19 @@ public class MenuEntry extends AbstractMenu {
 
     public int getAmountInputShow() {
         System.out.println("Provide amount:");
-        Scanner keyboard = new Scanner(in);
-        String line = keyboard.next();
+        String line = scanner.nextLine();
         return Integer.parseInt(line);
     }
 
     public List<String> getCategoryInputShow() {
         System.out.println("Provide category (delimeter ;):");
-        Scanner keyboard = new Scanner(in);
-        String line = keyboard.next();
+        String line = scanner.nextLine();
         return Arrays.asList(line.split(";"));
     }
 
     public int getCyclicDayInputShow() {
         System.out.println("Provide cyclicDay:");
-        Scanner keyboard = new Scanner(in);
-        String line = keyboard.next();
+        String line = scanner.nextLine();
         return Integer.parseInt(line);
     }
 

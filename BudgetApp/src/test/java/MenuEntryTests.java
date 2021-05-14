@@ -1,7 +1,10 @@
-import org.junit.*;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
 import java.io.ByteArrayInputStream;
 import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -174,5 +177,53 @@ public class MenuEntryTests {
 
         // Assert
         assertEquals(12, result.getAmount());
+    }
+
+    @Test
+    public void MenuEntryShowInputsByChoiceSecondTest() {
+        // Arrange
+        ByteArrayInputStream in = new ByteArrayInputStream(("12" + System.getProperty("line.separator") + "Food").getBytes());
+        MenuEntry menuEntry = new MenuEntry(in);
+
+        // Act
+        Entry result = menuEntry.showInputsByChoice(2);
+
+        // Assert
+        assertEquals(12, result.getAmount());
+        assertEquals(1, result.getCategories().size());
+        assertEquals("Food", result.getCategories().get(0));
+    }
+
+    @Test
+    public void MenuEntryShowInputsByChoiceThirdTest() {
+        // Arrange
+        ByteArrayInputStream in = new ByteArrayInputStream(("12" + System.getProperty("line.separator") + 5).getBytes());
+        MenuEntry menuEntry = new MenuEntry(in);
+
+        // Act
+        Entry result = menuEntry.showInputsByChoice(3);
+
+        // Assert
+        assertEquals(12, result.getAmount());
+        assertEquals(0, result.getCategories().size());
+        assertEquals(5, result.getCyclicDay());
+    }
+
+    @Test
+    public void MenuEntryShowInputsByChoiceFourthTest() {
+        // Arrange
+        ByteArrayInputStream in = new ByteArrayInputStream((
+                "12" + System.getProperty("line.separator") + "Food" + System.getProperty("line.separator") + 5).getBytes());
+        MenuEntry menuEntry = new MenuEntry(in);
+
+        // Act
+        Entry result = menuEntry.showInputsByChoice(4);
+
+        // Assert
+        assertEquals(12, result.getAmount());
+        assertEquals(1, result.getCategories().size());
+        assertEquals("Food", result.getCategories().get(0));
+        assertEquals(5, result.getCyclicDay());
+
     }
 }
