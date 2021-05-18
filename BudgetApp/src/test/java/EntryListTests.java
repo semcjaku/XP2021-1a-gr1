@@ -59,11 +59,9 @@ public class EntryListTests {
 
         // Assert
         assertEquals(entryList.toString(), "EntryList{" +
-                "entries=" + "[Entry{" +
-                "amount=" + amount +
-                ", categories=" + testList +
-                ", cyclicDay=" + cyclic +
-                "}]" +
+                "entries=" + "[" +
+                entry +
+                "]" +
                 '}');
     }
 

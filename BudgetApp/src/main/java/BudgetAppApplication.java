@@ -8,6 +8,9 @@ public class BudgetAppApplication {
         EntryList entryList = new EntryList();
         CategoryList categoryList = new CategoryList();
 
+        Scheduler scheduler = new Scheduler(entryList);
+        scheduler.runScheduler();
+
         Menu menu = new Menu();
         MenuEntry menuEntry = new MenuEntry();
         MenuCategory menuCategory = new MenuCategory();
@@ -42,5 +45,7 @@ public class BudgetAppApplication {
                     break;
             }
         } while (choice != 0);
+
+        scheduler.stopScheduler();
     }
 }

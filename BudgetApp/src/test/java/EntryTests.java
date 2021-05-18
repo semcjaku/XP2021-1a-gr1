@@ -87,6 +87,7 @@ public class EntryTests {
         // Arrange
         int amount = 515;
         int cyclic = 7;
+        int cyclicDayOfMonth = 0;
         List<String> testList = new LinkedList<>() {};
         testList.add("food");
         testList.add("rent");
@@ -96,7 +97,8 @@ public class EntryTests {
         assertEquals(entry.toString(), "Entry{" +
                 "amount=" + amount +
                 ", categories=" + testList +
-                ", cyclicDay=" + cyclic +
+                ", cyclicIntervalInDays=" + cyclic +
+                ", cyclicDayOfMonth=" + cyclicDayOfMonth +
                 '}');
     }
     @Test

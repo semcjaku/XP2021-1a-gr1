@@ -19,7 +19,7 @@ public class MenuEntry extends AbstractMenu {
 
     @Override
     public int getMaxInputNumber() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -28,8 +28,9 @@ public class MenuEntry extends AbstractMenu {
                 "1.Add Entry with amount\n" +
                 "2.Add Entry with amount and category list\n" +
                 "3.Add Entry with amount and cyclicDay\n" +
-                "4.Add Entry with amount, cyclicDay and category list\n" +
-                "Please select 1-4!";
+                "4.Add Entry with amount, cyclicIntervalInDays and category list\n" +
+                "5.Add Entry with amount, category list and cyclicDayOfMonth\n" +
+                "Please select 1-5!";
     }
 
     @Override
@@ -49,8 +50,14 @@ public class MenuEntry extends AbstractMenu {
         return Arrays.asList(line.split(";"));
     }
 
-    public int getCyclicDayInputShow() {
-        System.out.println("Provide cyclicDay:");
+    public int getCyclicIntervalInDaysInputShow() {
+        System.out.println("Provide cyclic interval in days:");
+        String line = scanner.nextLine();
+        return Integer.parseInt(line);
+    }
+
+    public int getCyclicDayOfMonthInputShow() {
+        System.out.println("Provide cyclic day of month:");
         String line = scanner.nextLine();
         return Integer.parseInt(line);
     }
@@ -58,7 +65,7 @@ public class MenuEntry extends AbstractMenu {
     public Entry showInputsByChoice(int choice){
         int amount = getAmountInputShow();
         List<String> catList;
-        int cyclicDay;
+        int cyclicIntervalInDays;
         Entry entry;
         switch(choice) {
             case 2:
@@ -66,13 +73,18 @@ public class MenuEntry extends AbstractMenu {
                 entry = new Entry(amount, catList);
                 break;
             case 3:
-                cyclicDay = getCyclicDayInputShow();
-                entry = new Entry(amount, cyclicDay);
+                cyclicIntervalInDays = getCyclicIntervalInDaysInputShow();
+                entry = new Entry(amount, cyclicIntervalInDays);
                 break;
             case 4:
                 catList = getCategoryInputShow();
-                cyclicDay = getCyclicDayInputShow();
-                entry = new Entry(amount, catList, cyclicDay);
+                cyclicIntervalInDays = getCyclicIntervalInDaysInputShow();
+                entry = new Entry(amount, catList, cyclicIntervalInDays);
+                break;
+            case 5:
+                catList = getCategoryInputShow();
+                int cyclicDayOfMonth = getCyclicDayOfMonthInputShow();
+                entry = new Entry(amount, catList, 0, cyclicDayOfMonth);
                 break;
             case 1:
             default:

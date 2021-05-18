@@ -78,7 +78,8 @@ public class Entry {
         return "Entry{" +
                 "amount=" + amount +
                 ", categories=" + categories +
-                ", cyclicDay=" + cyclicIntervalInDays +
+                ", cyclicIntervalInDays=" + cyclicIntervalInDays +
+                ", cyclicDayOfMonth=" + cyclicDayOfMonth +
                 '}';
     }
 

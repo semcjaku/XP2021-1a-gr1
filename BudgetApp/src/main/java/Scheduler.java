@@ -21,6 +21,10 @@ public class Scheduler {
         scheduler.scheduleAtFixedRate(processPeriodicEntries, 0, 24, HOURS);
     }
 
+    public void stopScheduler() {
+        scheduler.shutdown();
+    }
+
     public void addPeriodicEntries() {
         List<Entry> newEntries = new LinkedList<>();
 

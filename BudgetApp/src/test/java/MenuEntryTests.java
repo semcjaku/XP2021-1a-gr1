@@ -27,8 +27,9 @@ public class MenuEntryTests {
                 "1.Add Entry with amount\n" +
                 "2.Add Entry with amount and category list\n" +
                 "3.Add Entry with amount and cyclicDay\n" +
-                "4.Add Entry with amount, cyclicDay and category list\n" +
-                "Please select 1-4!", result);
+                "4.Add Entry with amount, cyclicIntervalInDays and category list\n" +
+                "5.Add Entry with amount, category list and cyclicDayOfMonth\n" +
+                "Please select 1-5!", result);
     }
 
     @Test
@@ -154,13 +155,26 @@ public class MenuEntryTests {
     }
 
     @Test
-    public void MenuEntryGetCyclicDayInputShowTest() {
+    public void MenuEntryGetCyclicIntervalInDaysInputShowTest() {
         // Arrange
         ByteArrayInputStream in = new ByteArrayInputStream("12".getBytes());
         MenuEntry menuEntry = new MenuEntry(in);
 
         // Act
-        int result = menuEntry.getCyclicDayInputShow();
+        int result = menuEntry.getCyclicIntervalInDaysInputShow();
+
+        // Assert
+        assertEquals(12, result);
+    }
+
+    @Test
+    public void MenuEntryGetCyclicDayOfMonthInputShowTest() {
+        // Arrange
+        ByteArrayInputStream in = new ByteArrayInputStream("12".getBytes());
+        MenuEntry menuEntry = new MenuEntry(in);
+
+        // Act
+        int result = menuEntry.getCyclicDayOfMonthInputShow();
 
         // Assert
         assertEquals(12, result);
@@ -206,7 +220,7 @@ public class MenuEntryTests {
         // Assert
         assertEquals(12, result.getAmount());
         assertEquals(0, result.getCategories().size());
-        assertEquals(5, result.getCyclicDay());
+        assertEquals(5, result.getCyclicIntervalInDays());
     }
 
     @Test
@@ -223,7 +237,7 @@ public class MenuEntryTests {
         assertEquals(12, result.getAmount());
         assertEquals(1, result.getCategories().size());
         assertEquals("Food", result.getCategories().get(0));
-        assertEquals(5, result.getCyclicDay());
+        assertEquals(5, result.getCyclicIntervalInDays());
 
     }
 }
