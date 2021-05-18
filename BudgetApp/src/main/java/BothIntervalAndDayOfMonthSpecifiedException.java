@@ -1,0 +1,2 @@
+public class BothIntervalAndDayOfMonthSpecifiedException extends IllegalArgumentException{
+}

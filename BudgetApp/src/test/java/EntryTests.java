@@ -1,10 +1,11 @@
 import org.junit.Test;
+import org.junit.function.ThrowingRunnable;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
+import java.util.*;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class EntryTests {
 
@@ -62,7 +63,7 @@ public class EntryTests {
 
         // Assert
         assertEquals(entry.getAmount(), amount);
-        assertEquals(entry.getCyclicDay(), cyclic);
+        assertEquals(entry.getCyclicIntervalInDays(), cyclic);
     }
 
     @Test
@@ -77,7 +78,7 @@ public class EntryTests {
 
         // Assert
         assertEquals(entry.getAmount(), amount);
-        assertEquals(entry.getCyclicDay(), cyclic);
+        assertEquals(entry.getCyclicIntervalInDays(), cyclic);
         assertEquals(entry.getCategories(), testList);
     }
 
@@ -98,4 +99,111 @@ public class EntryTests {
                 ", cyclicDay=" + cyclic +
                 '}');
     }
+    @Test
+    public void EntryConstructorWithProperDayOfMonthTest() {
+        // Arrange
+        int dayOfMonth = 14;
+        int amount = 515;
+        List<String> categories = new ArrayList<>();
+        int cyclicDay = 0;
+
+        // Act
+        Entry entry = new Entry(amount, categories, cyclicDay, dayOfMonth);
+
+        // Assert
+        assertEquals(dayOfMonth, entry.getCyclicDayOfMonth());
+    }
+
+    @Test
+    public void EntryConstructorWithImproperDayOfMonthTest() {
+        // Arrange
+        int dayOfMonth = 35;
+        int amount = 515;
+        List<String> categories = new ArrayList<>();
+        int cyclicDay = 0;
+
+        ThrowingRunnable construction = () -> {
+            Entry entry = new Entry(amount, categories, cyclicDay, dayOfMonth);
+        };
+
+        // Assert
+        assertThrows(ImproperDayOfMonthException.class, construction);
+    }
+
+    @Test
+    public void EntryIsCyclicWhenIntervalInDaysSpecified() {
+        // Arrange
+        int amount = 555;
+        int cyclicIntervalInDays = 5;
+        Entry entry = new Entry(amount, cyclicIntervalInDays);
+
+        // Assert
+        assertTrue(entry.isCyclic());
+    }
+
+    @Test
+    public void EntryIsCyclicWhenCyclicDayOfMonthSpecified() {
+        // Arrange
+        int amount = 555;
+        int cyclicDayOfMonth = 5;
+        Entry entry = new Entry(amount, cyclicDayOfMonth);
+
+        // Assert
+        assertTrue(entry.isCyclic());
+    }
+
+    @Test
+    public void EntryIsCyclicWhenEntryIsNotCyclic() {
+        // Arrange
+        int amount = 555;
+        Entry entry = new Entry(amount);
+
+        // Assert
+        assertFalse(entry.isCyclic());
+    }
+
+    @Test
+    public void EntryCreateNewCyclicInstance() {
+        // Arrange
+        int amount = 555;
+        int cyclicDayOfMonth = 5;
+        Entry entry = new Entry(amount, cyclicDayOfMonth);
+
+        // Act
+        Entry newEntry = entry.createNewCyclicInstance();
+
+        // Assert
+        assertEquals(entry.getAmount(), newEntry.getAmount());
+        assertEquals(entry.getCyclicIntervalInDays(), newEntry.getCyclicIntervalInDays());
+        assertEquals(entry.getCyclicDayOfMonth(), newEntry.getCyclicDayOfMonth());
+        assertEquals(entry.getCategories(), newEntry.getCategories());
+    }
+
+    @Test
+    public void EntryConstructorWithDateGiven() {
+        // Arrange
+        int amount = 0;
+
+        // Act
+        Entry entry = new Entry(amount);
+
+        // Assert
+        assertEquals(LocalDate.now(), entry.getDate());
+    }
+
+    @Test
+    public void EntryConstructorThrowsExceptionWhenBothIntervalAndDayOfMonthSpecified() {
+        // Arrange
+        int dayOfMonth = 24;
+        int amount = 515;
+        List<String> categories = new ArrayList<>();
+        int cyclicDay = 12;
+
+        ThrowingRunnable construction = () -> {
+            Entry entry = new Entry(amount, categories, cyclicDay, dayOfMonth);
+        };
+
+        // Assert
+        assertThrows(BothIntervalAndDayOfMonthSpecifiedException.class, construction);
+        }
 }
