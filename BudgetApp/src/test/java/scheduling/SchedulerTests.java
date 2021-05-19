@@ -14,9 +14,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class SchedulerTests {
-    // scheduling.Scheduler dla płatności okresowych - zawiera zegar naliczający dni i sprawdzenia,
-    // czy w danym dniu należy uruchomić jakieś transakcje (Mikołaj i Adam)
-
     @Test
     public void SchedulerConstructorTest() {
         // Arrange
@@ -30,7 +27,7 @@ public class SchedulerTests {
     }
 
     @Test
-    public void SchedulerAddPeriodicEntriesTestWhenPeriodicEntriesToDuplicateArePresent() {
+    public void SchedulerAddPeriodicEntriesWhenPeriodicEntriesToDuplicateArePresentTest() {
         // Arrange
         Entry firstEntry = new Entry(40, 5);
         firstEntry.setDate(LocalDate.now().minusDays(5));
@@ -57,7 +54,7 @@ public class SchedulerTests {
     }
 
     @Test
-    public void SchedulerAddPeriodicEntriesTestWhenPeriodicEntriesArePresentButShouldNotBeDuplicatedToday() {
+    public void SchedulerAddPeriodicEntriesWhenPeriodicEntriesArePresentButShouldNotBeDuplicatedTodayTest() {
         // Arrange
         Entry firstEntry = new Entry(40, 5);
         firstEntry.setDate(LocalDate.now().minusDays(2));
@@ -81,7 +78,7 @@ public class SchedulerTests {
     }
 
     @Test
-    public void SchedulerAddPeriodicEntriesTestNothingIsAddedWhenEntriesFromCurrentDayAreAlreadyPresent() {
+    public void SchedulerAddPeriodicEntriesNothingIsAddedWhenEntriesFromCurrentDayAreAlreadyPresentTest() {
         // Arrange
         Entry firstEntry = new Entry(40, 5);
         Entry secondEntry = new Entry(50);
@@ -103,13 +100,13 @@ public class SchedulerTests {
     }
 
     @Test
-    public void SchedulerAddPeriodicEntriesTestEntriesAreAddedOnMonthEndEdgeCase() {
+    public void SchedulerAddPeriodicEntriesEntriesAreAddedOnMonthEndEdgeCaseTest() {
         // eg. 31th of march should be treated as 28th in February
         // but how to test it?
     }
 
     @Test
-    public void SchedulerAddPeriodicEntriesTestMonthlyEntriesAreNotMultiplicatedInSubsequentCalls() {
+    public void SchedulerAddPeriodicEntriesMonthlyEntriesAreNotMultiplicatedInSubsequentCallsTest() {
         // Arrange
         Entry entry = new Entry(60, new ArrayList<>(), 0,
                 LocalDate.now().getDayOfMonth());
