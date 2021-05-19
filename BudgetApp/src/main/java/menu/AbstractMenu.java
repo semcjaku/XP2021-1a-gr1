@@ -1,3 +1,7 @@
+package menu;
+
+import exception.InvalidInputException;
+
 import java.util.Scanner;
 
 public abstract class AbstractMenu {

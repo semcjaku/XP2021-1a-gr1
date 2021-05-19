@@ -1,3 +1,9 @@
+package menu;
+
+import exception.InvalidInputException;
+import menu.AbstractMenu;
+import menu.MenuEntry;
+import model.Entry;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -24,11 +30,11 @@ public class MenuEntryTests {
         // Assert
         assertNotNull(result);
         assertEquals("\nMENU ENTRY\n" +
-                "1.Add Entry with amount\n" +
-                "2.Add Entry with amount and category list\n" +
-                "3.Add Entry with amount and cyclicDay\n" +
-                "4.Add Entry with amount, cyclicIntervalInDays and category list\n" +
-                "5.Add Entry with amount, category list and cyclicDayOfMonth\n" +
+                "1.Add model.Entry with amount\n" +
+                "2.Add model.Entry with amount and category list\n" +
+                "3.Add model.Entry with amount and cyclicDay\n" +
+                "4.Add model.Entry with amount, cyclicIntervalInDays and category list\n" +
+                "5.Add model.Entry with amount, category list and cyclicDayOfMonth\n" +
                 "Please select 1-5!", result);
     }
 

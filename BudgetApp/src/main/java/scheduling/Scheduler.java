@@ -1,3 +1,8 @@
+package scheduling;
+
+import model.Entry;
+import model.EntryList;
+
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;

@@ -1,4 +1,9 @@
+package scheduling;
+
+import model.Entry;
+import model.EntryList;
 import org.junit.Test;
+import scheduling.Scheduler;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class SchedulerTests {
-    // Scheduler dla płatności okresowych - zawiera zegar naliczający dni i sprawdzenia,
+    // scheduling.Scheduler dla płatności okresowych - zawiera zegar naliczający dni i sprawdzenia,
     // czy w danym dniu należy uruchomić jakieś transakcje (Mikołaj i Adam)
 
     @Test

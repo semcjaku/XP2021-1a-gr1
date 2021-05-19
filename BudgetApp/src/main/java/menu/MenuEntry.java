@@ -1,3 +1,8 @@
+package menu;
+
+import exception.InvalidInputException;
+import model.Entry;
+
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
@@ -25,11 +30,11 @@ public class MenuEntry extends AbstractMenu {
     @Override
     public String show() {
         return "\nMENU ENTRY\n" +
-                "1.Add Entry with amount\n" +
-                "2.Add Entry with amount and category list\n" +
-                "3.Add Entry with amount and cyclicDay\n" +
-                "4.Add Entry with amount, cyclicIntervalInDays and category list\n" +
-                "5.Add Entry with amount, category list and cyclicDayOfMonth\n" +
+                "1.Add model.Entry with amount\n" +
+                "2.Add model.Entry with amount and category list\n" +
+                "3.Add model.Entry with amount and cyclicDay\n" +
+                "4.Add model.Entry with amount, cyclicIntervalInDays and category list\n" +
+                "5.Add model.Entry with amount, category list and cyclicDayOfMonth\n" +
                 "Please select 1-5!";
     }
 

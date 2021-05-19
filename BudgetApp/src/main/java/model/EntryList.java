@@ -1,3 +1,5 @@
+package model;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class EntryList {
 
     @Override
     public String toString() {
-        return "EntryList{" +
+        return "model.EntryList{" +
                 "entries=" + entries +
                 '}';
     }

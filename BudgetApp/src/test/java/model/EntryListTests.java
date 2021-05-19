@@ -1,6 +1,9 @@
+package model;
+
+import model.Entry;
+import model.EntryList;
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -58,7 +61,7 @@ public class EntryListTests {
         entryList.addEntry(entry);
 
         // Assert
-        assertEquals(entryList.toString(), "EntryList{" +
+        assertEquals(entryList.toString(), "model.EntryList{" +
                 "entries=" + "[" +
                 entry +
                 "]" +

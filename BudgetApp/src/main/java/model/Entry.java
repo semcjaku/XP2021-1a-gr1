@@ -1,3 +1,8 @@
+package model;
+
+import exception.BothIntervalAndDayOfMonthSpecifiedException;
+import exception.ImproperDayOfMonthException;
+
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
@@ -75,7 +80,7 @@ public class Entry {
 
     @Override
     public String toString() {
-        return "Entry{" +
+        return "model.Entry{" +
                 "amount=" + amount +
                 ", categories=" + categories +
                 ", cyclicIntervalInDays=" + cyclicIntervalInDays +

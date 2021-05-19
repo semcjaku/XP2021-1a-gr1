@@ -1,8 +1,12 @@
+package model;
+
+import exception.BothIntervalAndDayOfMonthSpecifiedException;
+import exception.ImproperDayOfMonthException;
+import model.Entry;
 import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
 
 import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -94,7 +98,7 @@ public class EntryTests {
         Entry entry = new Entry(amount, testList, cyclic);
 
         // Assert
-        assertEquals(entry.toString(), "Entry{" +
+        assertEquals(entry.toString(), "model.Entry{" +
                 "amount=" + amount +
                 ", categories=" + testList +
                 ", cyclicIntervalInDays=" + cyclic +

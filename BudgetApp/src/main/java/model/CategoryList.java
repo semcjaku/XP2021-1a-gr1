@@ -1,3 +1,5 @@
+package model;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,7 +20,7 @@ public class CategoryList {
 
     @Override
     public String toString() {
-        return "CategoryList{" +
+        return "model.CategoryList{" +
                 "categories=" + categories +
                 '}';
     }

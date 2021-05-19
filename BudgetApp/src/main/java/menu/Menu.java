@@ -1,3 +1,5 @@
+package menu;
+
 public class Menu extends AbstractMenu {
     @Override
     public int getMinInputNumber() {
@@ -12,9 +14,9 @@ public class Menu extends AbstractMenu {
     @Override
     public String show() {
         return "\nMENU\n" +
-                "1.Add Entry\n" +
+                "1.Add model.Entry\n" +
                 "2.Add Category\n" +
-                "3.Show Entry List\n" +
+                "3.Show model.Entry List\n" +
                 "4.Show Category List\n" +
                 "0.Exit\n" +
                 "Please select 0-4!";

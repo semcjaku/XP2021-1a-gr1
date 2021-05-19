@@ -1,3 +1,6 @@
+package model;
+
+import model.CategoryList;
 import org.junit.Test;
 
 import java.util.LinkedList;
@@ -43,7 +46,7 @@ public class CategoryListTests {
         categoryList.addCategory(category2);
 
         // Assert
-        assertEquals("CategoryList{" +
+        assertEquals("model.CategoryList{" +
                 "categories=" + "[Food, Rent]}", categoryList.toString());
     }
 
