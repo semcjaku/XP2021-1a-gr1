@@ -3,6 +3,7 @@ package model;
 import model.CategoryList;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,10 +15,11 @@ public class CategoryListTests {
     public void CategoryListAddCategoryTest(){
         // Arrange
         CategoryList categoryList = new CategoryList();
-        String category = "Home";
+        String category = "Custom1";
 
-        List<String> testCategories = new LinkedList<>();
+        List<String> testCategories = new LinkedList<>(Arrays.asList("clothes", "entertainment", "food", "friendly exchange", "home", "paycheck", "taxes"));
         testCategories.add(category);
+        java.util.Collections.sort(testCategories);
 
         // Act
         categoryList.addCategory(category);
@@ -30,24 +32,26 @@ public class CategoryListTests {
     public void CategoryListConstructorTest() {
         // Arrange
         CategoryList categoryList = new CategoryList();
+        List<String> testCategories = new LinkedList<>(Arrays.asList("clothes", "entertainment", "food", "friendly exchange", "home", "paycheck", "taxes"));
+        java.util.Collections.sort(testCategories);
 
         // Assert
-        assertEquals(new LinkedList<>(), categoryList.getCategories());
+        assertEquals(testCategories, categoryList.getCategories());
     }
 
 
     @Test
     public void CategoryListToStringTest() {
         // Arrange
-        String category1 = "Food";
-        String category2 = "Rent";
+        String category1 = "Custom1";
+        String category2 = "Custom2";
         CategoryList categoryList = new CategoryList();
         categoryList.addCategory(category1);
         categoryList.addCategory(category2);
 
         // Assert
         assertEquals("model.CategoryList{" +
-                "categories=" + "[Food, Rent]}", categoryList.toString());
+                "categories=" + "[Custom1, Custom2, clothes, entertainment, food, friendly exchange, home, paycheck, taxes]}", categoryList.toString());
     }
 
 }
