@@ -27,10 +27,11 @@ public class MenuTests {
         assertEquals("\nMENU\n" +
                 "1.Add model.Entry\n" +
                 "2.Add Category\n" +
-                "3.Show model.Entry List\n" +
-                "4.Show Category List\n" +
+                "3.Remove model.Entry\n" +
+                "4.Show model.Entry List\n" +
+                "5.Show Category List\n" +
                 "0.Exit\n" +
-                "Please select 0-4!", result);
+                "Please select 0-5!", result);
     }
 
     @Test

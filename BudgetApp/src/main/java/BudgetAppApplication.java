@@ -44,9 +44,27 @@ public class BudgetAppApplication {
                     categoryList.addCategory(category);
                     break;
                 case 3:
-                    System.out.println(entryList);
+                    System.out.print(entryList.getOrderedEntriesString());
+                    if (entryList.length() == 0) {
+                        System.out.println("No entries to remove!");
+                    }
+                    else {
+                        System.out.printf("Select an entry from 1 to %d to be removed:\n", entryList.length());
+                        line = keyboard.next();
+                        int line_numeric = Integer.parseInt(line);
+                        if (line_numeric >= 1 && line_numeric <= entryList.length()) {
+                            entryList.removeEntry(Integer.parseInt(line)-1);
+                            System.out.println("Entry removed!");
+                        }
+                        else {
+                            System.out.println("Invalid entry number!");
+                        }
+                    }
                     break;
                 case 4:
+                    System.out.println(entryList);
+                    break;
+                case 5:
                     System.out.println(categoryList);
                     break;
                 default:

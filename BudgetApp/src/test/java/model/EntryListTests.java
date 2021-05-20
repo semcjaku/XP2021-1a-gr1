@@ -28,6 +28,53 @@ public class EntryListTests {
     }
 
     @Test
+    public void EntryListRemoveEntryTest(){
+        // Arrange
+        EntryList entryList = new EntryList();
+        Entry entry = new Entry(150);
+        Entry entry2 = new Entry(3);
+
+        List<Entry> testEntries = new LinkedList<>();
+        testEntries.add(entry2);
+
+        // Act
+        entryList.addEntry(entry);
+        entryList.addEntry(entry2);
+        entryList.removeEntry(0);
+
+        // Assert
+        assertEquals(entryList.getEntries(), testEntries);
+    }
+
+    @Test
+    public void EntryListLengthNotEmptyTest(){
+        // Arrange
+        EntryList entryList = new EntryList();
+        Entry entry = new Entry(150);
+        Entry entry2 = new Entry(3);
+
+        int expected = 2;
+
+        // Act
+        entryList.addEntry(entry);
+        entryList.addEntry(entry2);
+
+        // Assert
+        assertEquals(entryList.length(), expected);
+    }
+
+    @Test
+    public void EntryListLengthEmptyTest(){
+        // Arrange
+        EntryList entryList = new EntryList();
+
+        int expected = 0;
+
+        // Assert
+        assertEquals(entryList.length(), expected);
+    }
+
+    @Test
     public void EntryListConstructorTest() {
         // Arrange
         EntryList entryList = new EntryList();
@@ -46,6 +93,21 @@ public class EntryListTests {
 
         // Assert
         assertEquals(entryList.getEntries(), testEntries);
+    }
+
+    @Test
+    public void EntryListGetOrderedEntriesStringTest() {
+        // Arrange
+        EntryList entryList = new EntryList();
+        Entry entry = new Entry(150);
+        Entry entry2 = new Entry(3);
+
+        // Act
+        entryList.addEntry(entry);
+        entryList.addEntry(entry2);
+
+        // Assert
+        assertEquals(entryList.getOrderedEntriesString(), "1. " + entry + "\n" + "2. " + entry2 + "\n");
     }
 
     @Test
