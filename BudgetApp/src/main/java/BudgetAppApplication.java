@@ -1,10 +1,13 @@
 import menu.Menu;
 import menu.MenuCategory;
 import menu.MenuEntry;
+import menu.MenuUser;
 import model.CategoryList;
 import model.Entry;
 import model.EntryList;
+import model.User;
 import scheduling.Scheduler;
+import service.UserService;
 
 import java.util.Scanner;
 
@@ -19,10 +22,41 @@ public class BudgetAppApplication {
         Scheduler scheduler = new Scheduler(entryList);
         scheduler.runScheduler();
 
+        UserService userService = new UserService();
+        userService.loadUsersOnStart();
+
         Menu menu = new Menu();
+        MenuUser menuUser = new MenuUser();
         MenuEntry menuEntry = new MenuEntry();
         MenuCategory menuCategory = new MenuCategory();
+
+        User logedInUser = null;
         int choice = 0;
+        do {
+            System.out.println(menuUser.show());
+            Scanner keyboard = new Scanner(System.in);
+            String line = keyboard.next();
+            choice = menu.read(line);
+            switch (choice) {
+                case 1:
+                    User inputUser = menuUser.showInputsByChoice(choice);
+                    logedInUser = userService.login(inputUser.getEmail(), inputUser.getPassword());
+                    if (logedInUser == null) {
+                        System.out.println("Invalid user data!. Try again.");
+                    }
+                    break;
+                case 0:
+                    break;
+            }
+        } while(choice != 0 && logedInUser == null);
+
+        if (logedInUser == null) {
+            scheduler.stopScheduler();
+            userService.saveOnStop();
+            return;
+        }
+
+        choice = 0;
         do {
             System.out.println(menu.show());
             Scanner keyboard = new Scanner(System.in);
@@ -73,5 +107,6 @@ public class BudgetAppApplication {
         } while (choice != 0);
 
         scheduler.stopScheduler();
+        userService.saveOnStop();
     }
 }
