@@ -114,4 +114,16 @@ public class UserTest {
         assertNotEquals(password, user.getPassword());
         assertEquals(password2, user.getPassword());
     }
+
+    @Test
+    public void UserToStringTest() {
+        // Arrange
+        String email = "Email";
+        String password = "pass123";
+        User user = new User(email, password);
+        String id = user.getId();
+
+        // Assert
+        assertEquals(user.toString(), "User{Email@" + id + '}');
+    }
 }

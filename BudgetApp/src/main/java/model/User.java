@@ -42,4 +42,9 @@ public class User {
     public void setEmail(String email) {
         Email = email;
     }
+
+    @Override
+    public String toString() {
+        return "User{" + Email + '@' + Id + '}';
+    }
 }

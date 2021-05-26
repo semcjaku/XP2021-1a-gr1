@@ -1,3 +1,5 @@
+package executable;
+
 import menu.*;
 import model.CategoryList;
 import model.Entry;
@@ -9,6 +11,7 @@ import service.UserService;
 import java.util.Scanner;
 
 public class BudgetAppApplication {
+    public static User logedInUser = null;
 
     public static void main(String[] args) throws Exception {
         System.out.println("Budget application has started!");
@@ -28,7 +31,6 @@ public class BudgetAppApplication {
         MenuCategory menuCategory = new MenuCategory();
         MenuModifyEntries menuModEntries = new MenuModifyEntries();
 
-        User logedInUser = null;
         int choice = 0;
         do {
             System.out.println(menuUser.show());

@@ -2,6 +2,7 @@ package model;
 
 import exception.BothIntervalAndDayOfMonthSpecifiedException;
 import exception.ImproperDayOfMonthException;
+import executable.BudgetAppApplication;
 import model.Entry;
 import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
@@ -101,6 +102,7 @@ public class EntryTests {
         assertEquals(entry.toString(), "model.Entry{" +
                 "amount=" + amount +
                 ", categories=" + testList +
+                ", created by=admin" +
                 ", cyclicIntervalInDays=" + cyclic +
                 ", cyclicDayOfMonth=" + cyclicDayOfMonth +
                 '}');

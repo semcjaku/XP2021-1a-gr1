@@ -2,6 +2,7 @@ package model;
 
 import exception.BothIntervalAndDayOfMonthSpecifiedException;
 import exception.ImproperDayOfMonthException;
+import executable.BudgetAppApplication;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
@@ -15,8 +16,10 @@ public class Entry {
     private int cyclicIntervalInDays;
     private int cyclicDayOfMonth = 0;
     private Entry cyclicDuplicateOf;
+    private User creator;
 
     public Entry(int amount){
+        this.creator = BudgetAppApplication.logedInUser;
         this.amount = amount;
         this.categories = new LinkedList<>();
         this.cyclicIntervalInDays = 0;
@@ -33,6 +36,7 @@ public class Entry {
     }
 
     public Entry(int amount, List<String> cat, int cyclicIntervalInDays){
+        this.creator = BudgetAppApplication.logedInUser;
         this.amount = amount;
         this.categories = cat;
         this.cyclicIntervalInDays = cyclicIntervalInDays;
@@ -44,6 +48,7 @@ public class Entry {
         }
         assertDayOfMonth(cyclicDayOfMonth);
 
+        this.creator = BudgetAppApplication.logedInUser;
         this.amount = amount;
         this.categories = cat;
         this.cyclicIntervalInDays = cyclicIntervalInDays;
@@ -86,9 +91,17 @@ public class Entry {
 
     @Override
     public String toString() {
+        String username;
+        if(creator != null) {
+            username = creator.getEmail();
+        }
+        else {
+            username = "admin";
+        }
         return "model.Entry{" +
                 "amount=" + amount +
                 ", categories=" + categories +
+                ", created by=" + username +
                 ", cyclicIntervalInDays=" + cyclicIntervalInDays +
                 ", cyclicDayOfMonth=" + cyclicDayOfMonth +
                 '}';
