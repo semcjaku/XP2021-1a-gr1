@@ -31,6 +31,10 @@ public class EntryList {
         this.entries.remove(index);
     }
 
+    public Entry getEntry(int index) {
+        return this.entries.get(index);
+    }
+
     public int length() {
         return this.entries.size();
     }

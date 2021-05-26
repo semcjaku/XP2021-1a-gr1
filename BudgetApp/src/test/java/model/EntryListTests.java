@@ -130,4 +130,45 @@ public class EntryListTests {
                 '}');
     }
 
+    @Test
+    public void EntryListGetEntryTest() {
+        // Arrange
+        int amount = 515;
+        int amount2 = 112;
+        int cyclic = 7;
+        List<String> testList = new LinkedList<>() {};
+        testList.add("food");
+        testList.add("rent");
+        Entry entry = new Entry(amount, testList, cyclic);
+        Entry entry2 = new Entry(amount2);
+        EntryList entryList = new EntryList();
+        entryList.addEntry(entry);
+        entryList.addEntry(entry2);
+
+        // Assert
+        assertEquals(entryList.getEntry(1), new Entry(amount2));
+    }
+
+    @Test
+    public void EntryListSetEntriesTest() {
+        // Arrange
+        int amount = 515;
+        int amount2 = 112;
+        int cyclic = 7;
+        List<String> catList = new LinkedList<>() {};
+        catList.add("food");
+        catList.add("rent");
+        Entry entry = new Entry(amount, catList, cyclic);
+        Entry entry2 = new Entry(amount2);
+        List<Entry> testList = new LinkedList<>();
+        testList.add(entry);
+        testList.add(entry2);
+
+        EntryList entryList = new EntryList();
+        entryList.setEntries(testList);
+
+        // Assert
+        assertEquals(entryList.getEntries(), testList);
+    }
+
 }

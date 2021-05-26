@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class UserService {
     public List<User> users;
-    private String file = "./BudgetApp/data/users_db.txt";
+    private String file = Path.of("").toAbsolutePath() + "/data/users_db.txt";
 
     public UserService() throws FileNotFoundException {
         this.users = new LinkedList<User>();

@@ -75,7 +75,13 @@ public class Entry {
     }
 
     public void addCategory(String category) {
-        categories.add(category);
+        if (! this.categories.contains(category)) {
+            this.categories.add(category);
+        }
+    }
+
+    public void removeCategory(String category) {
+        this.categories.remove(category);
     }
 
     @Override
@@ -91,6 +97,11 @@ public class Entry {
 
     public int getCyclicDayOfMonth() {
         return cyclicDayOfMonth;
+    }
+
+    public void setCyclicDayOfMonth(int day) {
+        assertDayOfMonth(day);
+        this.cyclicDayOfMonth = day;
     }
 
     public boolean isCyclic() {

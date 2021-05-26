@@ -1,7 +1,4 @@
-import menu.Menu;
-import menu.MenuCategory;
-import menu.MenuEntry;
-import menu.MenuUser;
+import menu.*;
 import model.CategoryList;
 import model.Entry;
 import model.EntryList;
@@ -29,6 +26,7 @@ public class BudgetAppApplication {
         MenuUser menuUser = new MenuUser();
         MenuEntry menuEntry = new MenuEntry();
         MenuCategory menuCategory = new MenuCategory();
+        MenuModifyEntries menuModEntries = new MenuModifyEntries();
 
         User logedInUser = null;
         int choice = 0;
@@ -87,7 +85,7 @@ public class BudgetAppApplication {
                         line = keyboard.next();
                         int line_numeric = Integer.parseInt(line);
                         if (line_numeric >= 1 && line_numeric <= entryList.length()) {
-                            entryList.removeEntry(Integer.parseInt(line)-1);
+                            entryList.removeEntry(Integer.parseInt(line) - 1);
                             System.out.println("Entry removed!");
                         }
                         else {
@@ -96,9 +94,34 @@ public class BudgetAppApplication {
                     }
                     break;
                 case 4:
-                    System.out.println(entryList);
+                    System.out.print(entryList.getOrderedEntriesString());
+                    if (entryList.length() == 0) {
+                        System.out.println("No entries to modify!");
+                    }
+                    else {
+                        System.out.printf("Select an entry from 1 to %d to be modified:\n", entryList.length());
+                        line = keyboard.next();
+                        int line_numeric = Integer.parseInt(line);
+                        if (line_numeric >= 1 && line_numeric <= entryList.length()) {
+                            while (true) {
+                                System.out.println("Chosen entry:");
+                                System.out.print(entryList.getEntry(line_numeric-1));
+                                System.out.println(menuModEntries.show());
+                                line = keyboard.next();
+                                if(Integer.parseInt(line) == 0)
+                                    break;
+                                menuModEntries.executeActions(Integer.parseInt(line), entryList.getEntry(line_numeric - 1));
+                            }
+                        }
+                        else {
+                            System.out.println("Invalid entry number!");
+                        }
+                    }
                     break;
                 case 5:
+                    System.out.println(entryList);
+                    break;
+                case 6:
                     System.out.println(categoryList);
                     break;
                 default:

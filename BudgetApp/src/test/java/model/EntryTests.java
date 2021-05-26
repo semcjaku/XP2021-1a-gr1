@@ -137,7 +137,7 @@ public class EntryTests {
     }
 
     @Test
-    public void EntryIsCyclicWhenIntervalInDaysSpecified() {
+    public void EntryIsCyclicWhenIntervalInDaysSpecifiedTest() {
         // Arrange
         int amount = 555;
         int cyclicIntervalInDays = 5;
@@ -148,7 +148,7 @@ public class EntryTests {
     }
 
     @Test
-    public void EntryIsCyclicWhenCyclicDayOfMonthSpecified() {
+    public void EntryIsCyclicWhenCyclicDayOfMonthSpecifiedTest() {
         // Arrange
         int amount = 555;
         int cyclicDayOfMonth = 5;
@@ -159,7 +159,7 @@ public class EntryTests {
     }
 
     @Test
-    public void EntryIsCyclicWhenEntryIsNotCyclic() {
+    public void EntryIsCyclicWhenEntryIsNotCyclicTest() {
         // Arrange
         int amount = 555;
         Entry entry = new Entry(amount);
@@ -169,7 +169,7 @@ public class EntryTests {
     }
 
     @Test
-    public void EntryCreateNewCyclicInstance() {
+    public void EntryCreateNewCyclicInstanceTest() {
         // Arrange
         int amount = 555;
         int cyclicDayOfMonth = 5;
@@ -186,7 +186,7 @@ public class EntryTests {
     }
 
     @Test
-    public void EntryConstructorWithDateGiven() {
+    public void EntryConstructorWithDateGivenTest() {
         // Arrange
         int amount = 0;
 
@@ -198,7 +198,7 @@ public class EntryTests {
     }
 
     @Test
-    public void EntryConstructorThrowsExceptionWhenBothIntervalAndDayOfMonthSpecified() {
+    public void EntryConstructorThrowsExceptionWhenBothIntervalAndDayOfMonthSpecifiedTest() {
         // Arrange
         int dayOfMonth = 24;
         int amount = 515;
@@ -212,4 +212,97 @@ public class EntryTests {
         // Assert
         assertThrows(BothIntervalAndDayOfMonthSpecifiedException.class, construction);
         }
+
+    @Test
+    public void EntrySetCyclicDayOfMonthWhenCorrectDayTest() {
+        // Arrange
+        int day = 26;
+        int amount = 555;
+        Entry entry = new Entry(amount);
+
+        // Act
+        entry.setCyclicDayOfMonth(day);
+
+        // Assert
+        assertTrue(entry.isCyclic());
+        assertEquals(entry.getCyclicDayOfMonth(), 26);
+    }
+
+    @Test
+    public void EntrySetCyclicDayOfMonthThrowsExceptionWhenIncorrectDayTest() {
+        // Arrange
+        int day = 66;
+        int amount = 555;
+        Entry entry = new Entry(amount);
+
+        // Act
+        ThrowingRunnable construction = () -> {
+            entry.setCyclicDayOfMonth(day);
+        };
+
+        // Assert
+        assertThrows(ImproperDayOfMonthException.class, construction);
+    }
+
+    @Test
+    public void EntrySetAmountTest() {
+        // Arrange
+        int amount = 555;
+        int newAmount = 12;
+        Entry entry = new Entry(amount);
+
+        // Act
+        entry.setAmount(newAmount);
+
+        // Assert
+        assertEquals(entry.getAmount(), 12);
+    }
+
+    @Test
+    public void EntrySetCyclicIntervalInDaysTest() {
+        // Arrange
+        int amount = 555;
+        int cyclicInterval = 12;
+        Entry entry = new Entry(amount);
+
+        // Act
+        entry.setCyclicIntervalInDays(cyclicInterval);
+
+        // Assert
+        assertTrue(entry.isCyclic());
+        assertEquals(entry.getCyclicIntervalInDays(), 12);
+    }
+
+    @Test
+    public void EntryRemoveCategoryTest(){
+        // Arrange
+        int amount = 515;
+        List<String> testList = new LinkedList<>() {};
+        testList.add("food");
+        testList.add("rent");
+        Entry entry = new Entry(amount, testList);
+
+        //Act
+        entry.removeCategory("food");
+        testList.remove("food");
+
+        // Assert
+        assertEquals(entry.getCategories(), testList);
+    }
+
+    @Test
+    public void EntrySetCategoriesTest(){
+        // Arrange
+        int amount = 515;
+        List<String> testList = new LinkedList<>() {};
+        testList.add("food");
+        testList.add("rent");
+        Entry entry = new Entry(amount);
+
+        //Act
+        entry.setCategories(testList);
+
+        // Assert
+        assertEquals(entry.getCategories(), testList);
+    }
 }
