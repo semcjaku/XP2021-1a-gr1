@@ -52,11 +52,10 @@ public class EntryListTests {
     public void EntryListToStringTest() {
         // Arrange
         int amount = 515;
-        int cyclic = 7;
         List<String> testList = new LinkedList<>() {};
         testList.add("food");
         testList.add("rent");
-        Entry entry = new Entry(amount, testList, cyclic);
+        Entry entry = new Entry(amount, testList);
         EntryList entryList = new EntryList();
         entryList.addEntry(entry);
 
@@ -67,5 +66,4 @@ public class EntryListTests {
                 "]" +
                 '}');
     }
-
 }

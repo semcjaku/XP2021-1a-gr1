@@ -1,15 +1,13 @@
 package model;
 
-import exception.BothIntervalAndDayOfMonthSpecifiedException;
-import exception.ImproperDayOfMonthException;
-import model.Entry;
 import org.junit.Test;
-import org.junit.function.ThrowingRunnable;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class EntryTests {
 
@@ -59,157 +57,52 @@ public class EntryTests {
     }
 
     @Test
-    public void EntryConstructorWithAmountAndCyclicDateTest() {
+    public void EntryConstructorWithAmountAndCategoriesAndDateGiven() {
         // Arrange
         int amount = 515;
-        int cyclic = 7;
-        Entry entry = new Entry(amount, cyclic);
-
-        // Assert
-        assertEquals(entry.getAmount(), amount);
-        assertEquals(entry.getCyclicIntervalInDays(), cyclic);
-    }
-
-    @Test
-    public void EntryConstructorWithEverythingTest() {
-        // Arrange
-        int amount = 515;
-        int cyclic = 7;
         List<String> testList = new LinkedList<>() {};
         testList.add("food");
         testList.add("rent");
-        Entry entry = new Entry(amount, testList, cyclic);
+        LocalDate date = LocalDate.MIN;
+        Entry entry = new Entry(amount, testList, date);
 
         // Assert
         assertEquals(entry.getAmount(), amount);
-        assertEquals(entry.getCyclicIntervalInDays(), cyclic);
         assertEquals(entry.getCategories(), testList);
+        assertEquals(date, entry.getDate());
     }
 
     @Test
     public void EntryToStringTest() {
         // Arrange
         int amount = 515;
-        int cyclic = 7;
-        int cyclicDayOfMonth = 0;
         List<String> testList = new LinkedList<>() {};
         testList.add("food");
         testList.add("rent");
-        Entry entry = new Entry(amount, testList, cyclic);
+        Entry entry = new Entry(amount, testList);
 
         // Assert
         assertEquals(entry.toString(), "model.Entry{" +
                 "amount=" + amount +
                 ", categories=" + testList +
-                ", cyclicIntervalInDays=" + cyclic +
-                ", cyclicDayOfMonth=" + cyclicDayOfMonth +
                 '}');
     }
+
     @Test
-    public void EntryConstructorWithProperDayOfMonthTest() {
+    public void EntryCloneAtTest() {
         // Arrange
-        int dayOfMonth = 14;
-        int amount = 515;
-        List<String> categories = new ArrayList<>();
-        int cyclicDay = 0;
+        int amount = 555;
+        List<String> categories = List.of("cat1");
+        LocalDate oldDate = LocalDate.MIN;
+        Entry entry = new Entry(amount, categories, oldDate);
 
         // Act
-        Entry entry = new Entry(amount, categories, cyclicDay, dayOfMonth);
-
-        // Assert
-        assertEquals(dayOfMonth, entry.getCyclicDayOfMonth());
-    }
-
-    @Test
-    public void EntryConstructorWithImproperDayOfMonthTest() {
-        // Arrange
-        int dayOfMonth = 35;
-        int amount = 515;
-        List<String> categories = new ArrayList<>();
-        int cyclicDay = 0;
-
-        ThrowingRunnable construction = () -> {
-            Entry entry = new Entry(amount, categories, cyclicDay, dayOfMonth);
-        };
-
-        // Assert
-        assertThrows(ImproperDayOfMonthException.class, construction);
-    }
-
-    @Test
-    public void EntryIsCyclicWhenIntervalInDaysSpecified() {
-        // Arrange
-        int amount = 555;
-        int cyclicIntervalInDays = 5;
-        Entry entry = new Entry(amount, cyclicIntervalInDays);
-
-        // Assert
-        assertTrue(entry.isCyclic());
-    }
-
-    @Test
-    public void EntryIsCyclicWhenCyclicDayOfMonthSpecified() {
-        // Arrange
-        int amount = 555;
-        int cyclicDayOfMonth = 5;
-        Entry entry = new Entry(amount, cyclicDayOfMonth);
-
-        // Assert
-        assertTrue(entry.isCyclic());
-    }
-
-    @Test
-    public void EntryIsCyclicWhenEntryIsNotCyclic() {
-        // Arrange
-        int amount = 555;
-        Entry entry = new Entry(amount);
-
-        // Assert
-        assertFalse(entry.isCyclic());
-    }
-
-    @Test
-    public void EntryCreateNewCyclicInstance() {
-        // Arrange
-        int amount = 555;
-        int cyclicDayOfMonth = 5;
-        Entry entry = new Entry(amount, cyclicDayOfMonth);
-
-        // Act
-        Entry newEntry = entry.createNewCyclicInstance();
+        LocalDate newDate = LocalDate.MIN.plusDays(1);
+        Entry newEntry = entry.cloneAt(newDate);
 
         // Assert
         assertEquals(entry.getAmount(), newEntry.getAmount());
-        assertEquals(entry.getCyclicIntervalInDays(), newEntry.getCyclicIntervalInDays());
-        assertEquals(entry.getCyclicDayOfMonth(), newEntry.getCyclicDayOfMonth());
         assertEquals(entry.getCategories(), newEntry.getCategories());
+        assertEquals(newDate, newEntry.getDate());
     }
-
-    @Test
-    public void EntryConstructorWithDateGiven() {
-        // Arrange
-        int amount = 0;
-
-        // Act
-        Entry entry = new Entry(amount);
-
-        // Assert
-        assertEquals(LocalDate.now(), entry.getDate());
-    }
-
-    @Test
-    public void EntryConstructorThrowsExceptionWhenBothIntervalAndDayOfMonthSpecified() {
-        // Arrange
-        int dayOfMonth = 24;
-        int amount = 515;
-        List<String> categories = new ArrayList<>();
-        int cyclicDay = 12;
-
-        ThrowingRunnable construction = () -> {
-            Entry entry = new Entry(amount, categories, cyclicDay, dayOfMonth);
-        };
-
-        // Assert
-        assertThrows(BothIntervalAndDayOfMonthSpecifiedException.class, construction);
-        }
 }

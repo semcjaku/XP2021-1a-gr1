@@ -10,6 +10,7 @@ import org.junit.rules.ExpectedException;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
+import java.util.Scanner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -32,10 +33,7 @@ public class MenuEntryTests {
         assertEquals("\nMENU ENTRY\n" +
                 "1.Add model.Entry with amount\n" +
                 "2.Add model.Entry with amount and category list\n" +
-                "3.Add model.Entry with amount and cyclicDay\n" +
-                "4.Add model.Entry with amount, cyclicIntervalInDays and category list\n" +
-                "5.Add model.Entry with amount, category list and cyclicDayOfMonth\n" +
-                "Please select 1-5!", result);
+                "Please select 1-2!", result);
     }
 
     @Test
@@ -136,7 +134,7 @@ public class MenuEntryTests {
         // Arrange
         ByteArrayInputStream in = new ByteArrayInputStream("20".getBytes());
 
-        MenuEntry menuEntry = new MenuEntry(in);
+        MenuEntry menuEntry = new MenuEntry(new Scanner(in));
 
         // Act
         int result = menuEntry.getAmountInputShow();
@@ -149,7 +147,7 @@ public class MenuEntryTests {
     public void MenuEntryGetCategoryInputShowTest() {
         // Arrange
         ByteArrayInputStream in = new ByteArrayInputStream("aa;bb".getBytes());
-        MenuEntry menuEntry = new MenuEntry(in);
+        MenuEntry menuEntry = new MenuEntry(new Scanner(in));
 
         // Act
         List<String> result = menuEntry.getCategoryInputShow();
@@ -161,36 +159,10 @@ public class MenuEntryTests {
     }
 
     @Test
-    public void MenuEntryGetCyclicIntervalInDaysInputShowTest() {
-        // Arrange
-        ByteArrayInputStream in = new ByteArrayInputStream("12".getBytes());
-        MenuEntry menuEntry = new MenuEntry(in);
-
-        // Act
-        int result = menuEntry.getCyclicIntervalInDaysInputShow();
-
-        // Assert
-        assertEquals(12, result);
-    }
-
-    @Test
-    public void MenuEntryGetCyclicDayOfMonthInputShowTest() {
-        // Arrange
-        ByteArrayInputStream in = new ByteArrayInputStream("12".getBytes());
-        MenuEntry menuEntry = new MenuEntry(in);
-
-        // Act
-        int result = menuEntry.getCyclicDayOfMonthInputShow();
-
-        // Assert
-        assertEquals(12, result);
-    }
-
-    @Test
     public void MenuEntryShowInputsByChoiceFirstTest() {
         // Arrange
         ByteArrayInputStream in = new ByteArrayInputStream("12".getBytes());
-        MenuEntry menuEntry = new MenuEntry(in);
+        MenuEntry menuEntry = new MenuEntry(new Scanner(in));
 
         // Act
         Entry result = menuEntry.showInputsByChoice(1);
@@ -203,7 +175,7 @@ public class MenuEntryTests {
     public void MenuEntryShowInputsByChoiceSecondTest() {
         // Arrange
         ByteArrayInputStream in = new ByteArrayInputStream(("12" + System.getProperty("line.separator") + "Food").getBytes());
-        MenuEntry menuEntry = new MenuEntry(in);
+        MenuEntry menuEntry = new MenuEntry(new Scanner(in));
 
         // Act
         Entry result = menuEntry.showInputsByChoice(2);
@@ -212,38 +184,5 @@ public class MenuEntryTests {
         assertEquals(12, result.getAmount());
         assertEquals(1, result.getCategories().size());
         assertEquals("Food", result.getCategories().get(0));
-    }
-
-    @Test
-    public void MenuEntryShowInputsByChoiceThirdTest() {
-        // Arrange
-        ByteArrayInputStream in = new ByteArrayInputStream(("12" + System.getProperty("line.separator") + 5).getBytes());
-        MenuEntry menuEntry = new MenuEntry(in);
-
-        // Act
-        Entry result = menuEntry.showInputsByChoice(3);
-
-        // Assert
-        assertEquals(12, result.getAmount());
-        assertEquals(0, result.getCategories().size());
-        assertEquals(5, result.getCyclicIntervalInDays());
-    }
-
-    @Test
-    public void MenuEntryShowInputsByChoiceFourthTest() {
-        // Arrange
-        ByteArrayInputStream in = new ByteArrayInputStream((
-                "12" + System.getProperty("line.separator") + "Food" + System.getProperty("line.separator") + 5).getBytes());
-        MenuEntry menuEntry = new MenuEntry(in);
-
-        // Act
-        Entry result = menuEntry.showInputsByChoice(4);
-
-        // Assert
-        assertEquals(12, result.getAmount());
-        assertEquals(1, result.getCategories().size());
-        assertEquals("Food", result.getCategories().get(0));
-        assertEquals(5, result.getCyclicIntervalInDays());
-
     }
 }

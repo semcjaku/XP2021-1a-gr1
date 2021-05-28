@@ -1,26 +1,27 @@
 package scheduling;
 
+import model.cyclic.CyclicEntryPrototype;
 import model.Entry;
 import model.EntryList;
+import model.cyclic.CyclicPrototypeList;
+import model.cyclic.IntervalCyclicEntryPrototype;
+import model.cyclic.MonthlyCyclicEntryPrototype;
 import org.junit.Test;
-import scheduling.Scheduler;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class SchedulerTests {
     @Test
     public void SchedulerConstructorTest() {
         // Arrange
         EntryList entryList = new EntryList();
+        CyclicPrototypeList cyclicEntryPrototypes = new CyclicPrototypeList();
 
         // Act
-        Scheduler scheduler = new Scheduler(entryList);
+        Scheduler scheduler = new Scheduler(entryList, cyclicEntryPrototypes);
 
         // Assert
         assertEquals(entryList, scheduler.getEntryList());
@@ -29,101 +30,106 @@ public class SchedulerTests {
     @Test
     public void SchedulerAddPeriodicEntriesWhenPeriodicEntriesToDuplicateArePresentTest() {
         // Arrange
-        Entry firstEntry = new Entry(40, 5);
-        firstEntry.setDate(LocalDate.now().minusDays(5));
-        Entry secondEntry = new Entry(50);
-        Entry thirdEntry = new Entry(60, new ArrayList<>(), 0,
-                LocalDate.now().getDayOfMonth());
-        thirdEntry.setDate(LocalDate.now().minusMonths(1));
+        int numberOfDays = 5;
+        LocalDate firstEntryAddDate = LocalDate.now().minusDays(numberOfDays);
+        Entry firstEntry = new Entry(1, new ArrayList<>(), firstEntryAddDate);
+        CyclicEntryPrototype firstPrototype = new IntervalCyclicEntryPrototype(firstEntry, numberOfDays);
 
-        List<Entry> entries = new LinkedList<>();
-        entries.add(firstEntry);
-        entries.add(secondEntry);
-        entries.add(thirdEntry);
 
-        EntryList entryList = new EntryList(entries);
-        Scheduler scheduler = new Scheduler(entryList);
+        int dayOfMonth = LocalDate.now().getDayOfMonth();
+        LocalDate secondEntryAddDate = LocalDate.now().minusMonths(1);
+        Entry secondEntry = new Entry(2, new ArrayList<>(), secondEntryAddDate);
+        CyclicEntryPrototype secondPrototype = new MonthlyCyclicEntryPrototype(secondEntry, dayOfMonth);
+
+        EntryList entries = new EntryList();
+        entries.addEntry(firstEntry);
+        entries.addEntry(secondEntry);
+
+        CyclicPrototypeList prototypes = new CyclicPrototypeList();
+        prototypes.addPrototype(firstPrototype);
+        prototypes.addPrototype(secondPrototype);
+
+        Scheduler scheduler = new Scheduler(entries, prototypes);
 
         // Act
         scheduler.addPeriodicEntries();
 
         // Assert
-        assertEquals(5, entryList.getEntries().size());
-        assertTrue(entryList.getEntries().contains(firstEntry.createNewCyclicInstance()));
-        assertTrue(entryList.getEntries().contains(thirdEntry.createNewCyclicInstance()));
+        assertEquals(4, entries.getEntries().size());
+        assertTrue(entries.getEntries().contains(firstEntry.cloneAt(LocalDate.now())));
+        assertTrue(entries.getEntries().contains(secondEntry.cloneAt(LocalDate.now())));
     }
 
     @Test
     public void SchedulerAddPeriodicEntriesWhenPeriodicEntriesArePresentButShouldNotBeDuplicatedTodayTest() {
         // Arrange
-        Entry firstEntry = new Entry(40, 5);
-        firstEntry.setDate(LocalDate.now().minusDays(2));
-        Entry secondEntry = new Entry(50);
-        Entry thirdEntry = new Entry(60, new ArrayList<>(), 0,
-                LocalDate.now().minusDays(2).getDayOfMonth());
+        int numberOfDays = 5;
+        LocalDate firstEntryAddDate = LocalDate.now().minusDays(numberOfDays - 1);
+        Entry firstEntry = new Entry(1, new ArrayList<>(), firstEntryAddDate);
+        CyclicEntryPrototype firstPrototype = new IntervalCyclicEntryPrototype(firstEntry, numberOfDays);
 
-        List<Entry> entries = new LinkedList<>();
-        entries.add(firstEntry);
-        entries.add(secondEntry);
-        entries.add(thirdEntry);
 
-        EntryList entryList = new EntryList(entries);
-        Scheduler scheduler = new Scheduler(entryList);
+        int dayOfMonth = LocalDate.now().getDayOfMonth();
+        LocalDate secondEntryAddDate = LocalDate.now().minusMonths(1).plusDays(1);
+        Entry secondEntry = new Entry(2, new ArrayList<>(), secondEntryAddDate);
+        CyclicEntryPrototype secondPrototype = new MonthlyCyclicEntryPrototype(secondEntry, dayOfMonth + 1);
+
+        EntryList entries = new EntryList();
+        entries.addEntry(firstEntry);
+        entries.addEntry(secondEntry);
+
+        CyclicPrototypeList prototypes = new CyclicPrototypeList();
+        prototypes.addPrototype(firstPrototype);
+        prototypes.addPrototype(secondPrototype);
+
+        Scheduler scheduler = new Scheduler(entries, prototypes);
 
         // Act
         scheduler.addPeriodicEntries();
 
         // Assert
-        assertEquals(3, entryList.getEntries().size());
+        assertEquals(2, entries.getEntries().size());
+        assertFalse(entries.getEntries().contains(firstEntry.cloneAt(LocalDate.now())));
+        assertFalse(entries.getEntries().contains(secondEntry.cloneAt(LocalDate.now())));
     }
 
     @Test
-    public void SchedulerAddPeriodicEntriesNothingIsAddedWhenEntriesFromCurrentDayAreAlreadyPresentTest() {
+    public void SchedulerAddPeriodicEntriesNothingIsAddedWhenEntriesDuplicatedTodayAreAlreadyPresentTest() {
         // Arrange
-        Entry firstEntry = new Entry(40, 5);
-        Entry secondEntry = new Entry(50);
-        Entry thirdEntry = new Entry(60, new ArrayList<>(), 0, LocalDate.now().getDayOfMonth());
+        int numberOfDays = 5;
+        LocalDate firstEntryAddDate = LocalDate.now().minusDays(numberOfDays);
+        Entry firstEntry = new Entry(1, new ArrayList<>(), firstEntryAddDate);
+        CyclicEntryPrototype firstPrototype = new IntervalCyclicEntryPrototype(firstEntry, numberOfDays);
 
-        List<Entry> entries = new LinkedList<>();
-        entries.add(firstEntry);
-        entries.add(secondEntry);
-        entries.add(thirdEntry);
 
-        EntryList entryList = new EntryList(entries);
-        Scheduler scheduler = new Scheduler(entryList);
+        int dayOfMonth = LocalDate.now().getDayOfMonth();
+        LocalDate secondEntryAddDate = LocalDate.now().minusMonths(1);
+        Entry secondEntry = new Entry(2, new ArrayList<>(), secondEntryAddDate);
+        CyclicEntryPrototype secondPrototype = new MonthlyCyclicEntryPrototype(secondEntry, dayOfMonth);
+
+        EntryList entries = new EntryList();
+        entries.addEntry(firstEntry);
+        entries.addEntry(secondEntry);
+
+        CyclicPrototypeList prototypes = new CyclicPrototypeList();
+        prototypes.addPrototype(firstPrototype);
+        prototypes.addPrototype(secondPrototype);
+
+        Scheduler scheduler = new Scheduler(entries, prototypes);
+        scheduler.addPeriodicEntries();
 
         // Act
         scheduler.addPeriodicEntries();
 
         // Assert
-        assertEquals(3, entryList.getEntries().size());
+        assertEquals(4, entries.getEntries().size());
+        assertTrue(entries.getEntries().contains(firstEntry.cloneAt(LocalDate.now())));
+        assertTrue(entries.getEntries().contains(secondEntry.cloneAt(LocalDate.now())));
     }
 
     @Test
     public void SchedulerAddPeriodicEntriesEntriesAreAddedOnMonthEndEdgeCaseTest() {
         // eg. 31th of march should be treated as 28th in February
-        // but how to test it?
-    }
-
-    @Test
-    public void SchedulerAddPeriodicEntriesMonthlyEntriesAreNotMultiplicatedInSubsequentCallsTest() {
-        // Arrange
-        Entry entry = new Entry(60, new ArrayList<>(), 0,
-                LocalDate.now().getDayOfMonth());
-        entry.setDate(LocalDate.now().minusMonths(1));
-
-        List<Entry> entries = new LinkedList<>();
-        entries.add(entry);
-
-        EntryList entryList = new EntryList(entries);
-        Scheduler scheduler = new Scheduler(entryList);
-
-        scheduler.addPeriodicEntries();
-
-        // Act
-        scheduler.addPeriodicEntries();
-
-        // Assert
-        assertEquals(2, entryList.getEntries().size());
+        // but how to test it when scheduler relies internally on LocalDate.now()?
     }
 }
