@@ -19,6 +19,8 @@ public abstract class CyclicEntryPrototype {
         return newEntry;
     }
 
+    public abstract void setCyclicParameter(int newValue);
+
     public abstract boolean shouldBeReplicatedToday();
 
     public Entry getPrototypeEntry() {

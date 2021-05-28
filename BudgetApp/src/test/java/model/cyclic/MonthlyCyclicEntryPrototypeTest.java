@@ -1,6 +1,7 @@
 package model.cyclic;
 
 import exception.IllegalCyclicIntervalException;
+import exception.IllegalDayOfMonthException;
 import model.Entry;
 import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
@@ -23,7 +24,7 @@ public class MonthlyCyclicEntryPrototypeTest {
         ThrowingRunnable construction = () -> new MonthlyCyclicEntryPrototype(mockEntry, improperDayOfMonth);
 
         // Assert
-        assertThrows(IllegalCyclicIntervalException.class, construction);
+        assertThrows(IllegalDayOfMonthException.class, construction);
     }
 
     @Test
@@ -36,7 +37,7 @@ public class MonthlyCyclicEntryPrototypeTest {
         ThrowingRunnable construction = () -> new MonthlyCyclicEntryPrototype(mockEntry, improperDayOfMonth);
 
         // Assert
-        assertThrows(IllegalCyclicIntervalException.class, construction);
+        assertThrows(IllegalDayOfMonthException.class, construction);
     }
 
     @Test
@@ -93,6 +94,36 @@ public class MonthlyCyclicEntryPrototypeTest {
         // Assert
         assertEquals(prototypeEntry.getAmount(), generatedEntry.getAmount());
         assertEquals(prototypeEntry.getCategories(), generatedEntry.getCategories());
+    }
+
+    @Test
+    public void MonthlyCyclicEntryPrototypeSetCyclicParameterWhenProperValueGivenTest() {
+        // Arrange
+        Entry entry = new Entry(515, List.of("food", "rent"));
+        int dayOfMonth = 8;
+        CyclicEntryPrototype prototype = new MonthlyCyclicEntryPrototype(entry, dayOfMonth);
+
+        // Act
+        int newDayOfMonth = 3;
+        prototype.setCyclicParameter(newDayOfMonth);
+
+        // Assert
+        assertTrue(prototype.toString().contains("dayOfMonth=" + newDayOfMonth));
+    }
+
+    @Test
+    public void MonthlyCyclicEntryPrototypeSetCyclicParameterWhenWrongValueGivenTest() {
+        // Arrange
+        Entry entry = new Entry(515, List.of("food", "rent"));
+        int dayOfMonth = 8;
+        CyclicEntryPrototype prototype = new MonthlyCyclicEntryPrototype(entry, dayOfMonth);
+
+        // Act
+        int newDayOfMonth = -2;
+        ThrowingRunnable setting = () -> prototype.setCyclicParameter(newDayOfMonth);
+
+        // Assert
+        assertThrows(IllegalDayOfMonthException.class, setting);
     }
 
     @Test

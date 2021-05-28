@@ -37,6 +37,68 @@ public class CyclicPrototypeListTests {
     }
 
     @Test
+    public void CyclicPrototypeListLengthNotEmptyTest(){
+        // Arrange
+        CyclicPrototypeList prototypeList = new CyclicPrototypeList();
+        CyclicEntryPrototype firstPrototype = new IntervalCyclicEntryPrototype(new Entry(150), 3);
+        CyclicEntryPrototype secondPrototype = new MonthlyCyclicEntryPrototype(new Entry(250), 1);
+
+        int expected = 2;
+
+        // Act
+        prototypeList.addPrototype(firstPrototype);
+        prototypeList.addPrototype(secondPrototype);
+
+        // Assert
+        assertEquals(prototypeList.length(), expected);
+    }
+
+    @Test
+    public void CyclicPrototypeListLengthEmptyTest(){
+        // Arrange
+        CyclicPrototypeList prototypeList = new CyclicPrototypeList();
+
+        int expected = 0;
+
+        // Assert
+        assertEquals(prototypeList.length(), expected);
+    }
+
+    @Test
+    public void CyclicPrototypeListRemovePrototypeTest(){
+        // Arrange
+        CyclicPrototypeList prototypeList = new CyclicPrototypeList();
+        CyclicEntryPrototype firstPrototype = new IntervalCyclicEntryPrototype(new Entry(150), 3);
+        CyclicEntryPrototype secondPrototype = new MonthlyCyclicEntryPrototype(new Entry(250), 1);
+
+        List<CyclicEntryPrototype> testPrototypes = new LinkedList<>();
+        testPrototypes.add(secondPrototype);
+
+        // Act
+        prototypeList.addPrototype(firstPrototype);
+        prototypeList.addPrototype(secondPrototype);
+        prototypeList.removePrototype(0);
+
+        // Assert
+        assertEquals(prototypeList.getPrototypes(), testPrototypes);
+    }
+
+    @Test
+    public void CyclicPrototypeListGetOrderedEntriesStringTest() {
+        // Arrange
+        CyclicPrototypeList prototypeList = new CyclicPrototypeList();
+        CyclicEntryPrototype firstPrototype = new IntervalCyclicEntryPrototype(new Entry(150), 12);
+        CyclicEntryPrototype secondPrototype = new MonthlyCyclicEntryPrototype(new Entry(3), 19);
+
+        // Act
+        prototypeList.addPrototype(firstPrototype);
+        prototypeList.addPrototype(secondPrototype);
+
+        // Assert
+        assertEquals(prototypeList.getOrderedEntriesString(), "1. " + firstPrototype + "\n" + "2. " + secondPrototype + "\n");
+    }
+
+    @Test
     public void EntryListToStringTest() {
         // Arrange
         int amount = 515;

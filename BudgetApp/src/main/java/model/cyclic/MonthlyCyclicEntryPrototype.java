@@ -1,12 +1,14 @@
 package model.cyclic;
 
 import exception.IllegalCyclicIntervalException;
+import exception.IllegalDayOfMonthException;
 import model.Entry;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class MonthlyCyclicEntryPrototype extends CyclicEntryPrototype {
-    private final int cyclicDayOfMonth;
+    private int cyclicDayOfMonth;
 
 
     public MonthlyCyclicEntryPrototype(Entry prototypeEntry, int cyclicDayOfMonth) {
@@ -24,9 +26,15 @@ public class MonthlyCyclicEntryPrototype extends CyclicEntryPrototype {
                                 && cyclicDayOfMonth > LocalDate.now().getDayOfMonth());
     }
 
-    public void validateDayOfMonth(int cyclicDayOfMonth) {
+    @Override
+    public void setCyclicParameter(int newValue) {
+        validateDayOfMonth(newValue);
+        cyclicDayOfMonth = newValue;
+    }
+
+    private void validateDayOfMonth(int cyclicDayOfMonth) {
         if (cyclicDayOfMonth < 1 || cyclicDayOfMonth > 31) {
-            throw new IllegalCyclicIntervalException();
+            throw new IllegalDayOfMonthException();
         }
     }
 
@@ -36,5 +44,18 @@ public class MonthlyCyclicEntryPrototype extends CyclicEntryPrototype {
                 "prototypeEntry=" + getPrototypeEntry() +
                 ", dayOfMonth=" + cyclicDayOfMonth +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MonthlyCyclicEntryPrototype prototype = (MonthlyCyclicEntryPrototype) o;
+        return cyclicDayOfMonth == prototype.cyclicDayOfMonth;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cyclicDayOfMonth);
     }
 }

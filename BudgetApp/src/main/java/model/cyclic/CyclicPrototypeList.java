@@ -4,6 +4,7 @@ import model.Entry;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 public class CyclicPrototypeList {
     private final List<CyclicEntryPrototype> prototypes;
@@ -18,6 +19,25 @@ public class CyclicPrototypeList {
 
     public void addPrototype(CyclicEntryPrototype prototype) {
         this.prototypes.add(prototype);
+    }
+
+    public void removePrototype(int index) {
+        prototypes.remove(index);
+    }
+
+    public String getOrderedEntriesString() {
+        StringBuilder output = new StringBuilder();
+        ListIterator<CyclicEntryPrototype> entryListIterator = this.prototypes.listIterator();
+        int counter = 1;
+        while (entryListIterator.hasNext()) {
+            output.append(String.format("%d. %s\n", counter, entryListIterator.next()));
+            counter++;
+        }
+        return output.toString();
+    }
+
+    public int length() {
+        return prototypes.size();
     }
 
     @Override

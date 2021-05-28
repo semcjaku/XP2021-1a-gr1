@@ -67,11 +67,41 @@ public class IntervalCyclicEntryPrototypeTest {
     }
 
     @Test
-    public void IntervalCyclicEntryPrototypeToStringTest() {
+    public void IntervalCyclicEntryPrototypeSetCyclicParameterWhenProperValueGivenTest() {
         // Arrange
         Entry entry = new Entry(515, List.of("food", "rent"));
         int intervalInDays = 8;
         IntervalCyclicEntryPrototype prototype = new IntervalCyclicEntryPrototype(entry, intervalInDays);
+
+        // Act
+        int newIntervalInDays = 3;
+        prototype.setCyclicParameter(newIntervalInDays);
+
+        // Assert
+        assertTrue(prototype.toString().contains("intervalInDays=" + newIntervalInDays));
+    }
+
+    @Test
+    public void IntervalCyclicEntryPrototypeSetCyclicParameterWhenWrongValueGivenTest() {
+        // Arrange
+        Entry entry = new Entry(515, List.of("food", "rent"));
+        int intervalInDays = 8;
+        CyclicEntryPrototype prototype = new IntervalCyclicEntryPrototype(entry, intervalInDays);
+
+        // Act
+        int newIntervalInDays = -2;
+        ThrowingRunnable setting = () -> prototype.setCyclicParameter(newIntervalInDays);
+
+        // Assert
+        assertThrows(IllegalCyclicIntervalException.class, setting);
+    }
+
+    @Test
+    public void IntervalCyclicEntryPrototypeToStringTest() {
+        // Arrange
+        Entry entry = new Entry(515, List.of("food", "rent"));
+        int intervalInDays = 8;
+        CyclicEntryPrototype prototype = new IntervalCyclicEntryPrototype(entry, intervalInDays);
 
         // Act
         String representation = prototype.toString();

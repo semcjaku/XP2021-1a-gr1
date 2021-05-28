@@ -85,6 +85,7 @@ public class EntryTests {
         assertEquals(entry.toString(), "model.Entry{" +
                 "amount=" + amount +
                 ", categories=" + testList +
+                ", created by=admin" +
                 '}');
     }
 
@@ -95,14 +96,52 @@ public class EntryTests {
         List<String> categories = List.of("cat1");
         LocalDate oldDate = LocalDate.MIN;
         Entry entry = new Entry(amount, categories, oldDate);
+    }
+
+    @Test
+    public void EntrySetAmountTest() {
+        // Arrange
+        int amount = 555;
+        int newAmount = 12;
+        Entry entry = new Entry(amount);
 
         // Act
-        LocalDate newDate = LocalDate.MIN.plusDays(1);
-        Entry newEntry = entry.cloneAt(newDate);
+        entry.setAmount(newAmount);
 
         // Assert
-        assertEquals(entry.getAmount(), newEntry.getAmount());
-        assertEquals(entry.getCategories(), newEntry.getCategories());
-        assertEquals(newDate, newEntry.getDate());
+        assertEquals(entry.getAmount(), 12);
+    }
+
+    @Test
+    public void EntryRemoveCategoryTest(){
+        // Arrange
+        int amount = 515;
+        List<String> testList = new LinkedList<>() {};
+        testList.add("food");
+        testList.add("rent");
+        Entry entry = new Entry(amount, testList);
+
+        //Act
+        entry.removeCategory("food");
+        testList.remove("food");
+
+        // Assert
+        assertEquals(entry.getCategories(), testList);
+    }
+
+    @Test
+    public void EntrySetCategoriesTest(){
+        // Arrange
+        int amount = 515;
+        List<String> testList = new LinkedList<>() {};
+        testList.add("food");
+        testList.add("rent");
+        Entry entry = new Entry(amount);
+
+        //Act
+        entry.setCategories(testList);
+
+        // Assert
+        assertEquals(entry.getCategories(), testList);
     }
 }

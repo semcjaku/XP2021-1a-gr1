@@ -4,9 +4,10 @@ import exception.IllegalCyclicIntervalException;
 import model.Entry;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class IntervalCyclicEntryPrototype extends CyclicEntryPrototype {
-    private final int cyclicIntervalInDays;
+    private int cyclicIntervalInDays;
 
     public IntervalCyclicEntryPrototype(Entry prototypeEntry, int cyclicIntervalInDays) {
         super(prototypeEntry);
@@ -19,7 +20,13 @@ public class IntervalCyclicEntryPrototype extends CyclicEntryPrototype {
         return lastDate.plusDays(cyclicIntervalInDays).equals(LocalDate.now());
     }
 
-    public void validateInterval(int cyclicIntervalInDays) {
+    @Override
+    public void setCyclicParameter(int newValue) {
+        validateInterval(newValue);
+        cyclicIntervalInDays = newValue;
+    }
+
+    private void validateInterval(int cyclicIntervalInDays) {
         if (cyclicIntervalInDays < 1) {
             throw new IllegalCyclicIntervalException();
         }
@@ -31,5 +38,18 @@ public class IntervalCyclicEntryPrototype extends CyclicEntryPrototype {
                 "prototypeEntry=" + getPrototypeEntry() +
                 ", intervalInDays=" + cyclicIntervalInDays +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        IntervalCyclicEntryPrototype prototype = (IntervalCyclicEntryPrototype) o;
+        return cyclicIntervalInDays == prototype.cyclicIntervalInDays;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cyclicIntervalInDays);
     }
 }

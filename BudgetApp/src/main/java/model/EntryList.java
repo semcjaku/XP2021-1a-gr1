@@ -2,6 +2,7 @@ package model;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 public class EntryList {
     private List<Entry> entries;
@@ -24,6 +25,29 @@ public class EntryList {
 
     public void addEntry(Entry entry) {
         this.entries.add(entry);
+    }
+
+    public void removeEntry(int index) {
+        this.entries.remove(index);
+    }
+
+    public Entry getEntry(int index) {
+        return this.entries.get(index);
+    }
+
+    public int length() {
+        return this.entries.size();
+    }
+
+    public String getOrderedEntriesString() {
+        String output = "";
+        ListIterator<Entry> entryListIterator = this.entries.listIterator();
+        int counter = 1;
+        while (entryListIterator.hasNext()) {
+            output += String.format("%d. %s\n", counter, entryListIterator.next());
+            counter++;
+        }
+        return output;
     }
 
     @Override

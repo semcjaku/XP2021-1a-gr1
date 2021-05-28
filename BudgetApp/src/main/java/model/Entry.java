@@ -1,16 +1,20 @@
 package model;
 
+import executable.BudgetAppApplication;
+
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
 public class Entry {
-    private final int amount;
+    private int amount;
     private List<String> categories;
     private LocalDate date = LocalDate.now();
+    private User creator;
 
     public Entry(int amount){
+        this.creator = BudgetAppApplication.logedInUser;
         this.amount = amount;
         this.categories = new LinkedList<>();
     }
@@ -21,8 +25,7 @@ public class Entry {
     }
 
     public Entry(int amount, List<String> cat, LocalDate date){
-        this(amount);
-        this.categories = cat;
+        this(amount, cat);
         this.date = date;
     }
 
@@ -30,24 +33,46 @@ public class Entry {
         return amount;
     }
 
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
     public List<String> getCategories() {
         return categories;
     }
 
-    public void addCategory(String category) {
-        categories.add(category);
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
     }
 
-    @Override
-    public String toString() {
-        return "model.Entry{" +
-                "amount=" + amount +
-                ", categories=" + categories +
-                '}';
+    public void addCategory(String category) {
+        if (! this.categories.contains(category)) {
+            this.categories.add(category);
+        }
+    }
+
+    public void removeCategory(String category) {
+        this.categories.remove(category);
     }
 
     public Entry cloneAt(LocalDate date) {
         return new Entry(amount, categories, date);
+    }
+
+    @Override
+    public String toString() {
+        String username;
+        if(creator != null) {
+            username = creator.getEmail();
+        }
+        else {
+            username = "admin";
+        }
+        return "model.Entry{" +
+                "amount=" + amount +
+                ", categories=" + categories +
+                ", created by=" + username +
+                '}';
     }
 
     public LocalDate getDate() {
