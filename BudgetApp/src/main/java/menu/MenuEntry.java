@@ -1,6 +1,5 @@
 package menu;
 
-import exception.InvalidInputException;
 import model.Entry;
 
 import java.util.Arrays;

@@ -1,8 +1,8 @@
 package scheduling;
 
 import model.EntryList;
-import model.cyclic.CyclicEntryPrototype;
-import model.cyclic.CyclicPrototypeList;
+import model.CyclicEntryPrototype;
+import model.CyclicPrototypeList;
 
 import java.time.LocalDate;
 import java.util.concurrent.ScheduledExecutorService;

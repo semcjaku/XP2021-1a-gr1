@@ -1,7 +1,4 @@
-package model.cyclic;
-
-import exception.IllegalCyclicIntervalException;
-import model.Entry;
+package model;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -34,7 +31,7 @@ public class IntervalCyclicEntryPrototype extends CyclicEntryPrototype {
 
     @Override
     public String toString() {
-        return "model.cyclic.IntervalCyclicEntryPrototype{" +
+        return "model.IntervalCyclicEntryPrototype{" +
                 "prototypeEntry=" + getPrototypeEntry() +
                 ", intervalInDays=" + cyclicIntervalInDays +
                 '}';

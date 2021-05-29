@@ -1,10 +1,9 @@
 package menu;
 
-import exception.InvalidInputException;
 import model.Entry;
-import model.cyclic.CyclicEntryPrototype;
-import model.cyclic.IntervalCyclicEntryPrototype;
-import model.cyclic.MonthlyCyclicEntryPrototype;
+import model.CyclicEntryPrototype;
+import model.IntervalCyclicEntryPrototype;
+import model.MonthlyCyclicEntryPrototype;
 
 import java.io.InputStream;
 import java.util.Scanner;

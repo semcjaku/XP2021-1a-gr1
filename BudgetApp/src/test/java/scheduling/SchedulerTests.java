@@ -1,11 +1,11 @@
 package scheduling;
 
-import model.cyclic.CyclicEntryPrototype;
+import model.CyclicEntryPrototype;
 import model.Entry;
 import model.EntryList;
-import model.cyclic.CyclicPrototypeList;
-import model.cyclic.IntervalCyclicEntryPrototype;
-import model.cyclic.MonthlyCyclicEntryPrototype;
+import model.CyclicPrototypeList;
+import model.IntervalCyclicEntryPrototype;
+import model.MonthlyCyclicEntryPrototype;
 import org.junit.Test;
 
 import java.time.LocalDate;

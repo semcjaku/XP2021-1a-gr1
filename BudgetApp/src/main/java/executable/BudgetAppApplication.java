@@ -5,8 +5,8 @@ import model.CategoryList;
 import model.Entry;
 import model.EntryList;
 import model.User;
-import model.cyclic.CyclicEntryPrototype;
-import model.cyclic.CyclicPrototypeList;
+import model.CyclicEntryPrototype;
+import model.CyclicPrototypeList;
 import scheduling.Scheduler;
 import service.UserService;
 

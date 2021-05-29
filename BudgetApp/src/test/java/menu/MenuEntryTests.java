@@ -1,8 +1,5 @@
 package menu;
 
-import exception.InvalidInputException;
-import menu.AbstractMenu;
-import menu.MenuEntry;
 import model.Entry;
 import org.junit.Rule;
 import org.junit.Test;

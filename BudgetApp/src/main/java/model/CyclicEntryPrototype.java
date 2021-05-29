@@ -1,4 +1,4 @@
-package model.cyclic;
+package model;
 
 import model.Entry;
 

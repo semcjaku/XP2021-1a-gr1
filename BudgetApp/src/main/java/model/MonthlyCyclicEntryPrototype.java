@@ -1,7 +1,4 @@
-package model.cyclic;
-
-import exception.IllegalDayOfMonthException;
-import model.Entry;
+package model;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -39,7 +36,7 @@ public class MonthlyCyclicEntryPrototype extends CyclicEntryPrototype {
 
     @Override
     public String toString() {
-        return "model.cyclic.MonthlyCyclicEntryPrototype{" +
+        return "model.MonthlyCyclicEntryPrototype{" +
                 "prototypeEntry=" + getPrototypeEntry() +
                 ", dayOfMonth=" + cyclicDayOfMonth +
                 '}';

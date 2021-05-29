@@ -1,4 +1,4 @@
-package model.cyclic;
+package model;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class CyclicPrototypeList {
 
     @Override
     public String toString() {
-        return "model.cyclic.CyclicPrototypeList{" +
+        return "model.CyclicPrototypeList{" +
                 "prototypes=" + prototypes +
                 '}';
     }

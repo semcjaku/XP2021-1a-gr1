@@ -1,7 +1,6 @@
-package model.cyclic;
+package model;
 
-import model.Entry;
-import model.EntryList;
+import model.*;
 import org.junit.Test;
 
 import java.util.LinkedList;
@@ -118,7 +117,7 @@ public class CyclicPrototypeListTests {
         prototypeList.addPrototype(secondPrototype);
 
         // Assert
-        assertEquals(prototypeList.toString(), "model.cyclic.CyclicPrototypeList{" +
+        assertEquals(prototypeList.toString(), "model.CyclicPrototypeList{" +
                 "prototypes=" + "[" +
                 firstPrototype + ", " +
                 secondPrototype +

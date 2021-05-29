@@ -1,6 +1,5 @@
 package menu;
 
-import exception.InvalidInputException;
 import model.User;
 import org.junit.Rule;
 import org.junit.Test;

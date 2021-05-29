@@ -1,10 +1,8 @@
 package menu;
 
-import exception.InvalidInputException;
-import io.cucumber.java.af.En;
 import model.Entry;
-import model.cyclic.CyclicEntryPrototype;
-import model.cyclic.IntervalCyclicEntryPrototype;
+import model.CyclicEntryPrototype;
+import model.IntervalCyclicEntryPrototype;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

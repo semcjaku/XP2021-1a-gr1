@@ -1,7 +1,5 @@
-package model.cyclic;
+package model;
 
-import exception.IllegalCyclicIntervalException;
-import model.Entry;
 import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
 
@@ -107,7 +105,7 @@ public class IntervalCyclicEntryPrototypeTest {
         String representation = prototype.toString();
 
         // Assert
-        assertEquals("model.cyclic.IntervalCyclicEntryPrototype{" +
+        assertEquals("model.IntervalCyclicEntryPrototype{" +
                 "prototypeEntry=" + entry +
                 ", intervalInDays=" + intervalInDays +
                 '}', representation);
