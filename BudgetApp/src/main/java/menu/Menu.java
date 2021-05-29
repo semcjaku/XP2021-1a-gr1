@@ -8,7 +8,7 @@ public class Menu extends AbstractMenu {
 
     @Override
     public int getMaxInputNumber() {
-        return 10;
+        return 14;
     }
 
     @Override
@@ -24,6 +24,10 @@ public class Menu extends AbstractMenu {
                 "8.Show model.Entry List\n" +
                 "9.Show Cyclic Entries List\n" +
                 "10.Show Category List\n" +
+                "11.Save model.Entry List\n" +
+                "12.Save Cyclic Entries List\n" +
+                "13.Load model.Entry List\n" +
+                "14.Load Cyclic Entries List\n" +
                 "0.Exit\n" +
                 "Please select " + getMinInputNumber() + "-" + getMaxInputNumber() + "!";
     }

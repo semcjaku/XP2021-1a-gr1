@@ -37,13 +37,13 @@ public class MenuCyclicEntry extends AbstractMenu {
 
     public int getCyclicIntervalInDaysInputShow() {
         System.out.println("...now, provide cyclic interval in days:");
-        String line = scanner.next();
+        String line = scanner.nextLine();
         return Integer.parseInt(line);
     }
 
     public int getCyclicDayOfMonthInputShow() {
         System.out.println("...now, provide cyclic day of month:");
-        String line = scanner.next();
+        String line = scanner.nextLine();
         return Integer.parseInt(line);
     }
 

@@ -1,10 +1,11 @@
 package model;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-public class EntryList {
+public class EntryList implements Serializable {
     private List<Entry> entries;
 
     public EntryList() {

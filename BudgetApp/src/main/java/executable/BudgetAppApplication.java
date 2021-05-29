@@ -8,6 +8,7 @@ import model.User;
 import model.CyclicEntryPrototype;
 import model.CyclicPrototypeList;
 import scheduling.Scheduler;
+import service.SerializerService;
 import service.UserService;
 
 import java.util.Scanner;
@@ -27,6 +28,8 @@ public class BudgetAppApplication {
 
         UserService userService = new UserService();
         userService.loadUsersOnStart();
+
+        SerializerService serializerService = new SerializerService();
 
         Menu menu = new Menu();
         MenuUser menuUser = new MenuUser();
@@ -180,10 +183,22 @@ public class BudgetAppApplication {
                     System.out.println(entryList);
                     break;
                 case 9:
-                    System.out.println(categoryList);
+                    System.out.println(prototypeList);
                     break;
                 case 10:
-                    System.out.println(prototypeList);
+                    System.out.println(categoryList);
+                    break;
+                case 11:
+                    serializerService.writeObjectToFile(entryList);
+                    break;
+                case 12:
+                    serializerService.writeObjectToFile(prototypeList);
+                    break;
+                case 13:
+                    entryList = (EntryList) serializerService.readObjectFromFile("EntryList");
+                    break;
+                case 14:
+                    prototypeList = (CyclicPrototypeList) serializerService.readObjectFromFile("CyclicPrototypeList");
                     break;
                 default:
                     break;

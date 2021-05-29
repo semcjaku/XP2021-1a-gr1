@@ -32,8 +32,12 @@ public class MenuTests {
                 "8.Show model.Entry List\n" +
                 "9.Show Cyclic Entries List\n" +
                 "10.Show Category List\n" +
+                "11.Save model.Entry List\n" +
+                "12.Save Cyclic Entries List\n" +
+                "13.Load model.Entry List\n" +
+                "14.Load Cyclic Entries List\n" +
                 "0.Exit\n" +
-                "Please select 0-10!", result);
+                "Please select 0-14!", result);
     }
 
     @Test

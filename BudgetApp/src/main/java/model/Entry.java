@@ -2,12 +2,13 @@ package model;
 
 import executable.BudgetAppApplication;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class Entry {
+public class Entry implements Serializable {
     private int amount;
     private List<String> categories;
     private LocalDate date = LocalDate.now();

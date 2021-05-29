@@ -1,10 +1,11 @@
 package model;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-public class CyclicPrototypeList {
+public class CyclicPrototypeList implements Serializable {
     private final List<CyclicEntryPrototype> prototypes;
 
     public CyclicPrototypeList() {
