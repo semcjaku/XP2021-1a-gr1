@@ -7,10 +7,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class CyclicEntryPrototype {
+    private final Entry prototypeEntry;
     protected final List<Entry> derivedEntries = new LinkedList<>();
 
-    protected CyclicEntryPrototype(Entry prototypeEntry) {
-        derivedEntries.add(prototypeEntry);
+    protected CyclicEntryPrototype(Entry firstEntry) {
+        this.prototypeEntry = firstEntry.cloneAt(LocalDate.now());
+        derivedEntries.add(firstEntry);
     }
 
     public Entry generateNewEntry(LocalDate date) {
@@ -24,6 +26,6 @@ public abstract class CyclicEntryPrototype {
     public abstract boolean shouldBeReplicatedToday();
 
     public Entry getPrototypeEntry() {
-        return derivedEntries.get(0);
+        return prototypeEntry;
     }
 }
