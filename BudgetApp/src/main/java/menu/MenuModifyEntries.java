@@ -2,7 +2,6 @@ package menu;
 
 import model.Entry;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;

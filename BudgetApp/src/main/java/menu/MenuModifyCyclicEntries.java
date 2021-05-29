@@ -4,8 +4,6 @@ import exception.InvalidInputException;
 import model.Entry;
 import model.cyclic.CyclicEntryPrototype;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class MenuModifyCyclicEntries extends AbstractMenu {

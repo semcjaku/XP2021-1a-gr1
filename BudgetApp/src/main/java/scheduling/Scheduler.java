@@ -1,11 +1,10 @@
 package scheduling;
 
-import model.cyclic.CyclicEntryPrototype;
 import model.EntryList;
+import model.cyclic.CyclicEntryPrototype;
 import model.cyclic.CyclicPrototypeList;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 

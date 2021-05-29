@@ -1,6 +1,5 @@
 package model.cyclic;
 
-import exception.IllegalCyclicIntervalException;
 import exception.IllegalDayOfMonthException;
 import model.Entry;
 
