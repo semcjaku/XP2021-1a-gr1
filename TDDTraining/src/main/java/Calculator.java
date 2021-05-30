@@ -1,37 +1,52 @@
+import exceptions.NegativeNumbersNotAllowedException;
+
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.lang.Integer.parseInt;
 
 public class Calculator {
-    public int Add(String numbers) throws NegativesNotAllowedException {
 
-        String delimiters = ",|\n";
-
-        if (numbers.startsWith("//")) {
-            String[] customDelimiterAndNumbers = numbers.split("\n",2);
-            String customDelimiter = customDelimiterAndNumbers[0].replace("//", "");
-            delimiters += "|" + customDelimiter;
-            numbers = customDelimiterAndNumbers[1];
-        }
-
-        if (numbers == null || numbers.trim().isEmpty()) {
+    public int Add(String numbers) throws NegativeNumbersNotAllowedException {
+        if (null == numbers || numbers.isEmpty()) {
             return 0;
         }
 
-        List<Integer> ints = Arrays.stream(numbers.split(delimiters))
-                .map(Integer::parseInt)
-                .collect(Collectors.toList());
+        String regex = "(,|\n";
 
-        String negatives = ints
-                .stream()
-                .filter(i -> i < 0)
-                .map(String::valueOf)
-                .collect(Collectors.joining(","));
-
-        if (!negatives.isEmpty()) {
-            throw new NegativesNotAllowedException(negatives);
+        if (numbers.startsWith("//")) {
+            String[] splitOnFirstNewLine = numbers.split("\n",2);
+            regex += String.format("|\\Q%s\\E", splitOnFirstNewLine[0].substring(2));
+            numbers = splitOnFirstNewLine[1];
         }
 
-        return  ints.stream().reduce(0, Integer::sum);
+        regex += ")";
+
+        String[] splitNumbers = numbers.split(regex);
+        ArrayList<Integer> parsedNumbers = new ArrayList<>();
+        Arrays.stream(splitNumbers).forEach(n -> parsedNumbers.add(parseInt(n)));
+
+        if (parsedNumbers.isEmpty())
+            return 0;
+
+        ArrayList<Integer> negativeNumbers = new ArrayList<>();
+        for (Integer num:parsedNumbers) {
+            if (num < 0) {
+                negativeNumbers.add(num);
+            }
+            else if (num > 1000) {
+                parsedNumbers.remove(num);
+            }
+        }
+
+        if (!negativeNumbers.isEmpty()){
+            String exceptionString = "Negatives not allowed: ";
+            ArrayList<String> stringNegatives = new ArrayList<>();
+            negativeNumbers.forEach(n -> stringNegatives.add(Integer.toString(n)));
+            exceptionString += String.join(",",stringNegatives);
+            throw new NegativeNumbersNotAllowedException(exceptionString);
+        }
+
+        return parsedNumbers.stream().mapToInt(a -> a).sum();
     }
 }
