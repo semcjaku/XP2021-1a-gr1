@@ -69,7 +69,7 @@ public class Entry implements Serializable {
         else {
             username = "admin";
         }
-        return "model.Entry{" +
+        return "Entry{" +
                 "amount=" + amount +
                 ", categories=" + categories +
                 ", created by=" + username +

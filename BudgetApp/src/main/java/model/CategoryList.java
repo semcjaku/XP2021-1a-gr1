@@ -23,7 +23,7 @@ public class CategoryList {
 
     @Override
     public String toString() {
-        return "model.CategoryList{" +
+        return "CategoryList{" +
                 "categories=" + categories +
                 '}';
     }

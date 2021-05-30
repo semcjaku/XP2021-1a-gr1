@@ -122,7 +122,7 @@ public class EntryListTests {
         entryList.addEntry(entry);
 
         // Assert
-        assertEquals(entryList.toString(), "model.EntryList{" +
+        assertEquals(entryList.toString(), "EntryList{" +
                 "entries=" + "[" +
                 entry +
                 "]" +

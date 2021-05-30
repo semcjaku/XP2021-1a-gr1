@@ -41,7 +41,7 @@ public class CyclicPrototypeList implements Serializable {
 
     @Override
     public String toString() {
-        return "model.CyclicPrototypeList{" +
+        return "CyclicPrototypeList{" +
                 "prototypes=" + prototypes +
                 '}';
     }

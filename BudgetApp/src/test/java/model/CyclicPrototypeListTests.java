@@ -117,7 +117,7 @@ public class CyclicPrototypeListTests {
         prototypeList.addPrototype(secondPrototype);
 
         // Assert
-        assertEquals(prototypeList.toString(), "model.CyclicPrototypeList{" +
+        assertEquals(prototypeList.toString(), "CyclicPrototypeList{" +
                 "prototypes=" + "[" +
                 firstPrototype + ", " +
                 secondPrototype +

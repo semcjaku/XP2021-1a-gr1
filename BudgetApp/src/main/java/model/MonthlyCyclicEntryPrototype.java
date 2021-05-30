@@ -36,7 +36,7 @@ public class MonthlyCyclicEntryPrototype extends CyclicEntryPrototype {
 
     @Override
     public String toString() {
-        return "model.MonthlyCyclicEntryPrototype{" +
+        return "MonthlyCyclicEntryPrototype{" +
                 "prototypeEntry=" + getPrototypeEntry() +
                 ", dayOfMonth=" + cyclicDayOfMonth +
                 '}';

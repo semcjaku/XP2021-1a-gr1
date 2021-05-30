@@ -31,7 +31,7 @@ public class IntervalCyclicEntryPrototype extends CyclicEntryPrototype {
 
     @Override
     public String toString() {
-        return "model.IntervalCyclicEntryPrototype{" +
+        return "IntervalCyclicEntryPrototype{" +
                 "prototypeEntry=" + getPrototypeEntry() +
                 ", intervalInDays=" + cyclicIntervalInDays +
                 '}';

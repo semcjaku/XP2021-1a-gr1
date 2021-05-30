@@ -50,7 +50,7 @@ public class CategoryListTests {
         categoryList.addCategory(category2);
 
         // Assert
-        assertEquals("model.CategoryList{" +
+        assertEquals("CategoryList{" +
                 "categories=" + "[Custom1, Custom2, clothes, entertainment, food, friendly exchange, home, paycheck, taxes]}", categoryList.toString());
     }
 

@@ -53,7 +53,7 @@ public class EntryList implements Serializable {
 
     @Override
     public String toString() {
-        return "model.EntryList{" +
+        return "EntryList{" +
                 "entries=" + entries +
                 '}';
     }

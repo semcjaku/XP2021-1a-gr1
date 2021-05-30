@@ -105,7 +105,7 @@ public class IntervalCyclicEntryPrototypeTest {
         String representation = prototype.toString();
 
         // Assert
-        assertEquals("model.IntervalCyclicEntryPrototype{" +
+        assertEquals("IntervalCyclicEntryPrototype{" +
                 "prototypeEntry=" + entry +
                 ", intervalInDays=" + intervalInDays +
                 '}', representation);

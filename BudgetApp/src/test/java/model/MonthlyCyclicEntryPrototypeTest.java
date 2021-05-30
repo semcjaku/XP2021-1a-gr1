@@ -134,7 +134,7 @@ public class MonthlyCyclicEntryPrototypeTest {
         String representation = prototype.toString();
 
         // Assert
-        assertEquals("model.MonthlyCyclicEntryPrototype{" +
+        assertEquals("MonthlyCyclicEntryPrototype{" +
                 "prototypeEntry=" + entry +
                 ", dayOfMonth=" + dayOfMonth +
                 '}', representation);
