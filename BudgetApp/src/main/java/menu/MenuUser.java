@@ -28,28 +28,40 @@ public class MenuUser extends AbstractMenu {
     public String show() {
         return "\nMENU USER\n" +
                 "1.Login\n" +
+                "2.Register\n" +
                 "0.Exit\n" +
                 "Please select 0-1!";
     }
 
     public String getEmailInputShow() {
-        System.out.println("Provide email:");
-        String line = scanner.nextLine();
+        String line = "";
+        do {
+            System.out.println("Provide email:");
+            line = scanner.nextLine();
+            line = line.replaceAll("\\s+","");
+        } while (line.equals(""));
         return line;
     }
 
     public String getPasswordInputShow() {
-        System.out.println("Provide password:");
-        String line = scanner.nextLine();
+        String line = "";
+        do {
+            System.out.println("Provide password:");
+            line = scanner.nextLine();
+            line = line.replaceAll("\\s+", "");
+        } while (line.equals(""));
         return line;
     }
 
     public User showInputsByChoice(int choice) {
-        if (choice == 1) {
-            String email = getEmailInputShow();
-            String password = getPasswordInputShow();
 
-            return new User(email, password);
+        switch (choice) {
+            case 1:
+            case 2:
+                String email = getEmailInputShow();
+                String password = getPasswordInputShow();
+
+                return new User(email, password);
         }
 
         return null;

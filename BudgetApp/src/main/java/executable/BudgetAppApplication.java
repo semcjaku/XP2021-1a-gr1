@@ -50,7 +50,14 @@ public class BudgetAppApplication {
                     User inputUser = menuUser.showInputsByChoice(choice);
                     logedInUser = userService.login(inputUser.getEmail(), inputUser.getPassword());
                     if (logedInUser == null) {
-                        System.out.println("Invalid user data!. Try again.");
+                        System.out.println("Invalid user data! Try again.");
+                    }
+                    break;
+                case 2:
+                    User inputRegisterUser = menuUser.showInputsByChoice(choice);
+                    logedInUser = userService.register(inputRegisterUser.getEmail(), inputRegisterUser.getPassword());
+                    if (logedInUser == null) {
+                        System.out.println("User with this email already exists! Try again.");
                     }
                     break;
                 case 0:

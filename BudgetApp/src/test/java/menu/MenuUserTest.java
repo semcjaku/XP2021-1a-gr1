@@ -26,6 +26,7 @@ public class MenuUserTest {
         assertNotNull(result);
         assertEquals("\nMENU USER\n" +
                 "1.Login\n" +
+                "2.Register\n" +
                 "0.Exit\n" +
                 "Please select 0-1!", result);
     }

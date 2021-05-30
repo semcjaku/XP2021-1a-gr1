@@ -53,7 +53,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void UserServiceLoginShouldReturnNullWhenNameAreIncorrectTest() {
+    public void UserServiceLoginShouldReturnNullWhenNameIsIncorrectTest() {
         // Arrange
         List<User> users = new LinkedList<User>();
         users.add(new User("1","1"));
@@ -65,7 +65,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void UserServiceLoginShouldReturnNullWhenPasswordAreIncorrectTest() {
+    public void UserServiceLoginShouldReturnNullWhenPasswordIsIncorrectTest() {
         // Arrange
         List<User> users = new LinkedList<User>();
         users.add(new User("1","1"));
@@ -87,4 +87,34 @@ public class UserServiceTest {
         // Assert
         assertNull(user);
     }
+
+    @Test
+    public void UserServiceRegisterShouldReturnUserWhenInputsAreCorrectTest() {
+        // Arrange
+        List<User> users = new LinkedList<User>();
+        UserService userService = new UserService(users);
+        // Act
+        User user = userService.register("1", "1");
+        // Assert
+        assertNotNull(user);
+        assertNotNull(user.getId());
+        assertNotNull(user.getPassword());
+        assertNotNull(user.getEmail());
+    }
+
+    @Test
+    public void UserServiceRegisterShouldReturnNullWhenNameAlreadyExistsTest() {
+        // Arrange
+        List<User> users = new LinkedList<User>();
+        users.add(new User("1","1"));
+        UserService userService = new UserService(users);
+        // Act
+        User user = userService.register("1", "1");
+        User user2 = userService.register("1", "2");
+        // Assert
+        assertNull(user);
+        assertNull(user2);
+    }
+
+
 }
