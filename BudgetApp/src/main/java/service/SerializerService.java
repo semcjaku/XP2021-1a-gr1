@@ -1,22 +1,19 @@
 package service;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.nio.file.Path;
 
 public class SerializerService {
-    private String file = Path.of("").toAbsolutePath() + "/data/";
+    private String fileDir = Path.of("").toAbsolutePath() + "/data/";
 
     public SerializerService() {}
 
-    public SerializerService(String path) {this.file = path;}
+    public SerializerService(String path) {this.fileDir = path;}
 
     public void writeObjectToFile(Object serObj) {
         try {
             String className = serObj.getClass().getName();
-            FileOutputStream fileOut = new FileOutputStream(this.file + className.substring(className.lastIndexOf('.')+1) + ".ser");
+            FileOutputStream fileOut = new FileOutputStream(this.fileDir + className.substring(className.lastIndexOf('.')+1) + ".ser");
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
             objectOut.writeObject(serObj);
             objectOut.close();
@@ -28,7 +25,13 @@ public class SerializerService {
 
     public Object readObjectFromFile(String className) {
         try {
-            FileInputStream fileIn = new FileInputStream(this.file + className + ".ser");
+            String filePath = this.fileDir + className + ".ser";
+            File file = new File(filePath);
+            if (!file.exists()) {
+                throw new FileNotFoundException();
+            }
+
+            FileInputStream fileIn = new FileInputStream(file);
             ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 
             Object obj = objectIn.readObject();
@@ -36,6 +39,9 @@ public class SerializerService {
             System.out.println("The Object has been read from the file");
             objectIn.close();
             return obj;
+        } catch (FileNotFoundException ex) {
+            System.out.println("No saved file to load!");
+            return null;
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;
