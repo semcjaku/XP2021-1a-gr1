@@ -3,6 +3,7 @@ package model;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class CategoryList {
     private List<String> categories;
@@ -26,5 +27,18 @@ public class CategoryList {
         return "model.CategoryList{" +
                 "categories=" + categories +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CategoryList that = (CategoryList) o;
+        return categories.equals(that.categories);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(categories);
     }
 }

@@ -3,6 +3,7 @@ package model.cyclic;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 
 public class CyclicPrototypeList {
     private final List<CyclicEntryPrototype> prototypes;
@@ -43,5 +44,18 @@ public class CyclicPrototypeList {
         return "model.cyclic.CyclicPrototypeList{" +
                 "prototypes=" + prototypes +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CyclicPrototypeList that = (CyclicPrototypeList) o;
+        return Objects.equals(prototypes, that.prototypes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(prototypes);
     }
 }

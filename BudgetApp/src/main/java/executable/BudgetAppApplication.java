@@ -1,10 +1,8 @@
 package executable;
 
+import exception.InvalidInputException;
 import menu.*;
-import model.CategoryList;
-import model.Entry;
-import model.EntryList;
-import model.User;
+import model.*;
 import model.cyclic.CyclicEntryPrototype;
 import model.cyclic.CyclicPrototypeList;
 import scheduling.Scheduler;
@@ -18,30 +16,17 @@ public class BudgetAppApplication {
     public static void main(String[] args) throws Exception {
         System.out.println("Budget application has started!");
 
-        EntryList entryList = new EntryList();
-        CategoryList categoryList = new CategoryList();
-        CyclicPrototypeList prototypeList = new CyclicPrototypeList();
-
-        Scheduler scheduler = new Scheduler(entryList, prototypeList);
-        scheduler.runScheduler();
-
         UserService userService = new UserService();
         userService.loadUsersOnStart();
 
-        Menu menu = new Menu();
         MenuUser menuUser = new MenuUser();
-        MenuEntry menuEntry = new MenuEntry();
-        MenuCyclicEntry menuCyclicEntry = new MenuCyclicEntry();
-        MenuCategory menuCategory = new MenuCategory();
-        MenuModifyEntries menuModEntries = new MenuModifyEntries();
-        MenuModifyCyclicEntries menuModCyclicEntries = new MenuModifyCyclicEntries();
 
-        int choice = 0;
+        int choice;
         do {
             System.out.println(menuUser.show());
             Scanner keyboard = new Scanner(System.in);
             String line = keyboard.next();
-            choice = menu.read(line);
+            choice = menuUser.read(line);
             switch (choice) {
                 case 1:
                     User inputUser = menuUser.showInputsByChoice(choice);
@@ -56,12 +41,38 @@ public class BudgetAppApplication {
         } while(choice != 0 && logedInUser == null);
 
         if (logedInUser == null) {
-            scheduler.stopScheduler();
             userService.saveOnStop();
             return;
         }
 
-        choice = 0;
+        WalletList walletList = new WalletList();
+        Wallet wallet = null;
+
+        Scheduler scheduler = new Scheduler(walletList);
+        scheduler.runScheduler();
+
+        Menu menu = new Menu();
+        MenuEntry menuEntry = new MenuEntry();
+        MenuCyclicEntry menuCyclicEntry = new MenuCyclicEntry();
+        MenuCategory menuCategory = new MenuCategory();
+        MenuModifyEntries menuModEntries = new MenuModifyEntries();
+        MenuModifyCyclicEntries menuModCyclicEntries = new MenuModifyCyclicEntries();
+        MenuPickWallet menuPickWallet = new MenuPickWallet(walletList);
+        MenuManageWallets menuManageWallets = new MenuManageWallets(walletList);
+
+        do {
+            System.out.println(menuPickWallet.show());
+            Scanner keyboard = new Scanner(System.in);
+            String line = keyboard.next();
+            try {
+                choice = menu.read(line);
+                wallet = menuPickWallet.executeActions(choice);
+            }
+            catch (InvalidInputException e) {
+                System.out.println("Invalid wallet number provided");
+            }
+        } while(wallet == null);
+
         do {
             System.out.println(menu.show());
             Scanner keyboard = new Scanner(System.in);
@@ -73,34 +84,34 @@ public class BudgetAppApplication {
                     line = keyboard.next();
                     int entryChoice = menuEntry.read(line);
                     Entry entry = menuEntry.showInputsByChoice(entryChoice);
-                    entryList.addEntry(entry);
+                    wallet.getEntryList().addEntry(entry);
                     break;
                 case 2:
                     System.out.println(menuCyclicEntry.show());
                     line = keyboard.next();
                     int cyclicChoice = menuCyclicEntry.read(line);
                     CyclicEntryPrototype prototype = menuCyclicEntry.showInputsByChoice(cyclicChoice);
-                    entryList.addEntry(prototype.getPrototypeEntry());
-                    prototypeList.addPrototype(prototype);
+                    wallet.getEntryList().addEntry(prototype.getPrototypeEntry());
+                    wallet.getCyclicPrototypes().addPrototype(prototype);
                     break;
                 case 3:
                     System.out.println(menuCategory.show());
                     line = keyboard.next();
                     int categoryChoice = menuCategory.read(line);
                     String category = menuCategory.showInputsByChoice(categoryChoice);
-                    categoryList.addCategory(category);
+                    wallet.getCategoryList().addCategory(category);
                     break;
                 case 4:
-                    System.out.print(entryList.getOrderedEntriesString());
-                    if (entryList.length() == 0) {
+                    System.out.print(wallet.getEntryList().getOrderedEntriesString());
+                    if (wallet.getEntryList().length() == 0) {
                         System.out.println("No entries to remove!");
                     }
                     else {
-                        System.out.printf("Select an entry from 1 to %d to be removed:\n", entryList.length());
+                        System.out.printf("Select an entry from 1 to %d to be removed:\n", wallet.getEntryList().length());
                         line = keyboard.next();
                         int line_numeric = Integer.parseInt(line);
-                        if (line_numeric >= 1 && line_numeric <= entryList.length()) {
-                            entryList.removeEntry(Integer.parseInt(line) - 1);
+                        if (line_numeric >= 1 && line_numeric <= wallet.getEntryList().length()) {
+                            wallet.getEntryList().removeEntry(Integer.parseInt(line) - 1);
                             System.out.println("Entry removed!");
                         }
                         else {
@@ -109,16 +120,16 @@ public class BudgetAppApplication {
                     }
                     break;
                 case 5:
-                    System.out.print(prototypeList.getOrderedEntriesString());
-                    if (prototypeList.length() == 0) {
+                    System.out.print(wallet.getCyclicPrototypes().getOrderedEntriesString());
+                    if (wallet.getCyclicPrototypes().length() == 0) {
                         System.out.println("No cyclic entries to remove!");
                     }
                     else {
-                        System.out.printf("Select an cyclic entry from 1 to %d to be removed:\n", prototypeList.length());
+                        System.out.printf("Select an cyclic entry from 1 to %d to be removed:\n", wallet.getCyclicPrototypes().length());
                         line = keyboard.next();
                         int line_numeric = Integer.parseInt(line);
-                        if (line_numeric >= 1 && line_numeric <= prototypeList.length()) {
-                            prototypeList.removePrototype(Integer.parseInt(line) - 1);
+                        if (line_numeric >= 1 && line_numeric <= wallet.getCyclicPrototypes().length()) {
+                            wallet.getCyclicPrototypes().removePrototype(Integer.parseInt(line) - 1);
                             System.out.println("Cyclic Entry removed!");
                         }
                         else {
@@ -127,23 +138,23 @@ public class BudgetAppApplication {
                     }
                     break;
                 case 6:
-                    System.out.print(entryList.getOrderedEntriesString());
-                    if (entryList.length() == 0) {
+                    System.out.print(wallet.getEntryList().getOrderedEntriesString());
+                    if (wallet.getEntryList().length() == 0) {
                         System.out.println("No entries to modify!");
                     }
                     else {
-                        System.out.printf("Select an entry from 1 to %d to be modified:\n", entryList.length());
+                        System.out.printf("Select an entry from 1 to %d to be modified:\n", wallet.getEntryList().length());
                         line = keyboard.next();
                         int line_numeric = Integer.parseInt(line);
-                        if (line_numeric >= 1 && line_numeric <= entryList.length()) {
+                        if (line_numeric >= 1 && line_numeric <= wallet.getEntryList().length()) {
                             while (true) {
                                 System.out.println("Chosen entry:");
-                                System.out.print(entryList.getEntry(line_numeric-1));
+                                System.out.print(wallet.getEntryList().getEntry(line_numeric-1));
                                 System.out.println(menuModEntries.show());
                                 line = keyboard.next();
                                 if(Integer.parseInt(line) == 0)
                                     break;
-                                menuModEntries.executeActions(Integer.parseInt(line), entryList.getEntry(line_numeric - 1));
+                                menuModEntries.executeActions(Integer.parseInt(line), wallet.getEntryList().getEntry(line_numeric - 1));
                             }
                         }
                         else {
@@ -152,23 +163,23 @@ public class BudgetAppApplication {
                     }
                     break;
                 case 7:
-                    System.out.print(prototypeList.getOrderedEntriesString());
-                    if (prototypeList.length() == 0) {
+                    System.out.print(wallet.getCyclicPrototypes().getOrderedEntriesString());
+                    if (wallet.getCyclicPrototypes().length() == 0) {
                         System.out.println("No cyclic entries to modify!");
                     }
                     else {
-                        System.out.printf("Select a cyclic entry from 1 to %d to be modified:\n", prototypeList.length());
+                        System.out.printf("Select a cyclic entry from 1 to %d to be modified:\n", wallet.getCyclicPrototypes().length());
                         line = keyboard.next();
                         int line_numeric = Integer.parseInt(line);
-                        if (line_numeric >= 1 && line_numeric <= prototypeList.length()) {
+                        if (line_numeric >= 1 && line_numeric <= wallet.getCyclicPrototypes().length()) {
                             while (true) {
                                 System.out.println("Chosen entry:");
-                                System.out.print(prototypeList.getPrototypes().get(line_numeric-1));
+                                System.out.print(wallet.getCyclicPrototypes().getPrototypes().get(line_numeric-1));
                                 System.out.println(menuModCyclicEntries.show());
                                 line = keyboard.next();
                                 if(Integer.parseInt(line) == 0)
                                     break;
-                                menuModCyclicEntries.executeActions(Integer.parseInt(line), prototypeList.getPrototypes().get(line_numeric - 1));
+                                menuModCyclicEntries.executeActions(Integer.parseInt(line), wallet.getCyclicPrototypes().getPrototypes().get(line_numeric - 1));
                             }
                         }
                         else {
@@ -177,13 +188,32 @@ public class BudgetAppApplication {
                     }
                     break;
                 case 8:
-                    System.out.println(entryList);
+                    System.out.println(wallet.getEntryList());
                     break;
                 case 9:
-                    System.out.println(categoryList);
+                    System.out.println(wallet.getCyclicPrototypes());
                     break;
                 case 10:
-                    System.out.println(prototypeList);
+                    System.out.println(wallet.getCategoryList());
+                    break;
+                case 11:
+                    do {
+                        System.out.println(menuPickWallet.show());
+                        line = keyboard.next();
+                        try {
+                            choice = menu.read(line);
+                            wallet = menuPickWallet.executeActions(choice);
+                        }
+                        catch (InvalidInputException e) {
+                            System.out.println("Invalid wallet number provided");
+                        }
+                    } while(wallet == null);
+                    break;
+                case 12:
+                    System.out.println(menuManageWallets.show());
+                    line = keyboard.next();
+                    int walletManageChoice = menuManageWallets.read(line);
+                    menuManageWallets.showInputsByChoice(walletManageChoice);
                     break;
                 default:
                     break;

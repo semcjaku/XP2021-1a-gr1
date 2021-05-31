@@ -1,5 +1,7 @@
 package scheduling;
 
+import model.Wallet;
+import model.WalletList;
 import model.cyclic.CyclicEntryPrototype;
 import model.Entry;
 import model.EntryList;
@@ -15,19 +17,6 @@ import static org.junit.Assert.*;
 
 public class SchedulerTests {
     @Test
-    public void SchedulerConstructorTest() {
-        // Arrange
-        EntryList entryList = new EntryList();
-        CyclicPrototypeList cyclicEntryPrototypes = new CyclicPrototypeList();
-
-        // Act
-        Scheduler scheduler = new Scheduler(entryList, cyclicEntryPrototypes);
-
-        // Assert
-        assertEquals(entryList, scheduler.getEntryList());
-    }
-
-    @Test
     public void SchedulerAddPeriodicEntriesWhenPeriodicEntriesToDuplicateArePresentTest() {
         // Arrange
         int numberOfDays = 5;
@@ -35,21 +24,23 @@ public class SchedulerTests {
         Entry firstEntry = new Entry(1, new ArrayList<>(), firstEntryAddDate);
         CyclicEntryPrototype firstPrototype = new IntervalCyclicEntryPrototype(firstEntry, numberOfDays);
 
-
         int dayOfMonth = LocalDate.now().getDayOfMonth();
         LocalDate secondEntryAddDate = LocalDate.now().minusMonths(1);
         Entry secondEntry = new Entry(2, new ArrayList<>(), secondEntryAddDate);
         CyclicEntryPrototype secondPrototype = new MonthlyCyclicEntryPrototype(secondEntry, dayOfMonth);
 
-        EntryList entries = new EntryList();
+        WalletList walletList = new WalletList();
+        Wallet wallet = walletList.getWallets().get(0);
+
+        EntryList entries = wallet.getEntryList();
         entries.addEntry(firstEntry);
         entries.addEntry(secondEntry);
 
-        CyclicPrototypeList prototypes = new CyclicPrototypeList();
+        CyclicPrototypeList prototypes = wallet.getCyclicPrototypes();
         prototypes.addPrototype(firstPrototype);
         prototypes.addPrototype(secondPrototype);
 
-        Scheduler scheduler = new Scheduler(entries, prototypes);
+        Scheduler scheduler = new Scheduler(walletList);
 
         // Act
         scheduler.addPeriodicEntries();
@@ -68,21 +59,23 @@ public class SchedulerTests {
         Entry firstEntry = new Entry(1, new ArrayList<>(), firstEntryAddDate);
         CyclicEntryPrototype firstPrototype = new IntervalCyclicEntryPrototype(firstEntry, numberOfDays);
 
-
-        int dayOfMonth = LocalDate.now().getDayOfMonth();
-        LocalDate secondEntryAddDate = LocalDate.now().minusMonths(1).plusDays(1);
+        int dayOfMonth = LocalDate.now().plusDays(1).getDayOfMonth();
+        LocalDate secondEntryAddDate = LocalDate.now().plusDays(1).minusMonths(1);
         Entry secondEntry = new Entry(2, new ArrayList<>(), secondEntryAddDate);
-        CyclicEntryPrototype secondPrototype = new MonthlyCyclicEntryPrototype(secondEntry, dayOfMonth + 1);
+        CyclicEntryPrototype secondPrototype = new MonthlyCyclicEntryPrototype(secondEntry, dayOfMonth);
 
-        EntryList entries = new EntryList();
+        WalletList walletList = new WalletList();
+        Wallet wallet = walletList.getWallets().get(0);
+
+        EntryList entries = wallet.getEntryList();
         entries.addEntry(firstEntry);
         entries.addEntry(secondEntry);
 
-        CyclicPrototypeList prototypes = new CyclicPrototypeList();
+        CyclicPrototypeList prototypes = wallet.getCyclicPrototypes();
         prototypes.addPrototype(firstPrototype);
         prototypes.addPrototype(secondPrototype);
 
-        Scheduler scheduler = new Scheduler(entries, prototypes);
+        Scheduler scheduler = new Scheduler(walletList);
 
         // Act
         scheduler.addPeriodicEntries();
@@ -107,15 +100,18 @@ public class SchedulerTests {
         Entry secondEntry = new Entry(2, new ArrayList<>(), secondEntryAddDate);
         CyclicEntryPrototype secondPrototype = new MonthlyCyclicEntryPrototype(secondEntry, dayOfMonth);
 
-        EntryList entries = new EntryList();
+        WalletList walletList = new WalletList();
+        Wallet wallet = walletList.getWallets().get(0);
+
+        EntryList entries = wallet.getEntryList();
         entries.addEntry(firstEntry);
         entries.addEntry(secondEntry);
 
-        CyclicPrototypeList prototypes = new CyclicPrototypeList();
+        CyclicPrototypeList prototypes = wallet.getCyclicPrototypes();
         prototypes.addPrototype(firstPrototype);
         prototypes.addPrototype(secondPrototype);
 
-        Scheduler scheduler = new Scheduler(entries, prototypes);
+        Scheduler scheduler = new Scheduler(walletList);
         scheduler.addPeriodicEntries();
 
         // Act
@@ -125,11 +121,5 @@ public class SchedulerTests {
         assertEquals(4, entries.getEntries().size());
         assertTrue(entries.getEntries().contains(firstEntry.cloneAt(LocalDate.now())));
         assertTrue(entries.getEntries().contains(secondEntry.cloneAt(LocalDate.now())));
-    }
-
-    @Test
-    public void SchedulerAddPeriodicEntriesEntriesAreAddedOnMonthEndEdgeCaseTest() {
-        // eg. 31th of march should be treated as 28th in February
-        // but how to test it when scheduler relies internally on LocalDate.now()?
     }
 }

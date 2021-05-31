@@ -33,8 +33,10 @@ public class MenuTests {
                 "8.Show model.Entry List\n" +
                 "9.Show Cyclic Entries List\n" +
                 "10.Show Category List\n" +
+                "11.Switch wallet\n" +
+                "12.Manage wallets\n" +
                 "0.Exit\n" +
-                "Please select 0-10!", result);
+                "Please select 0-12!", result);
     }
 
     @Test

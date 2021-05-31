@@ -71,7 +71,7 @@ public class MonthlyCyclicEntryPrototypeTest {
     @Test
     public void MonthlyCyclicEntryPrototypeShouldBeReplicatedTodayWhenItShouldNotFromCyclicDayOfMonthTest() {
         // Arrange
-        int cyclicDayOfMonth = LocalDate.now().getDayOfMonth() + 1;
+        int cyclicDayOfMonth = LocalDate.now().plusDays(1).getDayOfMonth();
         LocalDate date = LocalDate.now().minusMonths(1);
         Entry prototypeEntry = new Entry(4, new ArrayList<>(), date);
         CyclicEntryPrototype cyclicEntryPrototype = new MonthlyCyclicEntryPrototype(prototypeEntry, cyclicDayOfMonth);

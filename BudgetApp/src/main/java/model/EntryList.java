@@ -3,6 +3,7 @@ package model;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 
 public class EntryList {
     private List<Entry> entries;
@@ -55,5 +56,18 @@ public class EntryList {
         return "model.EntryList{" +
                 "entries=" + entries +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EntryList entryList = (EntryList) o;
+        return entries.equals(entryList.entries);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(entries);
     }
 }
