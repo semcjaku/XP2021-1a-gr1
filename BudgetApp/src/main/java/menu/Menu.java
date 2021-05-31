@@ -24,7 +24,7 @@ public class Menu extends AbstractMenu {
                 "8.Show Entry List\t" +
                 "9.Show Cyclic Entries List\t" +
                 "10.Show Category List\n" +
-                "11.Switch wallet\n" +
+                "11.Switch wallet\t" +
                 "12.Manage wallets\n" +
                 "0.Exit\n" +
                 "Please select " + getMinInputNumber() + "-" + getMaxInputNumber() + "!";
