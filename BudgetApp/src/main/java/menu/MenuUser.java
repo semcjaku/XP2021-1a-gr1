@@ -21,7 +21,7 @@ public class MenuUser extends AbstractMenu {
 
     @Override
     public int getMaxInputNumber() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class MenuUser extends AbstractMenu {
                 "1.Login\n" +
                 "2.Register\n" +
                 "0.Exit\n" +
-                "Please select 0-1!";
+                "Please select 0-2!";
     }
 
     public String getEmailInputShow() {

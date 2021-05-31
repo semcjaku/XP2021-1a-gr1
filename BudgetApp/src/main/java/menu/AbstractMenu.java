@@ -28,4 +28,14 @@ public abstract class AbstractMenu {
             throw new InvalidInputException("Input not a number");
         }
     }
+
+    public String getDataFromUser(String prompt) {
+        String line = "";
+        do {
+            System.out.println(prompt);
+            line = scanner.nextLine();
+            line = line.replaceAll("\\s+","");
+        } while (line.equals(""));
+        return line;
+    }
 }

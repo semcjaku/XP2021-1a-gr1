@@ -1,16 +1,13 @@
 package executable;
 
 import menu.*;
-import model.CategoryList;
-import model.Entry;
-import model.EntryList;
-import model.User;
-import model.CyclicEntryPrototype;
-import model.CyclicPrototypeList;
+import model.*;
 import scheduling.Scheduler;
 import service.SerializerService;
 import service.UserService;
+import service.WalletService;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class BudgetAppApplication {
@@ -18,6 +15,8 @@ public class BudgetAppApplication {
 
     public static void main(String[] args) throws Exception {
         System.out.println("Budget application has started!");
+
+//        List<Wallet> wallets;
 
         EntryList entryList = new EntryList();
         CategoryList categoryList = new CategoryList();
@@ -30,9 +29,13 @@ public class BudgetAppApplication {
         userService.loadUsersOnStart();
 
         SerializerService serializerService = new SerializerService();
+        WalletService walletService = new WalletService();
+        walletService.loadWalletsOnStart(serializerService);
+//        walletService.setWallets((List<Wallet>) serializerService.readObjectFromFile("Wallets"));
 
         Menu menu = new Menu();
         MenuUser menuUser = new MenuUser();
+        MenuWallet menuWallet = new MenuWallet();
         MenuEntry menuEntry = new MenuEntry();
         MenuCyclicEntry menuCyclicEntry = new MenuCyclicEntry();
         MenuCategory menuCategory = new MenuCategory();
@@ -79,11 +82,20 @@ public class BudgetAppApplication {
             choice = menu.read(line);
             switch (choice) {
                 case 1:
+                    String walletId = "";
+                    boolean walletExists;
+                    do {
+                        System.out.println(menuWallet.show());
+                        line = keyboard.next();
+                        int entryChoice = menuWallet.read(line);
+                        walletId = menuWallet.showInputsByChoice(walletService, entryChoice, logedInUser.getEmail());
+                    } while (walletId == "" );
                     System.out.println(menuEntry.show());
                     line = keyboard.next();
                     int entryChoice = menuEntry.read(line);
                     Entry entry = menuEntry.showInputsByChoice(entryChoice);
-                    entryList.addEntry(entry);
+//                    entryList.addEntry(entry);
+                    walletService.addEntry(walletId, entry);
                     break;
                 case 2:
                     System.out.println(menuCyclicEntry.show());
