@@ -1,5 +1,5 @@
 Feature: Managing entries
-  Categories are important. User should be able to view and modify category list.
+  Users should be able to add entry to the entry list.
 
   Scenario: Entry list is empty by default
     Given No entries were provided yet
