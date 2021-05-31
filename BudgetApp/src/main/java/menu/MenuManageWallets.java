@@ -1,6 +1,5 @@
 package menu;
 
-import exception.InvalidInputException;
 import model.Wallet;
 import model.WalletList;
 

@@ -1,6 +1,5 @@
 package model;
 
-import model.cyclic.CyclicPrototypeList;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

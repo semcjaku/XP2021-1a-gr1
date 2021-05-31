@@ -1,8 +1,5 @@
-package model.cyclic;
+package model;
 
-import exception.IllegalCyclicIntervalException;
-import exception.IllegalDayOfMonthException;
-import model.Entry;
 import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
 
@@ -137,7 +134,7 @@ public class MonthlyCyclicEntryPrototypeTest {
         String representation = prototype.toString();
 
         // Assert
-        assertEquals("model.cyclic.MonthlyCyclicEntryPrototype{" +
+        assertEquals("MonthlyCyclicEntryPrototype{" +
                 "prototypeEntry=" + entry +
                 ", dayOfMonth=" + dayOfMonth +
                 '}', representation);

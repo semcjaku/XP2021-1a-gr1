@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class User {
+public class User implements Serializable {
     private String Id;
     private String Email;
     private String Password;

@@ -28,4 +28,5 @@ hs_err_pid*
 *.iml
 *.ipr
 
-target/
+BudgetApp/target/
+BudgetApp/data/*.ser

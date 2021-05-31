@@ -1,7 +1,5 @@
 package model;
 
-import model.cyclic.CyclicPrototypeList;
-
 import java.util.Objects;
 
 public class Wallet {

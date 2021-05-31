@@ -14,9 +14,9 @@ import java.util.Scanner;
 
 public class UserService {
     public List<User> users;
-    private String file = Path.of("").toAbsolutePath() + "/data/users_db.txt";
+    private String file = Path.of("").toAbsolutePath() + "/BudgetApp/data/users_db.txt";
 
-    public UserService() throws FileNotFoundException {
+    public UserService() {
         this.users = new LinkedList<User>();
     }
 
@@ -29,6 +29,18 @@ public class UserService {
                 .filter(u -> u.getEmail().equals(name)
                         && u.getPassword().equals(password))
                 .findFirst().orElse(null);
+    }
+
+    public User register(String name, String password) {
+        boolean userExists = users.stream()
+                                .anyMatch(u -> u.getEmail().equals(name));
+        if (userExists) {
+            return null;
+        }
+
+        User newUser = new User(name, password);
+        users.add(newUser);
+        return  newUser;
     }
 
     public void loadUsersOnStart() throws FileNotFoundException {

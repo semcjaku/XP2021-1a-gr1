@@ -1,11 +1,9 @@
 package executable;
 
-import exception.InvalidInputException;
 import menu.*;
 import model.*;
-import model.cyclic.CyclicEntryPrototype;
-import model.cyclic.CyclicPrototypeList;
 import scheduling.Scheduler;
+import service.SerializerService;
 import service.UserService;
 
 import java.util.Scanner;
@@ -19,6 +17,7 @@ public class BudgetAppApplication {
         UserService userService = new UserService();
         userService.loadUsersOnStart();
 
+        SerializerService serializerService = new SerializerService();
         MenuUser menuUser = new MenuUser();
 
         int choice;
@@ -32,7 +31,14 @@ public class BudgetAppApplication {
                     User inputUser = menuUser.showInputsByChoice(choice);
                     logedInUser = userService.login(inputUser.getEmail(), inputUser.getPassword());
                     if (logedInUser == null) {
-                        System.out.println("Invalid user data!. Try again.");
+                        System.out.println("Invalid user data! Try again.");
+                    }
+                    break;
+                case 2:
+                    User inputRegisterUser = menuUser.showInputsByChoice(choice);
+                    logedInUser = userService.register(inputRegisterUser.getEmail(), inputRegisterUser.getPassword());
+                    if (logedInUser == null) {
+                        System.out.println("User with this email already exists! Try again.");
                     }
                     break;
                 case 0:
@@ -214,7 +220,19 @@ public class BudgetAppApplication {
                     line = keyboard.next();
                     int walletManageChoice = menuManageWallets.read(line);
                     menuManageWallets.showInputsByChoice(walletManageChoice);
-                    break;
+// TODO Shouldn't loading/saving happen automatically, without users direct order? (at start/exit respectively)
+//                case 11:
+//                    serializerService.writeObjectToFile(entryList);
+//                    break;
+//                case 12:
+//                    serializerService.writeObjectToFile(prototypeList);
+//                    break;
+//                case 13:
+//                    entryList = (EntryList) serializerService.readObjectFromFile("EntryList");
+//                    break;
+//                case 14:
+//                    prototypeList = (CyclicPrototypeList) serializerService.readObjectFromFile("CyclicPrototypeList");
+//                    break;
                 default:
                     break;
             }

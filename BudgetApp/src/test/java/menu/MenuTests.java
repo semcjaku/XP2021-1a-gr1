@@ -1,6 +1,5 @@
 package menu;
 
-import exception.InvalidInputException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -23,15 +22,15 @@ public class MenuTests {
         // Assert
         assertNotNull(result);
         assertEquals("\nMENU\n" +
-                "1.Add model.Entry\n" +
-                "2.Add Cyclic Entry\n" +
+                "1.Add Entry\t\t\t" +
+                "2.Add Cyclic Entry\t\t\t" +
                 "3.Add Category\n" +
-                "4.Remove model.Entry\n" +
+                "4.Remove Entry\t\t" +
                 "5.Remove Cyclic Entry\n" +
-                "6.Modify model.Entry\n" +
+                "6.Modify Entry\t\t" +
                 "7.Modify Cyclic Entry\n" +
-                "8.Show model.Entry List\n" +
-                "9.Show Cyclic Entries List\n" +
+                "8.Show Entry List\t" +
+                "9.Show Cyclic Entries List\t" +
                 "10.Show Category List\n" +
                 "11.Switch wallet\n" +
                 "12.Manage wallets\n" +

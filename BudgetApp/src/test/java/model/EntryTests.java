@@ -82,7 +82,7 @@ public class EntryTests {
         Entry entry = new Entry(amount, testList);
 
         // Assert
-        assertEquals(entry.toString(), "model.Entry{" +
+        assertEquals(entry.toString(), "Entry{" +
                 "amount=" + amount +
                 ", categories=" + testList +
                 ", created by=admin" +

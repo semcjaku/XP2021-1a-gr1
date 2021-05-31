@@ -1,10 +1,9 @@
 package menu;
 
-import exception.InvalidInputException;
 import model.Entry;
-import model.cyclic.CyclicEntryPrototype;
-import model.cyclic.IntervalCyclicEntryPrototype;
-import model.cyclic.MonthlyCyclicEntryPrototype;
+import model.CyclicEntryPrototype;
+import model.IntervalCyclicEntryPrototype;
+import model.MonthlyCyclicEntryPrototype;
 
 import java.io.InputStream;
 import java.util.Scanner;
@@ -38,13 +37,13 @@ public class MenuCyclicEntry extends AbstractMenu {
 
     public int getCyclicIntervalInDaysInputShow() {
         System.out.println("...now, provide cyclic interval in days:");
-        String line = scanner.next();
+        String line = scanner.nextLine();
         return Integer.parseInt(line);
     }
 
     public int getCyclicDayOfMonthInputShow() {
         System.out.println("...now, provide cyclic day of month:");
-        String line = scanner.next();
+        String line = scanner.nextLine();
         return Integer.parseInt(line);
     }
 

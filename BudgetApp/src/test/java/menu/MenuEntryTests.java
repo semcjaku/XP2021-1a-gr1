@@ -1,8 +1,5 @@
 package menu;
 
-import exception.InvalidInputException;
-import menu.AbstractMenu;
-import menu.MenuEntry;
 import model.Entry;
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,8 +28,8 @@ public class MenuEntryTests {
         // Assert
         assertNotNull(result);
         assertEquals("\nMENU ENTRY\n" +
-                "1.Add model.Entry with amount\n" +
-                "2.Add model.Entry with amount and category list\n" +
+                "1.Add Entry with amount\n" +
+                "2.Add Entry with amount and category list\n" +
                 "Please select 1-2!", result);
     }
 

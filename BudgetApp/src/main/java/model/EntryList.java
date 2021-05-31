@@ -1,11 +1,12 @@
 package model;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
 
-public class EntryList {
+public class EntryList implements Serializable {
     private List<Entry> entries;
 
     public EntryList() {
@@ -53,7 +54,7 @@ public class EntryList {
 
     @Override
     public String toString() {
-        return "model.EntryList{" +
+        return "EntryList{" +
                 "entries=" + entries +
                 '}';
     }

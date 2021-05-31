@@ -1,11 +1,12 @@
-package model.cyclic;
+package model;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
 
-public class CyclicPrototypeList {
+public class CyclicPrototypeList implements Serializable {
     private final List<CyclicEntryPrototype> prototypes;
 
     public CyclicPrototypeList() {
@@ -41,7 +42,7 @@ public class CyclicPrototypeList {
 
     @Override
     public String toString() {
-        return "model.cyclic.CyclicPrototypeList{" +
+        return "CyclicPrototypeList{" +
                 "prototypes=" + prototypes +
                 '}';
     }

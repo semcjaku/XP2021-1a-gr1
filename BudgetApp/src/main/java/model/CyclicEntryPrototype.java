@@ -1,12 +1,13 @@
-package model.cyclic;
+package model;
 
 import model.Entry;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class CyclicEntryPrototype {
+public abstract class CyclicEntryPrototype implements Serializable {
     private final Entry prototypeEntry;
     protected final List<Entry> derivedEntries = new LinkedList<>();
 

@@ -1,8 +1,7 @@
 package menu;
 
-import exception.InvalidInputException;
 import model.Entry;
-import model.cyclic.CyclicEntryPrototype;
+import model.CyclicEntryPrototype;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
