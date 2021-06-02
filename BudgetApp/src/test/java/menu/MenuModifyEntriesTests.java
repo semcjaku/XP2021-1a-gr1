@@ -32,8 +32,7 @@ public class MenuModifyEntriesTests {
                 "2.Change categories\n" +
                 "3.Add category\n" +
                 "4.Remove category\n" +
-                "0.Return\n" +
-                "Please select 0-4!", result);
+                "0.Return", result);
     }
 
     @Test
@@ -46,7 +45,7 @@ public class MenuModifyEntriesTests {
         exception.expectMessage("Input number out of range");
 
         // Act
-        menuMod.read(input);
+        menuMod.validateChoice(input);
 
         // Assert
         // throw exception
@@ -62,7 +61,7 @@ public class MenuModifyEntriesTests {
         exception.expectMessage("Input number out of range");
 
         // Act
-        menuMod.read(input);
+        menuMod.validateChoice(input);
 
         // Assert
         // throw exception
@@ -78,7 +77,7 @@ public class MenuModifyEntriesTests {
         exception.expectMessage("Empty input");
 
         // Act
-        menuMod.read(input);
+        menuMod.validateChoice(input);
 
         // Assert
         // throw exception
@@ -94,7 +93,7 @@ public class MenuModifyEntriesTests {
         exception.expectMessage("Empty input");
 
         // Act
-        menuMod.read(input);
+        menuMod.validateChoice(input);
 
         // Assert
         // throw exception
@@ -107,10 +106,10 @@ public class MenuModifyEntriesTests {
         String input = "1  ";
 
         // Act
-        int result = menuMod.read(input);
+        menuMod.validateChoice(input);
 
         // Assert
-        assertEquals(1, result);
+
     }
 
     @Test

@@ -1,12 +1,24 @@
 package menu;
 
-import model.Wallet;
 import model.WalletList;
+import java.io.InputStream;
+import java.util.Scanner;
 
 public class MenuPickWallet extends AbstractMenu {
-    private final WalletList walletList;
+    private WalletList walletList;
+
+    public MenuPickWallet(InputStream inputStream, WalletList walletList) {
+        super(inputStream);
+        this.walletList = walletList;
+    }
+
+    public MenuPickWallet(Scanner scanner, WalletList walletList) {
+        super(scanner);
+        this.walletList = walletList;
+    }
 
     public MenuPickWallet(WalletList walletList) {
+        super(System.in);
         this.walletList = walletList;
     }
 
@@ -23,11 +35,14 @@ public class MenuPickWallet extends AbstractMenu {
     @Override
     public String show() {
         return "\nPICK WALLET:\n" +
-                walletList.getOrderedWalletsString() +
-                "\nPlease select 1-" + walletList.getLength() + "!";
+                walletList.getOrderedWalletsString();
     }
 
-    public Wallet executeActions(int choice) {
-        return walletList.getWallets().get(choice-1);
+    public String executeActions(int choice) {
+        switch (choice) {
+            default:
+                return walletList.getWallets().get(choice-1).getName();
+        }
     }
+
 }

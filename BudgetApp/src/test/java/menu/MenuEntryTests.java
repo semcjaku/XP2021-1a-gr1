@@ -29,8 +29,7 @@ public class MenuEntryTests {
         assertNotNull(result);
         assertEquals("\nMENU ENTRY\n" +
                 "1.Add Entry with amount\n" +
-                "2.Add Entry with amount and category list\n" +
-                "Please select 1-2!", result);
+                "2.Add Entry with amount and category list", result);
     }
 
     @Test
@@ -43,7 +42,7 @@ public class MenuEntryTests {
         exception.expectMessage("Input number out of range");
 
         // Act
-        menuEntry.read(input);
+        menuEntry.validateChoice(input);
 
         // Assert
         // throw exception
@@ -59,7 +58,7 @@ public class MenuEntryTests {
         exception.expectMessage("Input number out of range");
 
         // Act
-        menuEntry.read(input);
+        menuEntry.validateChoice(input);
 
         // Assert
         // throw exception
@@ -75,7 +74,7 @@ public class MenuEntryTests {
         exception.expectMessage("Empty input");
 
         // Act
-        menuEntry.read(input);
+        menuEntry.validateChoice(input);
 
         // Assert
         // throw exception
@@ -91,7 +90,7 @@ public class MenuEntryTests {
         exception.expectMessage("Empty input");
 
         // Act
-        menuEntry.read(input);
+        menuEntry.validateChoice(input);
 
         // Assert
         // throw exception
@@ -104,10 +103,10 @@ public class MenuEntryTests {
         String input = "1  ";
 
         // Act
-        int result = menuEntry.read(input);
+        menuEntry.validateChoice(input);
 
         // Assert
-        assertEquals(1, result);
+
     }
 
     @Test
@@ -120,7 +119,7 @@ public class MenuEntryTests {
         exception.expectMessage("Input not a number");
 
         // Act
-        menuEntry.read(input);
+        menuEntry.validateChoice(input);
 
         // Assert
         // throw exception

@@ -1,22 +1,27 @@
 package model;
 
+import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
-public class Wallet {
-    private final EntryList entryList = new EntryList();
-    private final CyclicPrototypeList cyclicPrototypes = new CyclicPrototypeList();
-    private final CategoryList categoryList = new CategoryList();
-
+public class Wallet implements Serializable {
     private String name;
+    private EntryList entryList;
+    private CyclicPrototypeList cyclicPrototypes;
+    private CategoryList categoryList;
     private boolean isArchived = false;
+    private String ownerEmail;
+    private List<String> sharedUsersEmails;
 
 
-    public Wallet() {
-        name = "A wallet";
-    }
-
-    public Wallet(String name) {
+    public Wallet(String name, String ownerEmail) {
         this.name = name;
+        this.ownerEmail = ownerEmail;
+        this.entryList = new EntryList();
+        this.cyclicPrototypes = new CyclicPrototypeList();
+        this.categoryList = new CategoryList();
+        this.sharedUsersEmails = new LinkedList<>();
     }
 
     public EntryList getEntryList() {
@@ -47,6 +52,36 @@ public class Wallet {
         isArchived = true;
     }
 
+    public String getOwnerEmail() {
+        return ownerEmail;
+    }
+
+    public List<String> getSharedUsersEmails() {
+        return sharedUsersEmails;
+    }
+
+    public void shareWithUser(String userEmail) {
+        sharedUsersEmails.add(userEmail);
+    }
+
+    public void removeUser(String userEmail) {
+        if (sharedUsersEmails.contains(userEmail)){
+            sharedUsersEmails.remove(userEmail);
+        }
+    }
+
+    public void addEntry(Entry entry) {
+        entryList.addEntry(entry);
+    }
+
+    public void addCategory(String category) {
+        categoryList.addCategory(category);
+    }
+
+    public void addCyclicPrototype(CyclicEntryPrototype cyclicEntryPrototype) {
+        this.cyclicPrototypes.addPrototype(cyclicEntryPrototype);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -58,5 +93,9 @@ public class Wallet {
     @Override
     public int hashCode() {
         return Objects.hash(entryList, cyclicPrototypes, categoryList, name);
+    }
+
+    public boolean hasCategory(String category) {
+        return categoryList.contains(category);
     }
 }

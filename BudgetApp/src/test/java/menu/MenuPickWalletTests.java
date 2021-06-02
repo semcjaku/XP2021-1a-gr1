@@ -5,6 +5,7 @@ import model.WalletList;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import service.WalletService;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -17,7 +18,7 @@ public class MenuPickWalletTests {
     public void MenuPickWalletShowShouldShowMenuTest() {
         // Arrange
         WalletList walletList = new WalletList();
-        walletList.addWallet(new Wallet("Second wallet"));
+        walletList.addWallet("Second wallet","user1");
         AbstractMenu menuPickWallet = new MenuPickWallet(walletList);
 
         // Act
@@ -26,8 +27,7 @@ public class MenuPickWalletTests {
         // Assert
         assertNotNull(result);
         assertEquals("\nPICK WALLET:\n" +
-                walletList.getOrderedWalletsString() +
-                "\nPlease select 1-" + walletList.getLength() + "!", result);
+                walletList.getOrderedWalletsString(), result);
     }
 
     @Test
@@ -40,7 +40,7 @@ public class MenuPickWalletTests {
         exception.expectMessage("Input number out of range");
 
         // Act
-        menuPickWallet.read(input);
+        menuPickWallet.validateChoice(input);
 
         // Assert
         // throw exception
@@ -56,7 +56,7 @@ public class MenuPickWalletTests {
         exception.expectMessage("Input number out of range");
 
         // Act
-        menuPickWallet.read(input);
+        menuPickWallet.validateChoice(input);
 
         // Assert
         // throw exception
@@ -72,7 +72,7 @@ public class MenuPickWalletTests {
         exception.expectMessage("Empty input");
 
         // Act
-        menuPickWallet.read(input);
+        menuPickWallet.validateChoice(input);
 
         // Assert
         // throw exception
@@ -88,7 +88,7 @@ public class MenuPickWalletTests {
         exception.expectMessage("Empty input");
 
         // Act
-        menuPickWallet.read(input);
+        menuPickWallet.validateChoice(input);
 
         // Assert
         // throw exception
@@ -101,10 +101,10 @@ public class MenuPickWalletTests {
         String input = "1  ";
 
         // Act
-        int result = menuPickWallet.read(input);
+        menuPickWallet.validateChoice(input);
 
         // Assert
-        assertEquals(1, result);
+
     }
 
     @Test
@@ -117,7 +117,7 @@ public class MenuPickWalletTests {
         exception.expectMessage("Input not a number");
 
         // Act
-        menuPickWallet.read(input);
+        menuPickWallet.validateChoice(input);
 
         // Assert
         // throw exception
@@ -126,21 +126,22 @@ public class MenuPickWalletTests {
     @Test
     public void MenuPickWalletExecuteActionsTest() {
         // Arrange
-        WalletList walletList = new WalletList();
-        Wallet secondWallet = new Wallet("Second wallet");
-        walletList.addWallet(secondWallet);
-        MenuPickWallet menuPickWallet = new MenuPickWallet(walletList);
+        WalletService walletService = new WalletService();
+        walletService.addWallet("First wallet", "user1");
+        walletService.addWallet("Second wallet", "user1");
+
+        MenuPickWallet menuPickWallet = new MenuPickWallet(walletService.getWallets());
 
         // Act
-        Wallet chosenWallet = menuPickWallet.executeActions(2);
+        String chosenWalletName = menuPickWallet.executeActions(2);
 
         // Assert
-        assertEquals(secondWallet, chosenWallet);
+        assertEquals("Second wallet", chosenWalletName);
     }
 
     private MenuPickWallet getMenuForTest() {
         WalletList walletList = new WalletList();
-        walletList.addWallet(new Wallet("Second wallet"));
+        walletList.addWallet("Second wallet","user1");
         return new MenuPickWallet(walletList);
     }
 }

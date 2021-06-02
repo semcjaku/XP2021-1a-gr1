@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 public class UserServiceTest {
 
     @Test
-    public void UserServiceConstructorShouldCreateEmptyListTest() throws FileNotFoundException {
+    public void UserServiceConstructorShouldCreateEmptyListTest() {
         // Arrange
 
         // Act

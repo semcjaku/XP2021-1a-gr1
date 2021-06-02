@@ -1,6 +1,18 @@
 package menu;
 
+import java.io.InputStream;
+
 public class Menu extends AbstractMenu {
+
+    public Menu(InputStream inputStream) {
+        super(inputStream);
+    }
+
+    public Menu() {
+        super(System.in);
+    }
+
+
     @Override
     public int getMinInputNumber() {
         return 0;
@@ -8,7 +20,7 @@ public class Menu extends AbstractMenu {
 
     @Override
     public int getMaxInputNumber() {
-        return 12;
+        return 13;
     }
 
     @Override
@@ -25,8 +37,8 @@ public class Menu extends AbstractMenu {
                 "9.Show Cyclic Entries List\t" +
                 "10.Show Category List\n" +
                 "11.Switch wallet\t" +
-                "12.Manage wallets\n" +
-                "0.Exit\n" +
-                "Please select " + getMinInputNumber() + "-" + getMaxInputNumber() + "!";
+                "12.Manage wallets\t\t\t" +
+                "13.Show user wallets\n" +
+                "0.Exit";
     }
 }

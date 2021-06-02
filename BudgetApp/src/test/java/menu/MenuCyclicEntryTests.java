@@ -26,8 +26,7 @@ public class MenuCyclicEntryTests {
         assertNotNull(result);
         assertEquals("\nMENU CYCLIC ENTRY\n" +
                 "1.Add Cyclic Entry repeated at constant interval\n" +
-                "2.Add Cyclic Entry repeated monthly\n" +
-                "Please select 1-2!", result);
+                "2.Add Cyclic Entry repeated monthly", result);
     }
 
     @Test
@@ -40,7 +39,7 @@ public class MenuCyclicEntryTests {
         exception.expectMessage("Input number out of range");
 
         // Act
-        menuCyclicEntry.read(input);
+        menuCyclicEntry.validateChoice(input);
 
         // Assert
         // throw exception
@@ -56,7 +55,7 @@ public class MenuCyclicEntryTests {
         exception.expectMessage("Input number out of range");
 
         // Act
-        menuCyclicEntry.read(input);
+        menuCyclicEntry.validateChoice(input);
 
         // Assert
         // throw exception
@@ -72,7 +71,7 @@ public class MenuCyclicEntryTests {
         exception.expectMessage("Empty input");
 
         // Act
-        menuCyclicEntry.read(input);
+        menuCyclicEntry.validateChoice(input);
 
         // Assert
         // throw exception
@@ -88,7 +87,7 @@ public class MenuCyclicEntryTests {
         exception.expectMessage("Empty input");
 
         // Act
-        menuCyclicEntry.read(input);
+        menuCyclicEntry.validateChoice(input);
 
         // Assert
         // throw exception
@@ -101,10 +100,10 @@ public class MenuCyclicEntryTests {
         String input = "1  ";
 
         // Act
-        int result = menuCyclicEntry.read(input);
+        menuCyclicEntry.validateChoice(input);
 
         // Assert
-        assertEquals(1, result);
+
     }
 
     @Test
@@ -117,7 +116,7 @@ public class MenuCyclicEntryTests {
         exception.expectMessage("Input not a number");
 
         // Act
-        menuCyclicEntry.read(input);
+        menuCyclicEntry.validateChoice(input);
 
         // Assert
         // throw exception

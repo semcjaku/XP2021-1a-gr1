@@ -1,15 +1,16 @@
 package menu;
 
+import service.WalletService;
+
 import java.io.InputStream;
-import java.util.Scanner;
 
 public class MenuCategory extends AbstractMenu {
-    public MenuCategory() {
-        this.scanner = new Scanner(System.in);
+    public MenuCategory(InputStream inputStream) {
+        super(inputStream);
     }
 
-    public MenuCategory(InputStream inputStream) {
-        this.scanner = new Scanner(inputStream);
+    public MenuCategory() {
+        super(System.in);
     }
 
     @Override
@@ -25,22 +26,26 @@ public class MenuCategory extends AbstractMenu {
     @Override
     public String show() {
         return "\nMENU CATEGORY\n" +
-                "1.Add Category\n" +
-                "Please select 1!";
+                "1.Add Category";
     }
 
-    public String getNameInputShow() {
-        System.out.println("Provide name:");
-        String line = scanner.nextLine();
-        return line;
-    }
-
-    public String showInputsByChoice(int choice) {
-        String category = null;
-
-        if (choice == 1) {
-            category = getNameInputShow();
+    public void executeActions(int choice, String walletName, WalletService walletService) {
+        switch (choice) {
+            case 1:
+                addCategory(walletName, walletService);
+                break;
         }
-        return category;
+    }
+
+    private void addCategory(String walletName, WalletService walletService) {
+        String newCategory;
+        do {
+            newCategory = getStringFromUser("Provide new category name: ");
+            if (walletService.hasCategory(walletName, newCategory)) {
+               System.out.println("Wallet "+walletName+" already contains category: "+newCategory);
+               newCategory = "";
+            }
+        } while (newCategory == "");
+        walletService.addCategory(walletName,newCategory);
     }
 }

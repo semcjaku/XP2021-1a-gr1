@@ -59,4 +59,8 @@ public class CyclicPrototypeList implements Serializable {
     public int hashCode() {
         return Objects.hash(prototypes);
     }
+
+    public CyclicEntryPrototype getCyclicEntry(int index) {
+        return this.prototypes.get(index);
+    }
 }

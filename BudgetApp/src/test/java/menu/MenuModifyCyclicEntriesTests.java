@@ -30,8 +30,7 @@ public class MenuModifyCyclicEntriesTests {
         assertEquals("\nChoose an action:\n" +
                 "1.Modify entry prototype (amount, categories)\n" +
                 "2.Change cyclic parameter\n" +
-                "0.Return\n" +
-                "Please select 0-2!", result);
+                "0.Return", result);
     }
 
     @Test
@@ -44,7 +43,7 @@ public class MenuModifyCyclicEntriesTests {
         exception.expectMessage("Input number out of range");
 
         // Act
-        menuMod.read(input);
+        menuMod.validateChoice(input);
 
         // Assert
         // throw exception
@@ -60,7 +59,7 @@ public class MenuModifyCyclicEntriesTests {
         exception.expectMessage("Input number out of range");
 
         // Act
-        menuMod.read(input);
+        menuMod.validateChoice(input);
 
         // Assert
         // throw exception
@@ -76,7 +75,7 @@ public class MenuModifyCyclicEntriesTests {
         exception.expectMessage("Empty input");
 
         // Act
-        menuMod.read(input);
+        menuMod.validateChoice(input);
 
         // Assert
         // throw exception
@@ -92,7 +91,7 @@ public class MenuModifyCyclicEntriesTests {
         exception.expectMessage("Empty input");
 
         // Act
-        menuMod.read(input);
+        menuMod.validateChoice(input);
 
         // Assert
         // throw exception
@@ -105,10 +104,10 @@ public class MenuModifyCyclicEntriesTests {
         String input = "1  ";
 
         // Act
-        int result = menuMod.read(input);
+        menuMod.validateChoice(input);
 
         // Assert
-        assertEquals(1, result);
+
     }
 
     @Test

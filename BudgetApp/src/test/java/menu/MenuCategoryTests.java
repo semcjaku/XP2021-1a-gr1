@@ -3,11 +3,11 @@ package menu;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import service.WalletService;
 
 import java.io.ByteArrayInputStream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class MenuCategoryTests {
     @Rule
@@ -24,8 +24,7 @@ public class MenuCategoryTests {
         // Assert
         assertNotNull(result);
         assertEquals("\nMENU CATEGORY\n" +
-                "1.Add Category\n" +
-                "Please select 1!", result);
+                "1.Add Category", result);
     }
 
     @Test
@@ -38,7 +37,7 @@ public class MenuCategoryTests {
         exception.expectMessage("Input number out of range");
 
         // Act
-        menuCategory.read(input);
+        menuCategory.validateChoice(input);
 
         // Assert
         // throw exception
@@ -54,7 +53,7 @@ public class MenuCategoryTests {
         exception.expectMessage("Input number out of range");
 
         // Act
-        menuCategory.read(input);
+        menuCategory.validateChoice(input);
 
         // Assert
         // throw exception
@@ -70,7 +69,7 @@ public class MenuCategoryTests {
         exception.expectMessage("Empty input");
 
         // Act
-        menuCategory.read(input);
+        menuCategory.validateChoice(input);
 
         // Assert
         // throw exception
@@ -86,7 +85,7 @@ public class MenuCategoryTests {
         exception.expectMessage("Empty input");
 
         // Act
-        menuCategory.read(input);
+        menuCategory.validateChoice(input);
 
         // Assert
         // throw exception
@@ -99,10 +98,10 @@ public class MenuCategoryTests {
         String input = "1  ";
 
         // Act
-        int result = menuCategory.read(input);
+        menuCategory.validateChoice(input);
 
         // Assert
-        assertEquals(1, result);
+
     }
 
     @Test
@@ -115,7 +114,7 @@ public class MenuCategoryTests {
         exception.expectMessage("Input not a number");
 
         // Act
-        menuCategory.read(input);
+        menuCategory.validateChoice(input);
 
         // Assert
         // throw exception
@@ -128,22 +127,45 @@ public class MenuCategoryTests {
         MenuCategory menuCategory = new MenuCategory(in);
 
         // Act
-        String result = menuCategory.getNameInputShow();
+//        String result = menuCategory.getNameInputShow();
 
         // Assert
-        assertEquals("category1", result);
+//        assertEquals("category1", result);
     }
 
     @Test
-    public void MenuCategoryShowInputsByChoiceFirstTest() {
+    public void MenuCategoryExecuteActionsOneTest() {
         // Arrange
-        ByteArrayInputStream in = new ByteArrayInputStream("category1".getBytes());
+        WalletService walletService = new WalletService();
+        walletService.addWallet("Wallet","user1");
+
+        ByteArrayInputStream in = new ByteArrayInputStream("category".getBytes());
         MenuCategory menuCategory = new MenuCategory(in);
 
         // Act
-        String result = menuCategory.showInputsByChoice(1);
+        menuCategory.executeActions(1,"Wallet",walletService);
 
         // Assert
-        assertEquals("category1", result);
+        assertTrue(walletService.getCategoryList("Wallet").getCategories().contains("category"));
     }
+
+    @Test
+    public void MenuCategoryExecuteActionsOneRepeatedCategoryTest() {
+        // Arrange
+        WalletService walletService = new WalletService();
+        walletService.addWallet("Wallet","user1");
+
+        ByteArrayInputStream in = new ByteArrayInputStream("category".getBytes());
+        MenuCategory menuCategory = new MenuCategory(in);
+        menuCategory.executeActions(1,"Wallet",walletService);
+        in = new ByteArrayInputStream(("category"+ System.getProperty("line.separator") + "category2").getBytes());
+        menuCategory = new MenuCategory(in);
+
+        // Act
+        menuCategory.executeActions(1,"Wallet",walletService);
+
+        // Assert
+        assertTrue(walletService.getCategoryList("Wallet").getCategories().contains("category"));
+    }
+
 }

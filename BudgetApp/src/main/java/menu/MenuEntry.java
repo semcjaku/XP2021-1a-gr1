@@ -2,17 +2,22 @@ package menu;
 
 import model.Entry;
 
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class MenuEntry extends AbstractMenu {
     public MenuEntry() {
-        this.scanner= new Scanner(System.in);
+        super(System.in);
+    }
+
+    public MenuEntry(InputStream inputStream) {
+         super(inputStream);
     }
 
     public MenuEntry(Scanner scanner) {
-        this.scanner = scanner;
+        super(scanner);
     }
 
     @Override
@@ -29,19 +34,11 @@ public class MenuEntry extends AbstractMenu {
     public String show() {
         return "\nMENU ENTRY\n" +
                 "1.Add Entry with amount\n" +
-                "2.Add Entry with amount and category list\n" +
-                "Please select 1-2!";
-    }
-
-    @Override
-    public int read(String line) throws InvalidInputException {
-        return super.read(line);
+                "2.Add Entry with amount and category list";
     }
 
     public int getAmountInputShow() {
-        System.out.println("Provide amount:");
-        String line = scanner.nextLine();
-        return Integer.parseInt(line);
+        return getIntFromUser("Provide amount:");
     }
 
     public List<String> getCategoryInputShow() {

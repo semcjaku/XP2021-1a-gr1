@@ -1,11 +1,12 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class CategoryList {
+public class CategoryList implements Serializable {
     private List<String> categories;
 
     public CategoryList() {
@@ -40,5 +41,9 @@ public class CategoryList {
     @Override
     public int hashCode() {
         return Objects.hash(categories);
+    }
+
+    public boolean contains(String category) {
+        return categories.contains(category);
     }
 }

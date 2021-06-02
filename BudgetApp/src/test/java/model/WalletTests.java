@@ -9,7 +9,7 @@ public class WalletTests {
     @Test
     public void WalletGetEntryListTest() {
         // Arrange
-        Wallet wallet = new Wallet();
+        Wallet wallet = new Wallet("wallet1","user1");
 
         // Act
         EntryList entryList = wallet.getEntryList();
@@ -21,7 +21,7 @@ public class WalletTests {
     @Test
     public void WalletGetCyclicPrototypesListTest() {
         // Arrange
-        Wallet wallet = new Wallet();
+        Wallet wallet = new Wallet("wallet1","user1");
 
         // Act
         CyclicPrototypeList cyclicPrototypes = wallet.getCyclicPrototypes();
@@ -33,7 +33,7 @@ public class WalletTests {
     @Test
     public void WalletGetCategoryListTest() {
         // Arrange
-        Wallet wallet = new Wallet();
+        Wallet wallet = new Wallet("wallet1","user1");
 
         // Act
         CategoryList categoryList = wallet.getCategoryList();
@@ -42,23 +42,12 @@ public class WalletTests {
         assertEquals(new CategoryList(), categoryList);
     }
 
-    @Test
-    public void WalletDefaultNameTest() {
-        // Arrange
-        Wallet wallet = new Wallet();
-
-        // Act
-        String name = wallet.getName();
-
-        // Assert
-        assertEquals("A wallet", name);
-    }
 
     @Test
     public void WalletGivenNameTest() {
         // Arrange
-        String name = "non-default name";
-        Wallet wallet = new Wallet(name);
+        String name = "wallet1";
+        Wallet wallet = new Wallet("wallet1","user1");
 
         // Act
         String retrievedName = wallet.getName();
@@ -70,8 +59,8 @@ public class WalletTests {
     @Test
     public void WalletSetNameTest() {
         // Arrange
-        String name = "non-default name";
-        Wallet wallet = new Wallet();
+        String name = "wallet2";
+        Wallet wallet = new Wallet("wallet1","user1");
 
         // Act
         wallet.setName(name);
@@ -84,7 +73,7 @@ public class WalletTests {
     @Test
     public void WalletMarkAsArchivedTest() {
         // Arrange
-        Wallet wallet = new Wallet();
+        Wallet wallet = new Wallet("wallet1","user1");
 
         // Act
         wallet.markAsArchived();
@@ -92,4 +81,31 @@ public class WalletTests {
         // Assert
         assertTrue(wallet.isArchived());
     }
+
+    @Test
+    public void WalletAddEntryTest() {
+        // Arrange
+        Wallet wallet = new Wallet("wallet","user1");
+        Entry entry = new Entry(123);
+
+        // Act
+        wallet.addEntry(entry);
+
+        // Assert
+        assertEquals(wallet.getEntryList().getEntry(0).getAmount(),123);
+    }
+
+    @Test
+    public void WalletAddCategoryTest() {
+        // Arrange
+        Wallet wallet = new Wallet("wallet","user1");
+
+        // Act
+        wallet.addCategory("newCat");
+
+        // Assert
+        assertTrue(wallet.getCategoryList().getCategories().contains("newCat"));
+    }
+
+
 }

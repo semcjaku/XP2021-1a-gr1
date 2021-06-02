@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.Objects;
 
 public class Entry implements Serializable {
-    private int amount;
+    private int amount; // TODO powinien być double
     private List<String> categories;
     private LocalDate date = LocalDate.now();
     private User creator;
 
     public Entry(int amount){
-        this.creator = BudgetAppApplication.logedInUser;
+        this.creator = BudgetAppApplication.logedInUser; // TODO pozbyć się zależności!
         this.amount = amount;
         this.categories = new LinkedList<>();
     }

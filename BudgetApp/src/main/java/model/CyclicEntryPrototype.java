@@ -11,7 +11,7 @@ public abstract class CyclicEntryPrototype implements Serializable {
     private final Entry prototypeEntry;
     protected final List<Entry> derivedEntries = new LinkedList<>();
 
-    protected CyclicEntryPrototype(Entry firstEntry) {
+    public CyclicEntryPrototype(Entry firstEntry) {
         this.prototypeEntry = firstEntry.cloneAt(LocalDate.now());
         derivedEntries.add(firstEntry);
     }

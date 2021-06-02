@@ -2,17 +2,22 @@ package menu;
 
 import model.Entry;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class MenuModifyEntries extends AbstractMenu {
     public MenuModifyEntries() {
-        this.scanner = new Scanner(System.in);
+        super(System.in);
+    }
+
+    public MenuModifyEntries(InputStream inputStream) {
+        super(inputStream);
     }
 
     public MenuModifyEntries(Scanner scanner) {
-        this.scanner = scanner;
+        super(scanner);
     }
 
     @Override
@@ -32,11 +37,10 @@ public class MenuModifyEntries extends AbstractMenu {
                 "2.Change categories\n" +
                 "3.Add category\n" +
                 "4.Remove category\n" +
-                "0.Return\n" +
-                "Please select 0-4!";
+                "0.Return";
     }
 
-    public Integer getAmountInputShow() {
+    public Integer getAmountInputShow() { // TODO us getStringFromUser
         System.out.println("Provide new amount:");
         String line = scanner.nextLine();
         return Integer.parseInt(line);
@@ -75,7 +79,7 @@ public class MenuModifyEntries extends AbstractMenu {
                 entry.addCategory(newCategory);
                 break;
             case 4:
-                System.out.print(entry.getCategories());
+                System.out.println(entry.getCategories());
                 String cat = removeCategoryInputShow();
                 entry.removeCategory(cat);
                 break;

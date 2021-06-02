@@ -6,15 +6,14 @@ import model.IntervalCyclicEntryPrototype;
 import model.MonthlyCyclicEntryPrototype;
 
 import java.io.InputStream;
-import java.util.Scanner;
 
 public class MenuCyclicEntry extends AbstractMenu {
     public MenuCyclicEntry() {
-        this.scanner= new Scanner(System.in);
+        super(System.in);
     }
 
     public MenuCyclicEntry(InputStream inputStream) {
-        this.scanner = new Scanner(inputStream);
+        super(inputStream);
     }
 
     @Override
@@ -31,8 +30,7 @@ public class MenuCyclicEntry extends AbstractMenu {
     public String show() {
         return "\nMENU CYCLIC ENTRY\n" +
                 "1.Add Cyclic Entry repeated at constant interval\n" +
-                "2.Add Cyclic Entry repeated monthly\n" +
-                "Please select 1-2!";
+                "2.Add Cyclic Entry repeated monthly";
     }
 
     public int getCyclicIntervalInDaysInputShow() {
@@ -52,8 +50,7 @@ public class MenuCyclicEntry extends AbstractMenu {
 
         System.out.println("First, input entry itself...");
         System.out.println(menuEntry.show());
-        String line = scanner.nextLine();
-        int entryChoice = menuEntry.read(line);
+        int entryChoice = menuEntry.getChoiceFromUser();
         return menuEntry.showInputsByChoice(entryChoice);
     }
 

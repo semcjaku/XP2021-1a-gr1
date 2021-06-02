@@ -33,9 +33,9 @@ public class MenuTests {
                 "9.Show Cyclic Entries List\t" +
                 "10.Show Category List\n" +
                 "11.Switch wallet\t" +
-                "12.Manage wallets\n" +
-                "0.Exit\n" +
-                "Please select 0-12!", result);
+                "12.Manage wallets\t\t\t" +
+                "13.Show user wallets\n" +
+                "0.Exit", result);
     }
 
     @Test
@@ -48,7 +48,7 @@ public class MenuTests {
         exception.expectMessage("Input number out of range");
 
         // Act
-        menu.read(input);
+        menu.validateChoice(input);
 
         // Assert
         // throw exception
@@ -64,7 +64,7 @@ public class MenuTests {
         exception.expectMessage("Input number out of range");
 
         // Act
-        menu.read(input);
+        menu.validateChoice(input);
 
         // Assert
         // throw exception
@@ -80,7 +80,7 @@ public class MenuTests {
         exception.expectMessage("Empty input");
 
         // Act
-        menu.read(input);
+        menu.validateChoice(input);
 
         // Assert
         // throw exception
@@ -96,7 +96,7 @@ public class MenuTests {
         exception.expectMessage("Empty input");
 
         // Act
-        menu.read(input);
+        menu.validateChoice(input);
 
         // Assert
         // throw exception
@@ -109,10 +109,10 @@ public class MenuTests {
         String input = "1  ";
 
         // Act
-        int result = menu.read(input);
+        menu.validateChoice(input);
 
         // Assert
-        assertEquals(1, result);
+
     }
 
     @Test
@@ -125,7 +125,7 @@ public class MenuTests {
         exception.expectMessage("Input not a number");
 
         // Act
-        menu.read(input);
+        menu.validateChoice(input);
 
         // Assert
         // throw exception

@@ -30,6 +30,7 @@ public class SchedulerTests {
         CyclicEntryPrototype secondPrototype = new MonthlyCyclicEntryPrototype(secondEntry, dayOfMonth);
 
         WalletList walletList = new WalletList();
+        walletList.addWallet("wallet1","user1");
         Wallet wallet = walletList.getWallets().get(0);
 
         EntryList entries = wallet.getEntryList();
@@ -65,6 +66,7 @@ public class SchedulerTests {
         CyclicEntryPrototype secondPrototype = new MonthlyCyclicEntryPrototype(secondEntry, dayOfMonth);
 
         WalletList walletList = new WalletList();
+        walletList.addWallet("wallet1","user1");
         Wallet wallet = walletList.getWallets().get(0);
 
         EntryList entries = wallet.getEntryList();
@@ -101,6 +103,7 @@ public class SchedulerTests {
         CyclicEntryPrototype secondPrototype = new MonthlyCyclicEntryPrototype(secondEntry, dayOfMonth);
 
         WalletList walletList = new WalletList();
+        walletList.addWallet("wallet1","user1");
         Wallet wallet = walletList.getWallets().get(0);
 
         EntryList entries = wallet.getEntryList();

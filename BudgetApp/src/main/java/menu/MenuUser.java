@@ -1,22 +1,21 @@
 package menu;
 
 import model.User;
-
 import java.io.InputStream;
-import java.util.Scanner;
+
 
 public class MenuUser extends AbstractMenu {
     public MenuUser() {
-        this.scanner = new Scanner(System.in);
+        super(System.in);
     }
 
     public MenuUser(InputStream inputStream) {
-        this.scanner = new Scanner(inputStream);
+        super(inputStream);
     }
 
     @Override
     public int getMinInputNumber() {
-        return 0;
+        return 1;
     }
 
     @Override
@@ -28,29 +27,15 @@ public class MenuUser extends AbstractMenu {
     public String show() {
         return "\nMENU USER\n" +
                 "1.Login\n" +
-                "2.Register\n" +
-                "0.Exit\n" +
-                "Please select 0-2!";
+                "2.Register";
     }
 
     public String getEmailInputShow() {
-        String line = "";
-        do {
-            System.out.println("Provide email:");
-            line = scanner.nextLine();
-            line = line.replaceAll("\\s+","");
-        } while (line.equals(""));
-        return line;
+        return getStringFromUser("Provide email:");
     }
 
     public String getPasswordInputShow() {
-        String line = "";
-        do {
-            System.out.println("Provide password:");
-            line = scanner.nextLine();
-            line = line.replaceAll("\\s+", "");
-        } while (line.equals(""));
-        return line;
+        return getStringFromUser("Provide password:");
     }
 
     public User showInputsByChoice(int choice) {
@@ -63,7 +48,6 @@ public class MenuUser extends AbstractMenu {
 
                 return new User(email, password);
         }
-
         return null;
     }
 }
