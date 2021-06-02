@@ -3,8 +3,8 @@ package definitions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import model.EntryList;
 import model.Entry;
+import model.EntryList;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,22 +19,72 @@ public class EntrylistStepdefs {
     private Entry entry;
 
     @Given("No entries were provided yet")
-    public void noEntriesWereProvidedYet() { entryList = new EntryList(); }
+    public void noEntriesWereProvidedYet() {
+        entryList = new EntryList();
+    }
+
+    @Given("Entry list contains one entry with amount {int} on start")
+    public void entryListContainsOneEntryWithAmount(Integer amount) {
+        entry = new Entry(amount);
+        entryList = new EntryList();
+        entryList.addEntry(entry);
+    }
 
     @When("I check entries now")
-    public void iCheckEntriesNow() {}
+    public void iCheckEntriesNow() {
+    }
 
-    @When("I add new entry {string} with category {string}")
-    public void iAddNewEntryWithCategory(String arg0, String arg1) {
-        int amount = Integer.parseInt(arg0);
-        List<String> catList = Arrays.asList(arg1.split(";"));
+    @When("I add new entry with amount of {int} and category {string}")
+    public void iAddNewEntryWithAmountOfAndCategory(Integer amount, String category) {
+        List<String> catList = Arrays.asList(category.split(";"));
         entry = new Entry(amount, catList);
         entryList.addEntry(entry);
     }
 
-    @Then("There are no entries in entry list")
-    public void thereAreNoEntriesInEntryList() { assertEquals(0, entryList.length()); }
+    @When("I change amount of entry to {int}")
+    public void iChangeAmountOfEntryTo(int newAmount) {
+        entryList.getEntry(0).setAmount(newAmount);
+    }
+
+    @When("I add category {string} to entry")
+    public void iAddCategoryToEntry(String category) {
+        entryList.getEntry(0).addCategory(category);
+    }
+
+    @When("I set categories {string} to entry")
+    public void iSetCategoriesToEntry(String categoryList) {
+        List<String> categories = Arrays.asList(categoryList.split(","));
+        entryList.getEntry(0).setCategories(categories);
+    }
+
+    @When("I remove entry from the entry list")
+    public void iRemoveEntryFromTheEntryList() {
+        entryList.removeEntry(0);
+    }
+
+    @Then("There are no entries in the entry list")
+    public void thereAreNoEntriesInTheEntryList() {
+        assertEquals(0, entryList.length());
+    }
 
     @Then("My entry list contains provided entry")
-    public void myEntryListContainsProvidedEntry() { assertTrue(entryList.getEntries().contains(entry)); }
+    public void myEntryListContainsProvidedEntry() {
+        assertTrue(entryList.getEntries().contains(entry));
+    }
+
+    @Then("Entry list contains one entry with amount {long}")
+    public void entryListContainsOneEntryWithAmount(long amount) {
+        assertEquals(1, entryList.getEntries().size());
+        assertEquals(amount, entryList.getEntries().get(0).getAmount());
+    }
+
+    @Then("Entry list contains one entry with amount {long} and categories {string}")
+    public void entryListContainsOneEntryWithAmount(long amount, String categoryList) {
+        List<String> categories = Arrays.asList(categoryList.split(","));
+
+        assertEquals(1, entryList.getEntries().size());
+        assertEquals(amount, entryList.getEntries().get(0).getAmount());
+        assertTrue(entryList.getEntries().get(0).getCategories().containsAll(categories));
+    }
+
 }

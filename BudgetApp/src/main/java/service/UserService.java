@@ -20,7 +20,7 @@ public class UserService {
         this.users = new LinkedList<User>();
     }
 
-    UserService(List<User> users) {
+    public UserService(List<User> users) {
         this.users = users;
     }
 
