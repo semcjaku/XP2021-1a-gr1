@@ -64,6 +64,18 @@
 	 - zmienności:	0
 	 - technologiczne: 0
 
+14. Zapisywanie parametrów programu w pliku w formacie JSON. {manhours: 8; priority: -; story points: 2; poker points: 1}
+	Ryzyko:
+	 - niedookreśloności: 0
+	 - zmienności:	1
+	 - technologiczne: 1
+
+15. Program przy starcie wczytuje konfiguracje z pliku JSON lub przyjmuje domyślne parametry konfiguracyjne. {manhours: 16; priority: -; story points: 3; poker points: 2}
+	Ryzyko:
+	 - niedookreśloności: 0
+	 - zmienności:	1
+	 - technologiczne: 1
+
 Priority zostało przedstawione w skali od 1 (najważniejsza historia) do 13 (historia najmniej ważna).
 
 manhours sum: 405
