@@ -24,19 +24,19 @@ public class UserStepdefs
     public void usersDataHasXUsers(int number) {
         List<User> users = new LinkedList<User>();
         for (int i = 1; i <= number; i++ ) {
-            users.add(new User(String.format("user%d", i), String.format("userpass%d", number)));
+            users.add(new User(String.format("user%d@gmail.com", i), String.format("userpass%d", number)));
         }
         userService = new UserService(users);
     }
 
     @When("I register user {string} {string}")
-    public void iRegisterUser(String name, String password) {
-        user = userService.register(name, password);
+    public void iRegisterUser(String email, String password) {
+        user = userService.register(email, password);
     }
 
     @When("I login user {string} {string}")
-    public void iLoginUser(String name, String password) {
-        user = userService.login(name, password);
+    public void iLoginUser(String email, String password) {
+        user = userService.login(email, password);
     }
 
     @Then("User exist")
