@@ -1,22 +1,28 @@
 package executable;
 
 import menu.*;
-import model.*;
+import model.Config;
+import model.CyclicEntryPrototype;
+import model.Entry;
+import model.User;
 import scheduling.Scheduler;
-
+import service.ConfigService;
 import service.UserService;
 import service.WalletService;
+
 import java.util.Scanner;
 
 public class BudgetAppApplication {
-    public static User logedInUser = null;
+    public static User loggedInUser = null;
 
     public static void main(String[] args) throws Exception {
 
         System.out.println("Budget application has started!");
 
+        Config config = ConfigService.readConfig(args);
+
         UserService userService = new UserService();
-        userService.loadUsersOnStart();
+        userService.loadUsersOnStart(config.getUsersDbPath());
 
         MenuUser menuUser = new MenuUser();
 
@@ -28,30 +34,30 @@ public class BudgetAppApplication {
             switch (choice) {
                 case 1:
                     User inputUser = menuUser.showInputsByChoice(choice);
-                    logedInUser = userService.login(inputUser.getEmail(), inputUser.getPassword());
-                    if (logedInUser == null) {
+                    loggedInUser = userService.login(inputUser.getEmail(), inputUser.getPassword());
+                    if (loggedInUser == null) {
                         System.out.println("Invalid user data! Try again.");
                     }
                     break;
                 case 2:
                     User inputRegisterUser = menuUser.showInputsByChoice(choice);
-                    logedInUser = userService.register(inputRegisterUser.getEmail(), inputRegisterUser.getPassword());
-                    if (logedInUser == null) {
+                    loggedInUser = userService.register(inputRegisterUser.getEmail(), inputRegisterUser.getPassword());
+                    if (loggedInUser == null) {
                         System.out.println("User with this email already exists! Try again.");
                     }
                     break;
                 case 0:
                     break;
             }
-        } while(choice != 0 && logedInUser == null);
+        } while (choice != 0 && loggedInUser == null);
 
-        if (logedInUser == null) {
-            userService.saveOnStop();
+        if (loggedInUser == null) {
+            userService.saveOnStop(config.getUsersDbPath());
             return;
         }
 
         WalletService walletService = new WalletService();
-        walletService.loadWalletsOnStart();
+        walletService.loadWalletsOnStart(config.getWalletListPath());
 
         String walletName = "";
 
@@ -71,8 +77,8 @@ public class BudgetAppApplication {
         do {
             System.out.println(menuPickOrCreateWallet.show());
             choice = menuPickOrCreateWallet.getChoiceFromUser();
-            walletName = menuPickOrCreateWallet.executeActions(choice,logedInUser.getEmail(),walletService);
-        } while(walletName.isEmpty() && choice != 0);
+            walletName = menuPickOrCreateWallet.executeActions(choice, loggedInUser.getEmail(), walletService);
+        } while (walletName.isEmpty() && choice != 0);
         if (choice == 0) return;
 
 
@@ -86,19 +92,19 @@ public class BudgetAppApplication {
                     System.out.println(menuEntry.show());
                     int entryChoice = menuEntry.getChoiceFromUser();
                     Entry entry = menuEntry.showInputsByChoice(entryChoice);
-                    walletService.addEntry(walletName,entry);
+                    walletService.addEntry(walletName, entry);
                     break;
                 case 2:
                     System.out.println(menuCyclicEntry.show());
                     int cyclicChoice = menuCyclicEntry.getChoiceFromUser();
                     CyclicEntryPrototype prototype = menuCyclicEntry.showInputsByChoice(cyclicChoice);
-                    walletService.addEntry(walletName,prototype.getPrototypeEntry());
-                    walletService.addCyclicPrototype(walletName,prototype);
+                    walletService.addEntry(walletName, prototype.getPrototypeEntry());
+                    walletService.addCyclicPrototype(walletName, prototype);
                     break;
                 case 3:
                     System.out.println(menuCategory.show());
                     int categoryChoice = menuCategory.getChoiceFromUser();
-                    menuCategory.executeActions(categoryChoice,walletName,walletService);
+                    menuCategory.executeActions(categoryChoice, walletName, walletService);
                     break;
                 case 4:
                     walletService.removeEntry(walletName, keyboard);
@@ -129,10 +135,10 @@ public class BudgetAppApplication {
                 case 12:
                     System.out.println(menuManageWallets.show());
                     choice = menuManageWallets.getChoiceFromUser();
-                    menuManageWallets.executeActions(choice,logedInUser.getEmail(),walletService);
+                    menuManageWallets.executeActions(choice, loggedInUser.getEmail(), walletService);
                     break;
                 case 13:
-                    System.out.println(menuManageWallets.showUserWallets(logedInUser.getEmail(),walletService));
+                    System.out.println(menuManageWallets.showUserWallets(loggedInUser.getEmail(), walletService));
                     break;
 
                 default:
@@ -141,8 +147,8 @@ public class BudgetAppApplication {
         } while (mainChoice != 0);
 
         scheduler.stopScheduler();
-        userService.saveOnStop();
-        walletService.saveOnStop();
+        userService.saveOnStop(config.getUsersDbPath());
+        walletService.saveOnStop(config.getWalletListPath());
     }
 
 }

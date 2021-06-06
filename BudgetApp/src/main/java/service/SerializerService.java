@@ -1,19 +1,15 @@
 package service;
 
 import java.io.*;
-import java.nio.file.Path;
 
 public class SerializerService {
-    private String fileDir = Path.of("").toAbsolutePath() + "/data/";
 
-    public SerializerService() {}
+    public SerializerService() {
+    }
 
-    public SerializerService(String path) {this.fileDir = path;}
-
-    public void writeObjectToFile(Object serObj) {
+    public void writeObjectToFile(String filePath, Object serObj) {
         try {
-            String className = serObj.getClass().getName();
-            FileOutputStream fileOut = new FileOutputStream(this.fileDir + className.substring(className.lastIndexOf('.')+1) + ".ser");
+            FileOutputStream fileOut = new FileOutputStream(filePath);
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
             objectOut.writeObject(serObj);
             objectOut.close();
@@ -23,9 +19,8 @@ public class SerializerService {
         }
     }
 
-    public Object readObjectFromFile(String className) {
+    public Object readObjectFromFile(String filePath) {
         try {
-            String filePath = this.fileDir + className + ".ser";
             File file = new File(filePath);
             if (!file.exists()) {
                 throw new FileNotFoundException();

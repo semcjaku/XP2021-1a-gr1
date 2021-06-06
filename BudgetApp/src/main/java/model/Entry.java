@@ -15,7 +15,7 @@ public class Entry implements Serializable {
     private User creator;
 
     public Entry(int amount){
-        this.creator = BudgetAppApplication.logedInUser; // TODO pozbyć się zależności!
+        this.creator = BudgetAppApplication.loggedInUser; // TODO pozbyć się zależności!
         this.amount = amount;
         this.categories = new LinkedList<>();
     }

@@ -32,8 +32,8 @@ public class SerializerServiceTests {
         testList2.add(entry2);
 
         // Act
-        SerializerService serializerService = new SerializerService(Path.of("").toAbsolutePath() + "/data/test");
-        serializerService.writeObjectToFile(entryList);
+        SerializerService serializerService = new SerializerService();
+        serializerService.writeObjectToFile(Path.of("").toAbsolutePath() + "/data/testEntryList.ser", entryList);
 
         entryList.removeEntry(0);
         entryList.removeEntry(0);
@@ -42,7 +42,7 @@ public class SerializerServiceTests {
         assertEquals(entryList.getEntries(),testList1);
 
         // Act 2
-        entryList = (EntryList) serializerService.readObjectFromFile("EntryList");
+        entryList = (EntryList) serializerService.readObjectFromFile(Path.of("").toAbsolutePath() + "/data/testEntryList.ser");
 
         // Assert 2
         assertEquals(entryList.getEntries(), testList2);

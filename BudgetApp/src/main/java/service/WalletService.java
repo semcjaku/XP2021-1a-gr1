@@ -17,15 +17,15 @@ public class WalletService {
         this.wallets = new WalletList();
     }
 
-    public void loadWalletsOnStart() throws FileNotFoundException {
-        wallets = (WalletList) serializerService.readObjectFromFile("WalletList");
+    public void loadWalletsOnStart(String walletListPath) throws FileNotFoundException {
+        wallets = (WalletList) serializerService.readObjectFromFile(walletListPath);
         if (wallets == null) {
             wallets = new WalletList();
         }
     }
 
-    public void saveOnStop() {
-        serializerService.writeObjectToFile(wallets);
+    public void saveOnStop(String filePath) {
+        serializerService.writeObjectToFile(filePath, wallets);
     }
 
     public WalletList getWallets() {
