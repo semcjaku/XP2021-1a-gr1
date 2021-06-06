@@ -33,8 +33,7 @@ public class MenuTests {
                 "9.Show Cyclic Entries List\t" +
                 "10.Show Category List\n" +
                 "11.Switch wallet\t" +
-                "12.Manage wallets\t\t\t" +
-                "13.Show user wallets\n" +
+                "12.Manage wallets\n" +
                 "0.Exit", result);
     }
 

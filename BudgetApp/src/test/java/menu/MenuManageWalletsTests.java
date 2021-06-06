@@ -10,8 +10,7 @@ import service.WalletService;
 import java.io.ByteArrayInputStream;
 import java.util.Scanner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class MenuManageWalletsTests {
     @Rule
@@ -31,6 +30,7 @@ public class MenuManageWalletsTests {
                 "1. Add wallet\n" +
                 "2. Archive wallet\n" +
                 "3. Rename wallet\n" +
+                "4. Show logged in user wallets\n" +
                 "0. Exit", result);
     }
 
@@ -72,14 +72,12 @@ public class MenuManageWalletsTests {
         MenuManageWallets menuManageWallets = getMenuForTest();
         String input = null;
 
+        // Expect
         exception.expect(InvalidInputException.class);
         exception.expectMessage("Empty input");
 
         // Act
         menuManageWallets.validateChoice(input);
-
-        // Assert
-        // throw exception
     }
 
     @Test
@@ -88,14 +86,12 @@ public class MenuManageWalletsTests {
         MenuManageWallets menuManageWallets = getMenuForTest();
         String input = "";
 
+        // Expect
         exception.expect(InvalidInputException.class);
         exception.expectMessage("Empty input");
 
         // Act
         menuManageWallets.validateChoice(input);
-
-        // Assert
-        // throw exception
     }
 
     @Test
@@ -116,91 +112,85 @@ public class MenuManageWalletsTests {
         MenuManageWallets menuManageWallets = getMenuForTest();
         String input = "Hello";
 
+        // Except
         exception.expect(InvalidInputException.class);
         exception.expectMessage("Input not a number");
 
         // Act
         menuManageWallets.validateChoice(input);
-
-        // Assert
-        // throw exception
     }
 
     @Test
-    public void MenuManageWalletsExecuteActionsFirstChoiceAddWalletTest() throws InvalidInputException {
+    public void MenuManageWalletsExecuteChoiceOptionOneAddWalletTest() throws InvalidInputException {
         // Arrange
-        WalletService walletService = new WalletService();
         String newWalletName = "MyWallet";
         ByteArrayInputStream in = new ByteArrayInputStream(newWalletName.getBytes());
+        WalletService walletService = new WalletService(new Scanner(in));
 
-        MenuManageWallets menuManageWallets = new MenuManageWallets(new Scanner(in));
-
-        Wallet newWallet = new Wallet(newWalletName, "user1");
+        MenuManageWallets menuManageWallets = new MenuManageWallets(walletService);
 
         // Act
-        menuManageWallets.executeActions(1,"user1",walletService);
+        menuManageWallets.executeChoice(1);
 
         // Assert
-        assertEquals(newWallet.getName(), walletService.getWalletByName(newWalletName).getName());
+        assertEquals(newWalletName, walletService.getWalletByName(newWalletName).getName());
     }
 
     @Test
-    public void MenuManageWalletsExecuteActionsFirstChoiceAddWalletWithSpaceInNameTest() throws InvalidInputException {
+    public void MenuManageWalletsExecuteChoiceOptionOneAddWalletWithSpaceInNameTest() throws InvalidInputException {
         // Arrange
-        WalletService walletService = new WalletService();
         String newWalletName = "My Wallet";
         ByteArrayInputStream in = new ByteArrayInputStream(newWalletName.getBytes());
+        WalletService walletService = new WalletService(new Scanner(in));
 
-        MenuManageWallets menuManageWallets = new MenuManageWallets(new Scanner(in));
-
-        Wallet newWallet = new Wallet(newWalletName, "user1");
+        MenuManageWallets menuManageWallets = new MenuManageWallets(walletService);
 
         // Act
-        menuManageWallets.executeActions(1,"user1",walletService);
+        menuManageWallets.executeChoice(1);
 
         // Assert
-        assertEquals(newWallet.getName(), walletService.getWalletByName(newWalletName).getName());
+        assertEquals(newWalletName, walletService.getWalletByName(newWalletName).getName());
     }
 
     @Test
-    public void MenuManageWalletsExecuteActionsSecondChoiceArchiveWalletTest() throws InvalidInputException {
+    public void MenuManageWalletsExecuteChoiceOptionTwoArchiveWalletTest() throws InvalidInputException {
         // Arrange
-        WalletService walletService = new WalletService();
+        ByteArrayInputStream in = new ByteArrayInputStream("Wallet".getBytes());
+        WalletService walletService = new WalletService(new Scanner(in));
         walletService.addWallet("Wallet","user1");
 
-        ByteArrayInputStream in = new ByteArrayInputStream("Wallet".getBytes());
-
-        MenuManageWallets menuManageWallets = new MenuManageWallets(new Scanner(in));
+        MenuManageWallets menuManageWallets = new MenuManageWallets(walletService);
 
         // Act
-        menuManageWallets.executeActions(2,"user1",walletService);
+        menuManageWallets.executeChoice(2);
 
         // Assert
-        assertEquals(true, walletService.getWalletByName("Wallet").isArchived());
+        assertTrue(walletService.getWalletByName("Wallet").isArchived());
     }
 
     @Test
-    public void MenuManageWalletsExecuteActionsThirdChoiceRenameWalletTest() throws InvalidInputException {
+    public void MenuManageWalletsExecuteChoiceOptionThreeRenameWalletTest() throws InvalidInputException {
         // Arrange
         String oldWalletName = "OldWallet";
         String newWalletName = "Newwallet";
 
-        WalletService walletService = new WalletService();
-        walletService.addWallet(oldWalletName,"user1");
         ByteArrayInputStream in = new ByteArrayInputStream((oldWalletName + System.getProperty("line.separator") + newWalletName).getBytes());
+        WalletService walletService = new WalletService(new Scanner(in));
+        walletService.addWallet(oldWalletName,"user1");
 
-        MenuManageWallets menuManageWallets = new MenuManageWallets(new Scanner(in));
+        MenuManageWallets menuManageWallets = new MenuManageWallets(walletService);
 
         // Act
-        menuManageWallets.executeActions(3,"user1", walletService);
+        menuManageWallets.executeChoice(3);
 
         // Assert
         assertEquals(newWalletName, walletService.getWalletByName(newWalletName).getName());
     }
 
     private MenuManageWallets getMenuForTest() {
-        WalletList walletList = new WalletList();
-        walletList.addWallet("Second wallet","user1");
-        return new MenuManageWallets(walletList);
+//        WalletList walletList = new WalletList();
+//        walletList.addWallet("Second wallet","user1");
+//        return new MenuManageWallets(walletList);
+        return new MenuManageWallets(System.in);
     }
 }

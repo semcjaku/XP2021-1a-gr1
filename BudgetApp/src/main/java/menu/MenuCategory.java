@@ -5,13 +5,19 @@ import service.WalletService;
 import java.io.InputStream;
 
 public class MenuCategory extends AbstractMenu {
+    private WalletService walletService;
+
     public MenuCategory(InputStream inputStream) {
         super(inputStream);
     }
 
-    public MenuCategory() {
-        super(System.in);
+    public MenuCategory(WalletService walletService) {
+        super(walletService.getScanner());
+        this.walletService = walletService;
     }
+//    public MenuCategory() {
+//        super(System.in);
+//    }
 
     @Override
     public int getMinInputNumber() {
@@ -26,26 +32,29 @@ public class MenuCategory extends AbstractMenu {
     @Override
     public String show() {
         return "\nMENU CATEGORY\n" +
-                "1.Add Category";
+                "1.Add Category\n" +
+                "0.Exit";
     }
 
-    public void executeActions(int choice, String walletName, WalletService walletService) {
+    public void executeChoice(int choice) {
         switch (choice) {
+            case 0:
+                break;
             case 1:
-                addCategory(walletName, walletService);
+                hndAddCategory();
                 break;
         }
     }
 
-    private void addCategory(String walletName, WalletService walletService) {
+    private void hndAddCategory() {
         String newCategory;
         do {
             newCategory = getStringFromUser("Provide new category name: ");
-            if (walletService.hasCategory(walletName, newCategory)) {
-               System.out.println("Wallet "+walletName+" already contains category: "+newCategory);
+            if (walletService.hasCategory(walletService.getCurrentWalletName(), newCategory)) {
+               System.out.println("Wallet "+walletService.getCurrentWalletName()+" already contains category: "+newCategory);
                newCategory = "";
             }
         } while (newCategory == "");
-        walletService.addCategory(walletName,newCategory);
+        walletService.addCategory(walletService.getCurrentWalletName(),newCategory);
     }
 }

@@ -2,8 +2,6 @@ package executable;
 
 import menu.*;
 import model.Config;
-import model.CyclicEntryPrototype;
-import model.Entry;
 import model.User;
 import scheduling.Scheduler;
 import service.ConfigService;
@@ -18,6 +16,8 @@ public class BudgetAppApplication {
     public static void main(String[] args) throws Exception {
 
         System.out.println("Budget application has started!");
+
+        Scanner keyboard = new Scanner(System.in);
 
         Config config = ConfigService.readConfig(args);
 
@@ -56,91 +56,69 @@ public class BudgetAppApplication {
             return;
         }
 
-        WalletService walletService = new WalletService();
+        WalletService walletService = new WalletService(keyboard);
         walletService.loadWalletsOnStart(config.getWalletListPath());
+        walletService.setLoggedInUser(loggedInUser.getEmail());
 
-        String walletName = "";
+//        String walletName = "";
 
         Scheduler scheduler = new Scheduler(walletService.getWallets());
         scheduler.runScheduler();
 
         Menu menu = new Menu();
-        MenuEntry menuEntry = new MenuEntry();
-        MenuCyclicEntry menuCyclicEntry = new MenuCyclicEntry();
-        MenuCategory menuCategory = new MenuCategory();
-        MenuModifyEntries menuModEntries = new MenuModifyEntries();
-        MenuModifyCyclicEntries menuModCyclicEntries = new MenuModifyCyclicEntries();
-        MenuPickWallet menuPickWallet = new MenuPickWallet(walletService.getWallets());
-        MenuManageWallets menuManageWallets = new MenuManageWallets(walletService.getWallets());
-        MenuPickOrCreateWallet menuPickOrCreateWallet = new MenuPickOrCreateWallet();
+        MenuPickOrCreateWallet menuPickOrCreateWallet = new MenuPickOrCreateWallet(walletService);
 
         do {
             System.out.println(menuPickOrCreateWallet.show());
             choice = menuPickOrCreateWallet.getChoiceFromUser();
-            walletName = menuPickOrCreateWallet.executeActions(choice, loggedInUser.getEmail(), walletService);
-        } while (walletName.isEmpty() && choice != 0);
+            menuPickOrCreateWallet.executeChoice(choice);
+        } while (walletService.getCurrentWalletName().isEmpty() && choice != 0);
         if (choice == 0) return;
+//        walletService.setCurrentWalletName(walletName);
 
 
         int mainChoice;
         do {
-            Scanner keyboard = new Scanner(System.in);
+//            Scanner keyboard = new Scanner(System.in);
             System.out.println(menu.show());
             mainChoice = menu.getChoiceFromUser();
             switch (mainChoice) {
                 case 1:
-                    System.out.println(menuEntry.show());
-                    int entryChoice = menuEntry.getChoiceFromUser();
-                    Entry entry = menuEntry.showInputsByChoice(entryChoice);
-                    walletService.addEntry(walletName, entry);
+                    walletService.hndAddEntry();
                     break;
                 case 2:
-                    System.out.println(menuCyclicEntry.show());
-                    int cyclicChoice = menuCyclicEntry.getChoiceFromUser();
-                    CyclicEntryPrototype prototype = menuCyclicEntry.showInputsByChoice(cyclicChoice);
-                    walletService.addEntry(walletName, prototype.getPrototypeEntry());
-                    walletService.addCyclicPrototype(walletName, prototype);
+                    walletService.hndAddCyclicEntry();
                     break;
                 case 3:
-                    System.out.println(menuCategory.show());
-                    int categoryChoice = menuCategory.getChoiceFromUser();
-                    menuCategory.executeActions(categoryChoice, walletName, walletService);
+                    walletService.hndAddCategory();
                     break;
                 case 4:
-                    walletService.removeEntry(walletName, keyboard);
+                    walletService.hndRemoveEntry();
                     break;
                 case 5:
-                    walletService.removeCyclicEntry(walletName, keyboard);
+                    walletService.hndRemoveCyclicEntry();
                     break;
                 case 6:
-                    walletService.modifyEntry(walletName, keyboard);
+                    walletService.hndModifyEntry();
                     break;
                 case 7:
-                    walletService.modifyCyclicEntry(walletName, keyboard);
+                    walletService.hndModifyCyclicEntry();
                     break;
                 case 8:
-                    System.out.println(walletService.getEntryList(walletName));
+                    walletService.hndShowEntryList();
                     break;
                 case 9:
-                    System.out.println(walletService.getCyclicPrototypes(walletName));
+                    walletService.hndShowCyclicEntryList();
                     break;
                 case 10:
-                    System.out.println(walletService.getCategoryList(walletName));
+                    walletService.hndShowCategoryList();
                     break;
                 case 11:
-                    System.out.println(menuPickWallet.show());
-                    choice = menuPickWallet.getChoiceFromUser();
-                    walletName = menuPickWallet.executeActions(choice);
+                    walletService.hndSwitchWallet();
                     break;
                 case 12:
-                    System.out.println(menuManageWallets.show());
-                    choice = menuManageWallets.getChoiceFromUser();
-                    menuManageWallets.executeActions(choice, loggedInUser.getEmail(), walletService);
+                    walletService.hndManageWallets();
                     break;
-                case 13:
-                    System.out.println(menuManageWallets.showUserWallets(loggedInUser.getEmail(), walletService));
-                    break;
-
                 default:
                     break;
             }

@@ -1,7 +1,6 @@
 package service;
 
-import menu.MenuModifyCyclicEntries;
-import menu.MenuModifyEntries;
+import menu.*;
 import model.*;
 
 import java.io.FileNotFoundException;
@@ -11,10 +10,15 @@ import java.util.Scanner;
 public class WalletService {
     private WalletList wallets;
     private SerializerService serializerService;
+    private Scanner scanner;
 
-    public WalletService() {
+    private String currentWalletName;
+    private String loggedInUserName;
+
+    public WalletService(Scanner scanner) {
         this.serializerService = new SerializerService();
         this.wallets = new WalletList();
+        this.scanner = scanner;
     }
 
     public void loadWalletsOnStart(String walletListPath) throws FileNotFoundException {
@@ -28,6 +32,26 @@ public class WalletService {
         serializerService.writeObjectToFile(filePath, wallets);
     }
 
+    public void setLoggedInUser(String loggedInUserName) {
+        this.loggedInUserName = loggedInUserName;
+    }
+
+    public void setCurrentWalletName(String currentWalletName) {
+        this.currentWalletName = currentWalletName;
+    }
+
+    public String getCurrentWalletName() {
+        return currentWalletName;
+    }
+
+    public Scanner getScanner() {
+        return scanner;
+    }
+
+    public void setScanner(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
     public WalletList getWallets() {
         return wallets;
     }
@@ -35,6 +59,11 @@ public class WalletService {
 //        return wallets.getWalletByName(walletName);
 
 //    }
+
+
+    public String getLoggedInUserName() {
+        return loggedInUserName;
+    }
 
     public List<Wallet> getUserWallets(String userEmail) {
         return wallets.getUserWallets(userEmail);
@@ -96,8 +125,8 @@ public class WalletService {
         return wallets.getCategoryList(walletName);
     }
 
-    public void removeEntry(String walletName, Scanner scanner) {
-        Wallet wallet = wallets.getWalletByName(walletName);
+    public void hndRemoveEntry() {
+        Wallet wallet = wallets.getWalletByName(getCurrentWalletName());
         EntryList entryList = wallet.getEntryList();
 
         if (entryList.length() == 0) {
@@ -125,8 +154,8 @@ public class WalletService {
         }
     }
 
-    public void removeCyclicEntry(String walletName, Scanner scanner) {
-        Wallet wallet = wallets.getWalletByName(walletName);
+    public void hndRemoveCyclicEntry() {
+        Wallet wallet = wallets.getWalletByName(getCurrentWalletName());
         CyclicPrototypeList cyclicPrototypes = wallet.getCyclicPrototypes();
 
         if (cyclicPrototypes.length() == 0) {
@@ -153,8 +182,8 @@ public class WalletService {
         }
     }
 
-    public void modifyEntry(String walletName, Scanner scanner) {
-        Wallet wallet = wallets.getWalletByName(walletName);
+    public void hndModifyEntry() {
+        Wallet wallet = wallets.getWalletByName(getCurrentWalletName());
         EntryList entryList = wallet.getEntryList();
 
         System.out.print(entryList.getOrderedEntriesString());
@@ -193,8 +222,8 @@ public class WalletService {
 
     }
 
-    public void modifyCyclicEntry(String walletName, Scanner scanner) {
-        Wallet wallet = wallets.getWalletByName(walletName);
+    public void hndModifyCyclicEntry() {
+        Wallet wallet = wallets.getWalletByName(getCurrentWalletName());
         CyclicPrototypeList cyclicPrototypes = wallet.getCyclicPrototypes();
 
         System.out.print(cyclicPrototypes.getOrderedEntriesString());
@@ -231,4 +260,52 @@ public class WalletService {
             System.out.println("Invalid entry number!");
         }
     }
+
+    public void hndAddEntry() {
+        MenuEntry menuEntry = new MenuEntry(this);
+        System.out.println(menuEntry.show());
+        int entryChoice = menuEntry.getChoiceFromUser();
+        menuEntry.executeChoice(entryChoice);
+    }
+
+    public void hndAddCyclicEntry() {
+        MenuCyclicEntry menuCyclicEntry = new MenuCyclicEntry(this);
+        System.out.println(menuCyclicEntry.show());
+        int choice = menuCyclicEntry.getChoiceFromUser();
+        menuCyclicEntry.executeChoice(choice);
+    }
+
+    public void hndAddCategory() {
+        MenuCategory menuCategory = new MenuCategory(this);
+        System.out.println(menuCategory.show());
+        int choice = menuCategory.getChoiceFromUser();
+        menuCategory.executeChoice(choice);
+    }
+
+    public void hndShowEntryList() {
+        System.out.println(getEntryList(getCurrentWalletName()));
+    }
+
+    public void hndShowCyclicEntryList() {
+        System.out.println(getCyclicPrototypes(getCurrentWalletName()));
+    }
+
+    public void hndShowCategoryList() {
+        System.out.println(getCategoryList(getCurrentWalletName()));
+    }
+
+    public void hndSwitchWallet() {
+        MenuPickWallet menuPickWallet = new MenuPickWallet(this);
+        System.out.println(menuPickWallet.show());
+        int choice = menuPickWallet.getChoiceFromUser();
+        menuPickWallet.executeChoice(choice);
+    }
+
+    public void hndManageWallets() {
+        MenuManageWallets menuManageWallets = new MenuManageWallets(this);
+        System.out.println(menuManageWallets.show());
+        int choice = menuManageWallets.getChoiceFromUser();
+        menuManageWallets.executeChoice(choice);
+    }
+
 }

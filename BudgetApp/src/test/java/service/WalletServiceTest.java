@@ -4,7 +4,6 @@ import model.Entry;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import static org.junit.Assert.assertEquals;
@@ -16,7 +15,7 @@ public class WalletServiceTest {
         // Arrange
 
         // Act
-        WalletService walletService = new WalletService();
+        WalletService walletService = new WalletService(new Scanner(System.in));
 
         // Assert
         assertNotNull(walletService.getWallets());
@@ -26,17 +25,19 @@ public class WalletServiceTest {
     @Test
     public void WalletServiceRemoveEntryShouldRemoveEntryTest() {
         //Arrange
-        WalletService walletService = new WalletService();
+//        ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator") + newWalletName).getBytes());
+        ByteArrayInputStream in = new ByteArrayInputStream("1".getBytes());
+        WalletService walletService = new WalletService(new Scanner(in));
+        walletService.setLoggedInUser("user1");
         walletService.addWallet("wallet","user1");
+        walletService.setCurrentWalletName("wallet");
         Entry entry = new Entry(123);
         walletService.addEntry("wallet",entry);
 
-//        ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator") + newWalletName).getBytes());
-        ByteArrayInputStream in = new ByteArrayInputStream("1".getBytes());
         Scanner scanner = new Scanner(in);
 
         // Act
-        walletService.removeEntry("wallet",scanner);
+        walletService.hndRemoveEntry();
 
         // Assert
         assertEquals(walletService.getEntryList("wallet").length(),0);
@@ -45,17 +46,19 @@ public class WalletServiceTest {
     @Test
     public void WalletServiceRemoveEntryWrongInputShouldNotRemoveEntryTest() {
         //Arrange
-        WalletService walletService = new WalletService();
+//        ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator") + newWalletName).getBytes());
+        ByteArrayInputStream in = new ByteArrayInputStream(("10"+ System.getProperty("line.separator") +"1").getBytes());
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setCurrentWalletName("wallet");
+        walletService.setLoggedInUser("user1");
         walletService.addWallet("wallet","user1");
         Entry entry = new Entry(123);
         walletService.addEntry("wallet",entry);
 
-//        ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator") + newWalletName).getBytes());
-        ByteArrayInputStream in = new ByteArrayInputStream(("10"+ System.getProperty("line.separator") +"1").getBytes());
-        Scanner scanner = new Scanner(in);
 
         // Act
-        walletService.removeEntry("wallet",scanner);
+        walletService.hndRemoveEntry();
 
         // Assert
         assertEquals(1,walletService.getEntryList("wallet").length());
@@ -64,19 +67,21 @@ public class WalletServiceTest {
     @Test
     public void WalletServiceModifyEntryChangeAmounShouldModifyEntryTest() {
         //Arrange
-        WalletService walletService = new WalletService();
+        ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator")      // Entry no.1
+                + "1" + System.getProperty("line.separator")    // Change amount
+                + "12" + System.getProperty("line.separator") + "0") // new amount // exit
+                .getBytes());
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setCurrentWalletName("wallet");
+        walletService.setLoggedInUser("user1");
         walletService.addWallet("wallet","user1");
         Entry entry = new Entry(123);
         walletService.addEntry("wallet",entry);
 
-        ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator")      // Entry no.1
-                                                            + "1" + System.getProperty("line.separator")    // Change amount
-                                                            + "12" + System.getProperty("line.separator") + "0") // new amount // exit
-                                                            .getBytes());
-        Scanner scanner = new Scanner(in);
 
         // Act
-        walletService.modifyEntry("wallet",scanner);
+        walletService.hndModifyEntry();
 
         // Assert
         assertEquals(entry.getAmount(),12);
@@ -85,19 +90,21 @@ public class WalletServiceTest {
     @Test
     public void WalletServiceModifyEntryChangeCategoriesShouldModifyEntryTest() {
         //Arrange
-        WalletService walletService = new WalletService();
+        ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator")      // Entry no.1
+                + "2" + System.getProperty("line.separator")    // Change categories
+                + "food,drinks" + System.getProperty("line.separator") + "0") // new categories // exit
+                .getBytes());
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setCurrentWalletName("wallet");
+        walletService.setLoggedInUser("user1");
         walletService.addWallet("wallet","user1");
         Entry entry = new Entry(123);
         walletService.addEntry("wallet",entry);
 
-        ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator")      // Entry no.1
-                                                            + "2" + System.getProperty("line.separator")    // Change categories
-                                                            + "food,drinks" + System.getProperty("line.separator") + "0") // new categories // exit
-                                                            .getBytes());
-        Scanner scanner = new Scanner(in);
 
         // Act
-        walletService.modifyEntry("wallet",scanner);
+        walletService.hndModifyEntry();
 
         // Assert
         assertEquals(entry.getCategories().toString(),"[food, drinks]");
@@ -109,8 +116,10 @@ public class WalletServiceTest {
                 .getBytes());
         scanner = new Scanner(in);
 
+        walletService.setScanner(scanner);
+
         // Act
-        walletService.modifyEntry("wallet",scanner);
+        walletService.hndModifyEntry();
 
         // Assert
         assertEquals(entry.getCategories().toString(),"[alko]");
@@ -119,19 +128,21 @@ public class WalletServiceTest {
     @Test
     public void WalletServiceModifyEntryAddCategoriesShouldModifyEntryTest() {
         //Arrange
-        WalletService walletService = new WalletService();
+
+        ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator")      // Entry no.1
+                + "3" + System.getProperty("line.separator")    // Add categories
+                + "fun" + System.getProperty("line.separator") + "0") // new categories // exit
+                .getBytes());
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setCurrentWalletName("wallet");
+        walletService.setLoggedInUser("user1");
         walletService.addWallet("wallet","user1");
         Entry entry = new Entry(123);
         walletService.addEntry("wallet",entry);
 
-        ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator")      // Entry no.1
-                                                            + "3" + System.getProperty("line.separator")    // Add categories
-                                                            + "fun" + System.getProperty("line.separator") + "0") // new categories // exit
-                                                            .getBytes());
-        Scanner scanner = new Scanner(in);
-
         // Act
-        walletService.modifyEntry("wallet",scanner);
+        walletService.hndModifyEntry();
 
         // Assert
         assertEquals(entry.getCategories().toString(),"[fun]");
@@ -142,30 +153,33 @@ public class WalletServiceTest {
                 + "alko" + System.getProperty("line.separator") + "0") // added categories // exit
                 .getBytes());
         scanner = new Scanner(in);
+        walletService.setScanner(scanner);
 
         // Act
-        walletService.modifyEntry("wallet",scanner);
+        walletService.hndModifyEntry();
 
         // Assert
         assertEquals(entry.getCategories().toString(),"[fun, alko]");
     }
 
     @Test
-    public void WalletServiceModifyEntryAddCategoriesRepetedCategoryShouldNotModifyEntryTest() {
+    public void WalletServiceModifyEntryAddCategoriesRepeatedCategoryShouldNotModifyEntryTest() {
         //Arrange
-        WalletService walletService = new WalletService();
+        ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator")      // Entry no.1
+                + "3" + System.getProperty("line.separator")    // Add categories
+                + "fun" + System.getProperty("line.separator") + "0") // new categories // exit
+                .getBytes());
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
         walletService.addWallet("wallet","user1");
+        walletService.setCurrentWalletName("wallet");
         Entry entry = new Entry(123);
         walletService.addEntry("wallet",entry);
 
-        ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator")      // Entry no.1
-                                                            + "3" + System.getProperty("line.separator")    // Add categories
-                                                            + "fun" + System.getProperty("line.separator") + "0") // new categories // exit
-                                                            .getBytes());
-        Scanner scanner = new Scanner(in);
 
         // Act
-        walletService.modifyEntry("wallet",scanner);
+        walletService.hndModifyEntry();
 
         // Assert
         assertEquals(entry.getCategories().toString(),"[fun]");
@@ -176,9 +190,11 @@ public class WalletServiceTest {
                 + "fun" + System.getProperty("line.separator") + "0") // added categories // exit
                 .getBytes());
         scanner = new Scanner(in);
+        walletService.setScanner(scanner);
+
 
         // Act
-        walletService.modifyEntry("wallet",scanner);
+        walletService.hndModifyEntry();
 
         // Assert
         assertEquals(entry.getCategories().toString(),"[fun]");
@@ -187,28 +203,28 @@ public class WalletServiceTest {
     @Test
     public void WalletServiceModifyEntryRemoveCategoriesShouldModifyEntryTest() {
         //Arrange
-        WalletService walletService = new WalletService();
+        ByteArrayInputStream in = new ByteArrayInputStream((
+                  "1" + System.getProperty("line.separator")      // Entry no.1
+                + "3" + System.getProperty("line.separator")    // Add categories
+                + "fun" + System.getProperty("line.separator")  // new categories
+                + "0" + System.getProperty("line.separator")    // exit
+                + "1" + System.getProperty("line.separator")    // Entry no.1
+                + "4" + System.getProperty("line.separator")    // remove categories
+                + "fun" + System.getProperty("line.separator")  // name to remove
+                + "0"
+        )
+                .getBytes());
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
         walletService.addWallet("wallet","user1");
+        walletService.setCurrentWalletName("wallet");
         Entry entry = new Entry(123);
         walletService.addEntry("wallet",entry);
 
-        ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator")      // Entry no.1
-                + "3" + System.getProperty("line.separator")    // Add categories
-                + "fun" + System.getProperty("line.separator") + "0") // new categories // exit
-                .getBytes());
-        Scanner scanner = new Scanner(in);
-
-        walletService.modifyEntry("wallet",scanner);
-
-
-        in = new ByteArrayInputStream(("1" + System.getProperty("line.separator")      // Entry no.1
-                + "4" + System.getProperty("line.separator")    // remove categories
-                + "fun" + System.getProperty("line.separator") + "0") // remoevd categories // exit
-                .getBytes());
-        scanner = new Scanner(in);
-
         // Act
-        walletService.modifyEntry("wallet",scanner);
+        walletService.hndModifyEntry();
+        walletService.hndModifyEntry();
 
         // Assert
         assertEquals(entry.getCategories().toString(),"[]");
@@ -218,18 +234,20 @@ public class WalletServiceTest {
     @Test
     public void WalletServiceModifyEntryRemoveCategoriesInvalidCategoryShouldNotModifyEntryTest() {
         //Arrange
-        WalletService walletService = new WalletService();
-        walletService.addWallet("wallet","user1");
-        Entry entry = new Entry(123);
-        walletService.addEntry("wallet",entry);
-
         ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator")      // Entry no.1
                 + "3" + System.getProperty("line.separator")    // Add categories
                 + "fun" + System.getProperty("line.separator") + "0") // new categories // exit
                 .getBytes());
         Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("wallet","user1");
+        walletService.setCurrentWalletName("wallet");
+        Entry entry = new Entry(123);
+        walletService.addEntry("wallet",entry);
 
-        walletService.modifyEntry("wallet",scanner);
+
+        walletService.hndModifyEntry();
 
 
         in = new ByteArrayInputStream(("1" + System.getProperty("line.separator")      // Entry no.1
@@ -239,7 +257,7 @@ public class WalletServiceTest {
         scanner = new Scanner(in);
 
         // Act
-        walletService.modifyEntry("wallet",scanner);
+        walletService.hndModifyEntry();
 
         // Assert
         assertEquals(entry.getCategories().toString(),"[fun]");

@@ -49,7 +49,7 @@ public class ConfigServiceTest {
         String[] args = {"-c", "notExistingFile.json"};
 
         exception.expect(FileNotFoundException.class);
-        exception.expectMessage("notExistingFile.json (The system cannot find the file specified)");
+        exception.expectMessage("notExistingFile.json"); //(The system cannot find the file specified)");
 
         // Act
         Config config = ConfigService.readConfig(args);
@@ -73,7 +73,6 @@ public class ConfigServiceTest {
 
         assertEquals(path + "/usersTest.csv", config.getUsersDbPath());
         assertEquals(path + "/walletTest.ser", config.getWalletListPath());
-
     }
 
     @Test

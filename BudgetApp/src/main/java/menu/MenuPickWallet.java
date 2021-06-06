@@ -1,26 +1,38 @@
 package menu;
 
 import model.WalletList;
+import service.WalletService;
+
 import java.io.InputStream;
 import java.util.Scanner;
 
 public class MenuPickWallet extends AbstractMenu {
-    private WalletList walletList;
+//    private WalletList walletList;
+    private WalletService walletService;
 
-    public MenuPickWallet(InputStream inputStream, WalletList walletList) {
+    public MenuPickWallet(WalletService walletService) {
+        super(walletService.getScanner());
+        this.walletService = walletService;
+    }
+
+//    public MenuPickWallet(Scanner scanner) {
+//        super(scanner);
+//    }
+
+    public MenuPickWallet(InputStream inputStream) {
         super(inputStream);
-        this.walletList = walletList;
+//        this.walletList = walletList;
     }
-
-    public MenuPickWallet(Scanner scanner, WalletList walletList) {
-        super(scanner);
-        this.walletList = walletList;
-    }
-
-    public MenuPickWallet(WalletList walletList) {
-        super(System.in);
-        this.walletList = walletList;
-    }
+//
+//    public MenuPickWallet(Scanner scanner, WalletList walletList) {
+//        super(scanner);
+//        this.walletList = walletList;
+//    }
+//
+//    public MenuPickWallet(WalletList walletList) {
+//        super(System.in);
+//        this.walletList = walletList;
+//    }
 
     @Override
     public int getMinInputNumber() {
@@ -29,19 +41,20 @@ public class MenuPickWallet extends AbstractMenu {
 
     @Override
     public int getMaxInputNumber() {
-        return walletList.getLength();
+        return walletService.getWallets().getLength();
     }
 
     @Override
     public String show() {
         return "\nPICK WALLET:\n" +
-                walletList.getOrderedWalletsString();
+                walletService.getWallets().getOrderedWalletsString();
     }
 
-    public String executeActions(int choice) {
+    public void executeChoice(int choice) {
         switch (choice) {
             default:
-                return walletList.getWallets().get(choice-1).getName();
+//                return walletService.getWallets().getWallets().get(choice-1).getName();
+                this.walletService.setCurrentWalletName(walletService.getWallets().getWallets().get(choice-1).getName());
         }
     }
 

@@ -74,6 +74,14 @@ public class WalletList implements Serializable {
                 .addEntry(entry);
     }
 
+//    public Entry getLastAddedEntry(String walletName) {
+//        wallets.stream()
+//                .filter(w -> w.getName().equals(walletName))
+//                .findFirst()
+//                .orElse(null) // optional? :(
+//                .getLastAddedEntry();
+//    }
+
     public void addCyclicPrototype(String walletName,  CyclicEntryPrototype cyclicEntryPrototype) {
         wallets.stream()
                 .filter(w -> w.getName().equals(walletName))

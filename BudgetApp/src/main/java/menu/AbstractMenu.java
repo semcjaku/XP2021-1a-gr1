@@ -22,7 +22,7 @@ public abstract class AbstractMenu {
 
     public abstract String show();
 
-    public void validateChoice(String line) throws InvalidInputException {
+    public void validateChoice(String line) throws InvalidInputException { // return bool?
         if (line == null || line.isEmpty()) {
             throw new InvalidInputException("Empty input!");
         }
@@ -39,7 +39,8 @@ public abstract class AbstractMenu {
     }
 
     public void validateDecimal(String line) throws InvalidInputException {
-        line = line.replaceAll("\\s+", "");
+//        line = line.replaceAll("\\s+", "");
+        line = line.trim();
         if (line.isEmpty()) {
             throw new InvalidInputException("Empty input!");
         }
@@ -52,7 +53,8 @@ public abstract class AbstractMenu {
     }
 
     public void validateInteger(String line) throws InvalidInputException {
-        line = line.replaceAll("\\s+", "");
+//        line = line.replaceAll("\\s+", "");
+        line = line.trim();
         if (line.isEmpty()) {
             throw new InvalidInputException("Empty input!");
         }
@@ -63,13 +65,31 @@ public abstract class AbstractMenu {
         }
     }
 
+    public void validatePositiveInteger(String line) throws InvalidInputException {
+//        line = line.replaceAll("\\s+", "");
+        line = line.trim();
+        if (line.isEmpty()) {
+            throw new InvalidInputException("Empty input!");
+        }
+        int i;
+        try {
+            i = Integer.parseInt(line);
+        } catch (Exception ex) {
+            throw new InvalidInputException("Invalid input!");
+        }
+        if (i <= 0) {
+            throw new InvalidInputException("Input has to be positive!");
+        }
+    }
+
     public Integer getChoiceFromUser() {
         String choice;
         do {
             System.out.println("Please select "+getMinInputNumber()+"-"+getMaxInputNumber()+"!");
             try {
                 choice = scanner.nextLine();
-                choice = choice.replaceAll("\\s+","");
+//                choice = choice.replaceAll("\\s+","");
+                choice = choice.trim();
                 validateChoice(choice);
             } catch (InvalidInputException e) {
                 System.out.println(e.getMessage());
@@ -117,6 +137,24 @@ public abstract class AbstractMenu {
 //                number = scanner.nextInt();
                 line = scanner.nextLine();
                 validateInteger(line);
+                number = Integer.parseInt(line);
+            } catch (InvalidInputException e) {
+                System.out.println(e.getMessage());
+                line = "";
+            }
+        } while (line == "");
+        return number;
+    }
+
+    public int getPositiveIntFromUser(String prompt) {
+        String line;
+        int number = 0;
+        do {
+            System.out.println(prompt);
+            try {
+//                number = scanner.nextInt();
+                line = scanner.nextLine();
+                validatePositiveInteger(line);
                 number = Integer.parseInt(line);
             } catch (InvalidInputException e) {
                 System.out.println(e.getMessage());

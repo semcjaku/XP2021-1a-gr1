@@ -12,7 +12,6 @@ public class Menu extends AbstractMenu {
         super(System.in);
     }
 
-
     @Override
     public int getMinInputNumber() {
         return 0;
@@ -20,7 +19,7 @@ public class Menu extends AbstractMenu {
 
     @Override
     public int getMaxInputNumber() {
-        return 13;
+        return 12;
     }
 
     @Override
@@ -37,8 +36,7 @@ public class Menu extends AbstractMenu {
                 "9.Show Cyclic Entries List\t" +
                 "10.Show Category List\n" +
                 "11.Switch wallet\t" +
-                "12.Manage wallets\t\t\t" +
-                "13.Show user wallets\n" +
+                "12.Manage wallets\n" +
                 "0.Exit";
     }
 }

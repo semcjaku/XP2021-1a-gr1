@@ -4,6 +4,7 @@ import model.Entry;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import service.WalletService;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
@@ -20,7 +21,7 @@ public class MenuEntryTests {
     @Test
     public void MenuEntryShowShouldShowMenuTest() {
         // Arrange
-        AbstractMenu menuEntry = new MenuEntry();
+        AbstractMenu menuEntry = new MenuEntry(System.in);
 
         // Act
         String result = menuEntry.show();
@@ -29,29 +30,28 @@ public class MenuEntryTests {
         assertNotNull(result);
         assertEquals("\nMENU ENTRY\n" +
                 "1.Add Entry with amount\n" +
-                "2.Add Entry with amount and category list", result);
+                "2.Add Entry with amount and category list\n" +
+                "0.Exit", result);
     }
 
     @Test
     public void MenuEntryReadShouldReturnErrorWhenOverRangeTest() throws Exception {
         // Arrange
-        MenuEntry menuEntry = new MenuEntry();
+        MenuEntry menuEntry = new MenuEntry(System.in);
         String input = "15";
 
+        // Expect
         exception.expect(InvalidInputException.class);
         exception.expectMessage("Input number out of range");
 
         // Act
         menuEntry.validateChoice(input);
-
-        // Assert
-        // throw exception
     }
 
     @Test
     public void MenuEntryReadShouldReturnErrorWhenBelowRangeTest() throws Exception {
         // Arrange
-        MenuEntry menuEntry = new MenuEntry();
+        MenuEntry menuEntry = new MenuEntry(System.in);
         String input = "-1";
 
         exception.expect(InvalidInputException.class);
@@ -67,7 +67,7 @@ public class MenuEntryTests {
     @Test
     public void MenuEntryReadShouldReturnErrorWhenNullTest() throws Exception {
         // Arrange
-        MenuEntry menuEntry = new MenuEntry();
+        MenuEntry menuEntry = new MenuEntry(System.in);
         String input = null;
 
         exception.expect(InvalidInputException.class);
@@ -83,46 +83,40 @@ public class MenuEntryTests {
     @Test
     public void MenuEntryReadShouldReturnErrorWhenEmptyTest() throws Exception {
         // Arrange
-        MenuEntry menuEntry = new MenuEntry();
+        MenuEntry menuEntry = new MenuEntry(System.in);
         String input = "";
 
+        // Expect
         exception.expect(InvalidInputException.class);
         exception.expectMessage("Empty input");
 
         // Act
         menuEntry.validateChoice(input);
-
-        // Assert
-        // throw exception
     }
 
     @Test
     public void MenuEntryReadShouldTrimInputTest() throws Exception {
         // Arrange
-        MenuEntry menuEntry = new MenuEntry();
+        MenuEntry menuEntry = new MenuEntry(System.in);
         String input = "1  ";
 
         // Act
         menuEntry.validateChoice(input);
-
-        // Assert
-
     }
 
     @Test
     public void MenuEntryReadShouldReturnErrorWhenNotANumberTest() throws Exception {
         // Arrange
-        MenuEntry menuEntry = new MenuEntry();
+        MenuEntry menuEntry = new MenuEntry(System.in);
         String input = "Hello";
 
+        // Expect
         exception.expect(InvalidInputException.class);
         exception.expectMessage("Input not a number");
 
         // Act
         menuEntry.validateChoice(input);
 
-        // Assert
-        // throw exception
     }
 
     @Test
@@ -133,7 +127,7 @@ public class MenuEntryTests {
         MenuEntry menuEntry = new MenuEntry(new Scanner(in));
 
         // Act
-        int result = menuEntry.getAmountInputShow();
+        int result = menuEntry.getAmountFromUser();
 
         // Assert
         assertEquals(20, result);
@@ -146,7 +140,7 @@ public class MenuEntryTests {
         MenuEntry menuEntry = new MenuEntry(new Scanner(in));
 
         // Act
-        List<String> result = menuEntry.getCategoryInputShow();
+        List<String> result = menuEntry.getCategoriesFromUser();
 
         // Assert
         assertEquals(2, result.size());
@@ -155,28 +149,38 @@ public class MenuEntryTests {
     }
 
     @Test
-    public void MenuEntryShowInputsByChoiceFirstTest() {
+    public void MenuEntryExecuteChoiceOptionOneTest() {
         // Arrange
         ByteArrayInputStream in = new ByteArrayInputStream("12".getBytes());
-        MenuEntry menuEntry = new MenuEntry(new Scanner(in));
+        WalletService walletService = new WalletService(new Scanner(in));
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("Wallet","user1");
+        walletService.setCurrentWalletName("Wallet");
+        MenuEntry menuEntry = new MenuEntry(walletService);
 
         // Act
-        Entry result = menuEntry.showInputsByChoice(1);
+        menuEntry.executeChoice(1);
 
         // Assert
+        Entry result = walletService.getEntryList("Wallet").getEntry(0);
         assertEquals(12, result.getAmount());
     }
 
     @Test
-    public void MenuEntryShowInputsByChoiceSecondTest() {
+    public void MenuEntryExecuteChoiceOptionTwoTest() {
         // Arrange
         ByteArrayInputStream in = new ByteArrayInputStream(("12" + System.getProperty("line.separator") + "Food").getBytes());
-        MenuEntry menuEntry = new MenuEntry(new Scanner(in));
+        WalletService walletService = new WalletService(new Scanner(in));
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("Wallet","user1");
+        walletService.setCurrentWalletName("Wallet");
+        MenuEntry menuEntry = new MenuEntry(walletService);
 
         // Act
-        Entry result = menuEntry.showInputsByChoice(2);
+        menuEntry.executeChoice(2);
 
         // Assert
+        Entry result = walletService.getEntryList("Wallet").getEntry(0);
         assertEquals(12, result.getAmount());
         assertEquals(1, result.getCategories().size());
         assertEquals("Food", result.getCategories().get(0));

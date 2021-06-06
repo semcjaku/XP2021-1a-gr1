@@ -6,17 +6,24 @@ import java.io.InputStream;
 
 public class MenuPickOrCreateWallet extends AbstractMenu {
 
+    private WalletService walletService;
+
     public MenuPickOrCreateWallet(InputStream inputStream) {
         super(inputStream);
     }
+//
+//    public MenuPickOrCreateWallet() {
+//        super(System.in);
+//    }
 
-    public MenuPickOrCreateWallet() {
-        super(System.in);
+    public MenuPickOrCreateWallet(WalletService walletService) {
+        super(walletService.getScanner());
+        this.walletService = walletService;
     }
 
     @Override
     public int getMinInputNumber() {
-        return 1;
+        return 0;
     }
 
     @Override
@@ -28,47 +35,68 @@ public class MenuPickOrCreateWallet extends AbstractMenu {
     public String show() {
         return "\nMENU PICK OR CREATE WALLET\n" +
                 "1.Create wallet\n" +
-                "2.Pick Wallet";
+                "2.Pick wallet\n" +
+                "0.Exit";
     }
 
-    public String executeActions(Integer choice, String ownerEmail, WalletService walletService ) {
+    public void executeChoice(Integer choice) {
         switch (choice) {
+            case 0:
+                break;
             case 1:
-                return createWallet(ownerEmail, walletService);
+                hndCreateWallet();
+                break;
             case 2:
-                return pickWallet(ownerEmail, walletService);
+                hndPickWallet();
+                break;
         }
-        return "";
     }
 
-    private String pickWallet(String ownerEmail, WalletService walletService) {
-        if (walletService.getUserWallets(ownerEmail).isEmpty()) {
-            System.out.println("User " + ownerEmail + " doesn't have any wallets!");
-            return "";
+//    private String pickWallet(String ownerEmail, WalletService walletService) {
+//        if (walletService.getUserWallets(ownerEmail).isEmpty()) {
+//            System.out.println("User " + ownerEmail + " doesn't have any wallets!");
+//            return "";
+//        }
+//
+//        MenuPickWallet menuPickWallet = new MenuPickWallet(this.scanner,walletService.getWallets());
+//        System.out.println(menuPickWallet.show());
+//        int choice = menuPickWallet.getChoiceFromUser();
+//        String walletName = menuPickWallet.executeChoice(choice);
+//
+//        return walletName;
+//
+//    }
+
+    public void hndPickWallet() {
+        if (walletService.getUserWallets(walletService.getLoggedInUserName()).isEmpty()) {
+            System.out.println("User " + walletService.getLoggedInUserName() + " doesn't have any wallets!");
+            return;
         }
 
-        MenuPickWallet menuPickWallet = new MenuPickWallet(this.scanner,walletService.getWallets());
+        MenuPickWallet menuPickWallet = new MenuPickWallet(this.walletService);
         System.out.println(menuPickWallet.show());
         int choice = menuPickWallet.getChoiceFromUser();
-        String walletName = menuPickWallet.executeActions(choice);
-
-        return walletName;
-
+        menuPickWallet.executeChoice(choice);
     }
 
-    private String createWallet(String ownerEmail, WalletService walletService) {
-        String walletName = "";
-        do {
-            walletName = getWalletNameFromUser();
-            if (walletService.checkIfWalletExists(walletName)) {
-                System.out.println("Wallet with name " + walletName + " already exists!");
-                walletName = "";
-            }
-        } while (walletName.equals(""));
-
-        walletService.addWallet(walletName, ownerEmail);
-        return walletName;
+    public void hndCreateWallet() {
+        MenuManageWallets menuManageWallets = new MenuManageWallets(this.walletService);
+        menuManageWallets.executeChoice(1);
     }
+
+//    private String createWallet(String ownerEmail, WalletService walletService) {
+//        String walletName = "";
+//        do {
+//            walletName = getWalletNameFromUser();
+//            if (walletService.checkIfWalletExists(walletName)) {
+//                System.out.println("Wallet with name " + walletName + " already exists!");
+//                walletName = "";
+//            }
+//        } while (walletName.equals(""));
+//
+//        walletService.addWallet(walletName, ownerEmail);
+//        return walletName;
+//    }
 
     public String getWalletNameFromUser() {
         return getStringFromUser("Provide name for new wallet:");

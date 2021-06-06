@@ -4,6 +4,7 @@ import org.junit.Test;
 import service.WalletService;
 
 import java.io.ByteArrayInputStream;
+import java.util.Scanner;
 
 import static org.junit.Assert.*;
 
@@ -11,7 +12,7 @@ public class MenuPickOrCreateWalletTests {
     @Test
     public void MenuPickOrCreateWalletShowShouldShowMenuTest() {
         // Arrange
-        AbstractMenu menuPickOrCreateWallet = new MenuPickOrCreateWallet();
+        AbstractMenu menuPickOrCreateWallet = new MenuPickOrCreateWallet(System.in);
 
         // Act
         String result = menuPickOrCreateWallet.show();
@@ -20,55 +21,59 @@ public class MenuPickOrCreateWalletTests {
         assertNotNull(result);
         assertEquals("\nMENU PICK OR CREATE WALLET\n" +
                 "1.Create wallet\n" +
-                "2.Pick Wallet", result);
+                "2.Pick wallet\n" +
+                "0.Exit", result);
     }
 
     @Test
-    public void MenuPickOrCreateWalletExecuteActionsOneCreateWalletShouldCreateWalletTest() {
+    public void MenuPickOrCreateWalletExecuteChoiceOptionOneCreateWalletShouldCreateWalletTest() {
         // Arrange
-        WalletService walletService = new WalletService();
-        ByteArrayInputStream in = new ByteArrayInputStream(("NewWallet").getBytes());
-        MenuPickOrCreateWallet menuPickOrCreateWallet = new MenuPickOrCreateWallet(in);
+        ByteArrayInputStream in = new ByteArrayInputStream(("New Wallet").getBytes());
+        WalletService walletService = new WalletService(new Scanner(in));
+        walletService.setLoggedInUser("user1");
+        MenuPickOrCreateWallet menuPickOrCreateWallet = new MenuPickOrCreateWallet(walletService);
 
         // Act
-        String walletName = menuPickOrCreateWallet.executeActions(1,"user1",walletService);
+        menuPickOrCreateWallet.executeChoice(1);
 
         // Assert
-        assertTrue(walletService.checkIfWalletExists(walletName));
+        assertTrue(walletService.checkIfWalletExists("New Wallet"));
     }
 
     @Test
-    public void MenuPickOrCreateWalletExecuteActionsOneCreateWalletWhenNameAlreadyExistsShouldCreateWalletTest() {
+    public void MenuPickOrCreateWalletExecuteChoiceOptionOneCreateWalletWhenNameAlreadyExistsShouldCreateWalletTest() {
         // Arrange
-        WalletService walletService = new WalletService();
         ByteArrayInputStream in = new ByteArrayInputStream(("NewWallet" + System.getProperty("line.separator")
-                                                            + "NewWallet" + System.getProperty("line.separator")
-                                                            +"NewerWallet").getBytes());
-        MenuPickOrCreateWallet menuPickOrCreateWallet = new MenuPickOrCreateWallet(in);
+                + "NewWallet" + System.getProperty("line.separator")
+                + "NewerWallet").getBytes());
+        WalletService walletService = new WalletService(new Scanner(in));
+        MenuPickOrCreateWallet menuPickOrCreateWallet = new MenuPickOrCreateWallet(walletService);
 
         // Act
-        String walletName = menuPickOrCreateWallet.executeActions(1,"user1",walletService);
-         walletName = menuPickOrCreateWallet.executeActions(1,"user1",walletService);
+        menuPickOrCreateWallet.executeChoice(1);
+        menuPickOrCreateWallet.executeChoice(1);
 
         // Assert
-        assertTrue(walletService.checkIfWalletExists(walletName));
+        assertTrue(walletService.checkIfWalletExists("NewerWallet"));
     }
 
     @Test
-    public void MenuPickOrCreateWalletExecuteActionsTwoPickWalletShouldPickWalletTest() {
+    public void MenuPickOrCreateWalletExecuteChoiceOptionTwoPickWalletShouldPickWalletTest() {
         // Arrange
-        WalletService walletService = new WalletService();
-        ByteArrayInputStream in = new ByteArrayInputStream(("4" + System.getProperty("line.separator") // walletnumber
-                                                            + "5" + System.getProperty("line.separator")
-                                                            + "1").getBytes());
-        MenuPickOrCreateWallet menuPickOrCreateWallet = new MenuPickOrCreateWallet(in);
+        ByteArrayInputStream in = new ByteArrayInputStream(("firstWallet" + System.getProperty("line.separator")
+                + "secondWallet" + System.getProperty("line.separator")
+                + "1").getBytes());
+        WalletService walletService = new WalletService(new Scanner(in));
+        walletService.setLoggedInUser("user1");
+        MenuPickOrCreateWallet menuPickOrCreateWallet = new MenuPickOrCreateWallet(walletService);
 
         // Act
-        String walletName = menuPickOrCreateWallet.executeActions(1,"user1",walletService);
-         walletName = menuPickOrCreateWallet.executeActions(2,"user1",walletService);
+        menuPickOrCreateWallet.executeChoice(1); // create first wallet
+        menuPickOrCreateWallet.executeChoice(1); // create second wallet
+        menuPickOrCreateWallet.executeChoice(2); // pick first wallet
 
         // Assert
-        assertTrue(walletService.checkIfWalletExists(walletName));
+        assertEquals(walletService.getCurrentWalletName(),"firstWallet");
     }
 
     @Test
