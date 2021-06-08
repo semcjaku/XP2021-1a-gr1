@@ -8,8 +8,12 @@ public class IntervalCyclicEntryPrototype extends CyclicEntryPrototype {
 
     public IntervalCyclicEntryPrototype(Entry prototypeEntry, int cyclicIntervalInDays) {
         super(prototypeEntry);
-        validateInterval(cyclicIntervalInDays);
-        this.cyclicIntervalInDays = cyclicIntervalInDays;
+        try {
+            validateInterval(cyclicIntervalInDays);
+            this.cyclicIntervalInDays = cyclicIntervalInDays;
+        } catch (IllegalCyclicIntervalException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public boolean shouldBeReplicatedToday() {
@@ -19,8 +23,12 @@ public class IntervalCyclicEntryPrototype extends CyclicEntryPrototype {
 
     @Override
     public void setCyclicParameter(int newValue) {
-        validateInterval(newValue);
-        cyclicIntervalInDays = newValue;
+        try {
+            validateInterval(newValue);
+            cyclicIntervalInDays = newValue;
+        } catch (IllegalCyclicIntervalException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void validateInterval(int cyclicIntervalInDays) {
