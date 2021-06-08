@@ -29,4 +29,6 @@ public abstract class CyclicEntryPrototype implements Serializable {
     public Entry getPrototypeEntry() {
         return prototypeEntry;
     }
+
+    public abstract int getCyclicParameter();
 }

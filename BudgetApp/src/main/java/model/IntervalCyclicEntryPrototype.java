@@ -23,6 +23,11 @@ public class IntervalCyclicEntryPrototype extends CyclicEntryPrototype {
         cyclicIntervalInDays = newValue;
     }
 
+    @Override
+    public int getCyclicParameter() {
+        return cyclicIntervalInDays;
+    }
+
     private void validateInterval(int cyclicIntervalInDays) {
         if (cyclicIntervalInDays < 1) {
             throw new IllegalCyclicIntervalException();

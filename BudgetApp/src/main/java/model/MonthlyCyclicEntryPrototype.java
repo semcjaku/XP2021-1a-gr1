@@ -28,6 +28,11 @@ public class MonthlyCyclicEntryPrototype extends CyclicEntryPrototype {
         cyclicDayOfMonth = newValue;
     }
 
+    @Override
+    public int getCyclicParameter() {
+        return cyclicDayOfMonth;
+    }
+
     private void validateDayOfMonth(int cyclicDayOfMonth) {
         if (cyclicDayOfMonth < 1 || cyclicDayOfMonth > 31) {
             throw new IllegalDayOfMonthException();

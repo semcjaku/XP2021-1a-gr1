@@ -1,13 +1,15 @@
 package service;
 
 import model.Entry;
+import model.IntervalCyclicEntryPrototype;
+import model.MonthlyCyclicEntryPrototype;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
+import java.util.List;
 import java.util.Scanner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class WalletServiceTest {
     @Test
@@ -236,7 +238,9 @@ public class WalletServiceTest {
         //Arrange
         ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator")      // Entry no.1
                 + "3" + System.getProperty("line.separator")    // Add categories
-                + "fun" + System.getProperty("line.separator") + "0") // new categories // exit
+                + "fun" + System.getProperty("line.separator")
+                + "4" + System.getProperty("line.separator")    // remove categories
+                + "bocian" + System.getProperty("line.separator") +"0") // remoevd categories
                 .getBytes());
         Scanner scanner = new Scanner(in);
         WalletService walletService = new WalletService(scanner);
@@ -246,21 +250,295 @@ public class WalletServiceTest {
         Entry entry = new Entry(123);
         walletService.addEntry("wallet",entry);
 
-
+        // Act
         walletService.hndModifyEntry();
 
+        // Assert
+        assertEquals(walletService.getEntryList("wallet").getEntry(0).getCategories().toString(),"[fun]");
+    }
 
-        in = new ByteArrayInputStream(("1" + System.getProperty("line.separator")      // Entry no.1
-                + "4" + System.getProperty("line.separator")    // remove categories
-                + "bocian" + System.getProperty("line.separator") + "0") // remoevd categories // exit
-                .getBytes());
-        scanner = new Scanner(in);
+    @Test
+    public void WalletServiceModifyEntryRemoveCategoriesInvalidEntryChoiceShouldComeBackToMainMenuTest() {
+        //Arrange
+        ByteArrayInputStream in = new ByteArrayInputStream(("2" + System.getProperty("line.separator")      // Entry no.1
+                + "6" + System.getProperty("line.separator")) .getBytes());    // main menu modify entry
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("wallet","user1");
+        walletService.setCurrentWalletName("wallet");
+        Entry entry = new Entry(123, List.of("fun"));
+        walletService.addEntry("wallet",entry);
 
         // Act
         walletService.hndModifyEntry();
 
         // Assert
-        assertEquals(entry.getCategories().toString(),"[fun]");
+        assertEquals(walletService.getEntryList("wallet").getEntry(0).getCategories().toString(),"[fun]");
+    }
+    @Test
+    public void WalletServiceHndModifyEntryRemoveCategoriesInvalidEntryChoiceNotANumberShouldComeBackToMainMenuTest() {
+        //Arrange
+        ByteArrayInputStream in = new ByteArrayInputStream(("a" + System.getProperty("line.separator")      // Entry no.1
+                + "6" + System.getProperty("line.separator")) .getBytes());    // main menu modify entry
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("wallet","user1");
+        walletService.setCurrentWalletName("wallet");
+        Entry entry = new Entry(123, List.of("fun"));
+        walletService.addEntry("wallet",entry);
+
+        // Act
+        walletService.hndModifyEntry();
+
+        // Assert
+        assertEquals(walletService.getEntryList("wallet").getEntry(0).getCategories().toString(),"[fun]");
+    }
+
+    @Test
+    public void WalletServiceHndAddEntryWithAmountShouldAddEntryTest() {
+        ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator")      // Entry menu - Add entry
+                + "6" + System.getProperty("line.separator")).getBytes());    // amount
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("wallet","user1");
+        walletService.setCurrentWalletName("wallet");
+
+        // Act
+        walletService.hndAddEntry();
+
+        // Assert
+        assertEquals(walletService.getEntryList("wallet").getEntry(0).getAmount(),6);
+    }
+
+    @Test
+    public void WalletServiceHndAddEntryWithAmountAndOneCategoryShouldAddEntryTest() {
+        ByteArrayInputStream in = new ByteArrayInputStream(("2" + System.getProperty("line.separator")      // Entry menu - Add entry with amount and category list
+                                                          + "6" + System.getProperty("line.separator")      // amount
+                                                          + "fun" + System.getProperty("line.separator")).getBytes());    // category
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("wallet","user1");
+        walletService.setCurrentWalletName("wallet");
+
+        // Act
+        walletService.hndAddEntry();
+
+        // Assert
+        assertEquals(walletService.getEntryList("wallet").getEntry(0).getAmount(),6);
+        assertEquals(walletService.getEntryList("wallet").getEntry(0).getCategories().toString(),"[fun]");
+    }
+
+    @Test
+    public void WalletServiceHndAddEntryWithAmountAndManyCategoriesShouldAddEntryTest() {
+        ByteArrayInputStream in = new ByteArrayInputStream(("2" + System.getProperty("line.separator")      // Entry menu - Add entry with amount and category list
+                                                          + "6" + System.getProperty("line.separator")      // amount
+                                                          + "fun;food;folks" + System.getProperty("line.separator")).getBytes());    // category
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("wallet","user1");
+        walletService.setCurrentWalletName("wallet");
+
+        // Act
+        walletService.hndAddEntry();
+
+        // Assert
+        assertEquals(walletService.getEntryList("wallet").getEntry(0).getAmount(),6);
+        assertEquals(walletService.getEntryList("wallet").getEntry(0).getCategories().toString(),"[fun, food, folks]");
+    }
+
+    @Test
+    public void WalletServiceHndAddCyclicEntryWithAmountAndIntervalShouldAddEntryTest() {
+        ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator")      // Cyclic Entry menu - repeated at const
+                + "1" + System.getProperty("line.separator")                    // menu entry - add entry with amount
+                + "10" + System.getProperty("line.separator")                   // amount
+                + "5" + System.getProperty("line.separator")).getBytes());      // cyclic intervals in days
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("wallet","user1");
+        walletService.setCurrentWalletName("wallet");
+
+        // Act
+        walletService.hndAddCyclicEntry();
+
+        // Assert
+        assertEquals(walletService.getCyclicPrototypes("wallet").getCyclicEntry(0).getPrototypeEntry().getAmount(),10);
+        assertEquals(((IntervalCyclicEntryPrototype)walletService.getCyclicPrototypes("wallet").getPrototypes().get(0)).getCyclicParameter() ,5);
+    }
+
+    @Test
+    public void WalletServiceHndAddCyclicEntryWithAmountAndMonthDayShouldAddEntryTest() {
+        ByteArrayInputStream in = new ByteArrayInputStream(("2" + System.getProperty("line.separator")      // Cyclic Entry menu - repeated monthly
+                + "1" + System.getProperty("line.separator")                    // menu entry - add entry with amount
+                + "10" + System.getProperty("line.separator")                   // amount
+                + "5" + System.getProperty("line.separator")).getBytes());      // cyclic intervals in days
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("wallet","user1");
+        walletService.setCurrentWalletName("wallet");
+
+        // Act
+        walletService.hndAddCyclicEntry();
+
+        // Assert
+        assertEquals(walletService.getCyclicPrototypes("wallet").getCyclicEntry(0).getPrototypeEntry().getAmount(),10);
+        assertEquals(((MonthlyCyclicEntryPrototype)walletService.getCyclicPrototypes("wallet").getPrototypes().get(0)).getCyclicParameter() ,5);
+    }
+
+    @Test
+    public void WalletServiceHndRemoveCyclicEntryShouldRemoveEntryTest() {
+        ByteArrayInputStream in = new ByteArrayInputStream(("2" + System.getProperty("line.separator")      // Cyclic Entry menu - repeated monthly
+                + "1" + System.getProperty("line.separator")                    // menu entry - add entry with amount
+                + "10" + System.getProperty("line.separator")                   // amount
+                + "5" + System.getProperty("line.separator")                    // month day
+                + "1").getBytes());      // cyclic intervals in days            // cyclic entry to be removed
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("wallet","user1");
+        walletService.setCurrentWalletName("wallet");
+
+        // Act
+        walletService.hndAddCyclicEntry();
+        walletService.hndRemoveCyclicEntry();
+
+        // Assert
+        assertEquals(walletService.getCyclicPrototypes("wallet").length(),0);
+//        assertEquals(((MonthlyCyclicEntryPrototype)walletService.getCyclicPrototypes("wallet").getPrototypes().get(0)).getCyclicParameter() ,5);
+    }
+
+    @Test
+    public void WalletServiceHndRemoveCyclicEntryNothingToRemoveShouldNotRemoveEntryTest() {
+        Scanner scanner = new Scanner(System.in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("wallet","user1");
+        walletService.setCurrentWalletName("wallet");
+
+        // Act
+        walletService.hndRemoveCyclicEntry();
+
+        // Assert
+        assertEquals(walletService.getCyclicPrototypes("wallet").length(),0);
+    }
+
+    @Test
+    public void WalletServiceHndModifyCyclicEntryShouldModifyEntryTest() {
+        ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator")      // Cyclic Entry menu - repeated at const
+                + "1" + System.getProperty("line.separator")                    // menu entry - add entry with amount
+                + "10" + System.getProperty("line.separator")                   // amount
+                + "5" + System.getProperty("line.separator")                // cyclic intervals in days
+                + "1" + System.getProperty("line.separator")                 // number of entry to modify
+                + "1" + System.getProperty("line.separator")                 // modify entry prototype
+                + "1"+ System.getProperty("line.separator")                 // change amount
+                + "20"+ System.getProperty("line.separator") + "0").getBytes());    // new amount
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("wallet","user1");
+        walletService.setCurrentWalletName("wallet");
+
+        // Act
+        walletService.hndAddCyclicEntry();
+        walletService.hndModifyCyclicEntry();
+
+        // Assert
+        assertEquals(walletService.getCyclicPrototypes("wallet").getCyclicEntry(0).getPrototypeEntry().getAmount(),20);
+
+    }
+
+    @Test
+    public void WalletServiceHndSwitchWalletShouldSwitchWalletTest() {
+        ByteArrayInputStream in = new ByteArrayInputStream(("2" + System.getProperty("line.separator") ).getBytes());      // second wallet
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("wallet","user1");
+        walletService.addWallet("wallet2","user1");
+        walletService.setCurrentWalletName("wallet");
+
+        // Act
+        walletService.hndSwitchWallet();
+
+        // Assert
+        assertEquals(walletService.getCurrentWalletName(),"wallet2");
+    }
+
+    @Test
+    public void WalletServiceHndSwitchWalletInvalidFirstTryShouldSwitchWalletTest() {
+        ByteArrayInputStream in = new ByteArrayInputStream(("3" + System.getProperty("line.separator") // third wallet - invalid - doesn't exist
+                                                          + "2" + System.getProperty("line.separator")).getBytes());   // second wallet
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("wallet","user1");
+        walletService.addWallet("wallet2","user1");
+        walletService.setCurrentWalletName("wallet");
+
+        // Act
+        walletService.hndSwitchWallet();
+
+        // Assert
+        assertEquals(walletService.getCurrentWalletName(),"wallet2");
+    }
+
+    @Test
+    public void WalletServiceHndAddCategoryShouldAddCategoryTest() {
+        ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator") // category menu - add category
+                                                          + "new category" + System.getProperty("line.separator")).getBytes());   // new category name
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("wallet","user1");
+        walletService.setCurrentWalletName("wallet");
+
+        // Act
+        walletService.hndAddCategory();
+
+        // Assert
+        assertTrue(walletService.getWallets().getWallets().get(0).getCategoryList().toString().contains("new category"));
+    }
+
+    @Test
+    public void WalletServiceHndManageWalletsAddWalletShouldAddWalletTest() {
+        ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator") // add wallet
+                                                          + "my new wallet").getBytes());      // new wallet name
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("wallet","user1");
+        walletService.addWallet("wallet2","user1");
+        walletService.setCurrentWalletName("wallet");
+
+        // Act
+        walletService.hndManageWallets();
+
+        // Assert
+        assertEquals(walletService.getCurrentWalletName(),"my new wallet");
+    }
+
+    @Test
+    public void WalletServiceHndManageWalletsAddWalletRepeatedNameInFirstTryShouldAddWalletTest() {
+        ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator") // add wallet
+                                                          + "wallet" + System.getProperty("line.separator") // repeated wallet name
+                                                          + "my new wallet").getBytes());      // new wallet name
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("wallet","user1");
+        walletService.setCurrentWalletName("wallet");
+
+        // Act
+        walletService.hndManageWallets();
+
+        // Assert
+        assertEquals(walletService.getCurrentWalletName(),"my new wallet");
     }
 
 }
