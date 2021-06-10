@@ -12,14 +12,14 @@ public class WalletService {
     private SerializerService serializerService;
     private Scanner scanner;
 
-    private String currentWalletName = "";
+    private String currentWalletName;
     private String loggedInUserName;
 
     public WalletService(Scanner scanner) {
         this.serializerService = new SerializerService();
         this.wallets = new WalletList();
         this.scanner = scanner;
-        this.currentWalletName="";
+        this.currentWalletName = "";
     }
 
     public void loadWalletsOnStart(String walletListPath) throws FileNotFoundException {
