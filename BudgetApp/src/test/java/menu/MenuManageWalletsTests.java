@@ -31,6 +31,7 @@ public class MenuManageWalletsTests {
                 "2. Archive wallet\n" +
                 "3. Rename wallet\n" +
                 "4. Show logged in user wallets\n" +
+                "5. Add user to wallet\n" +
                 "0. Exit", result);
     }
 
@@ -121,7 +122,7 @@ public class MenuManageWalletsTests {
     }
 
     @Test
-    public void MenuManageWalletsExecuteChoiceOptionOneAddWalletTest() throws InvalidInputException {
+    public void MenuManageWalletsExecuteChoiceOptionOneAddWalletTest(){
         // Arrange
         String newWalletName = "MyWallet";
         ByteArrayInputStream in = new ByteArrayInputStream(newWalletName.getBytes());
@@ -137,7 +138,7 @@ public class MenuManageWalletsTests {
     }
 
     @Test
-    public void MenuManageWalletsExecuteChoiceOptionOneAddWalletWithSpaceInNameTest() throws InvalidInputException {
+    public void MenuManageWalletsExecuteChoiceOptionOneAddWalletWithSpaceInNameTest() {
         // Arrange
         String newWalletName = "My Wallet";
         ByteArrayInputStream in = new ByteArrayInputStream(newWalletName.getBytes());
@@ -153,9 +154,9 @@ public class MenuManageWalletsTests {
     }
 
     @Test
-    public void MenuManageWalletsExecuteChoiceOptionTwoArchiveWalletTest() throws InvalidInputException {
+    public void MenuManageWalletsExecuteChoiceOptionTwoArchiveWalletShouldArchiveWalletTest() {
         // Arrange
-        ByteArrayInputStream in = new ByteArrayInputStream("Wallet".getBytes());
+        ByteArrayInputStream in = new ByteArrayInputStream("1".getBytes());
         WalletService walletService = new WalletService(new Scanner(in));
         walletService.addWallet("Wallet","user1");
 
@@ -169,12 +170,28 @@ public class MenuManageWalletsTests {
     }
 
     @Test
-    public void MenuManageWalletsExecuteChoiceOptionThreeRenameWalletTest() throws InvalidInputException {
+    public void MenuManageWalletsExecuteChoiceOptionTwoArchiveWalletInvalidFirstTryShouldArchiveWalletTest() {
+        // Arrange
+        ByteArrayInputStream in = new ByteArrayInputStream(("5"+ System.getProperty("line.separator")+"1").getBytes());
+        WalletService walletService = new WalletService(new Scanner(in));
+        walletService.addWallet("Wallet","user1");
+
+        MenuManageWallets menuManageWallets = new MenuManageWallets(walletService);
+
+        // Act
+        menuManageWallets.executeChoice(2);
+
+        // Assert
+        assertTrue(walletService.getWalletByName("Wallet").isArchived());
+    }
+
+    @Test
+    public void MenuManageWalletsExecuteChoiceOptionThreeRenameWalletTest() {
         // Arrange
         String oldWalletName = "OldWallet";
         String newWalletName = "Newwallet";
 
-        ByteArrayInputStream in = new ByteArrayInputStream((oldWalletName + System.getProperty("line.separator") + newWalletName).getBytes());
+        ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator") + newWalletName).getBytes());
         WalletService walletService = new WalletService(new Scanner(in));
         walletService.addWallet(oldWalletName,"user1");
 

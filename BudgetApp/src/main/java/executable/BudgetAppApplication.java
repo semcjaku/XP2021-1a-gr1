@@ -60,8 +60,6 @@ public class BudgetAppApplication {
         walletService.loadWalletsOnStart(config.getWalletListPath());
         walletService.setLoggedInUser(loggedInUser.getEmail());
 
-//        String walletName = "";
-
         Scheduler scheduler = new Scheduler(walletService.getWallets());
         scheduler.runScheduler();
 
@@ -74,12 +72,10 @@ public class BudgetAppApplication {
             menuPickOrCreateWallet.executeChoice(choice);
         } while (walletService.getCurrentWalletName().isEmpty() && choice != 0);
         if (choice == 0) return;
-//        walletService.setCurrentWalletName(walletName);
 
 
         int mainChoice;
         do {
-//            Scanner keyboard = new Scanner(System.in);
             System.out.println(menu.show());
             mainChoice = menu.getChoiceFromUser();
             switch (mainChoice) {

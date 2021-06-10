@@ -541,4 +541,86 @@ public class WalletServiceTest {
         assertEquals(walletService.getCurrentWalletName(),"my new wallet");
     }
 
+    @Test
+    public void WalletServiceHndManageWalletsAddUserToWalletShouldAddUser() {
+        ByteArrayInputStream in = new ByteArrayInputStream(("5" + System.getProperty("line.separator") // add user to wallet
+                + "addedUser Name").getBytes());      // added user name
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("wallet","user1");
+        walletService.setCurrentWalletName("wallet");
+
+        // Act
+        walletService.hndManageWallets();
+
+        // Assert
+        assertTrue(walletService.getWalletByName(walletService.getCurrentWalletName()).getSharedUsersEmails().contains("addedUser Name"));
+    }
+
+    @Test
+    public void  WalletServiceHasUserAccessCheckCurrentUserShouldReturnTrueTest() {
+        ByteArrayInputStream in = new ByteArrayInputStream(("").getBytes());      // username to check
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("wallet","user1");
+        walletService.setCurrentWalletName("wallet");
+
+        // Act
+        boolean hasAccess = walletService.hasUserAccess("user1");
+
+        // Assert
+        assertTrue(hasAccess);
+    }
+
+    @Test
+    public void  WalletServiceHasUserAccessCheckDifferentUserShouldReturnTrueTest() {
+        ByteArrayInputStream in = new ByteArrayInputStream(("").getBytes());
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("wallet","user2");
+        walletService.setCurrentWalletName("wallet");
+
+        // Act
+        boolean hasAccess = walletService.hasUserAccess("user2");
+
+        // Assert
+        assertTrue(hasAccess);
+    }
+
+    @Test
+    public void WalletServiceHasUserAccessShouldReturnFalseTest() {
+        ByteArrayInputStream in = new ByteArrayInputStream(("").getBytes());
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("wallet","user1");
+        walletService.setCurrentWalletName("wallet");
+
+        // Act
+        boolean hasAccess = walletService.hasUserAccess("user to check");
+
+        // Assert
+        assertFalse(hasAccess);
+    }
+
+    @Test
+    public void WalletServiceHasUserAccessSHaredUserShouldReturnTrueTest() {
+        ByteArrayInputStream in = new ByteArrayInputStream(("5" + System.getProperty("line.separator") // add user to wallet
+            + "shared user").getBytes());      // added user name
+        Scanner scanner = new Scanner(in);
+        WalletService walletService = new WalletService(scanner);
+        walletService.setLoggedInUser("user1");
+        walletService.addWallet("wallet","user1");
+        walletService.setCurrentWalletName("wallet");
+        walletService.hndManageWallets();
+
+        // Act
+        boolean hasAccess = walletService.hasUserAccess("shared user");
+
+        // Assert
+        assertTrue(hasAccess);
+    }
 }

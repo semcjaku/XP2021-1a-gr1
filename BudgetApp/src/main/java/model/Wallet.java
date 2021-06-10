@@ -24,6 +24,10 @@ public class Wallet implements Serializable {
         this.sharedUsersEmails = new LinkedList<>();
     }
 
+    public void addSharedUserEmail(String email) {
+        sharedUsersEmails.add(email);
+    }
+
     public EntryList getEntryList() {
         return entryList;
     }

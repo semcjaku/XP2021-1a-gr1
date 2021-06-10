@@ -19,6 +19,7 @@ public class WalletService {
         this.serializerService = new SerializerService();
         this.wallets = new WalletList();
         this.scanner = scanner;
+        this.currentWalletName="";
     }
 
     public void loadWalletsOnStart(String walletListPath) throws FileNotFoundException {
@@ -291,6 +292,10 @@ public class WalletService {
     }
 
     public void hndShowCategoryList() {
+        CategoryList categoryList = getCategoryList(getCurrentWalletName());
+        if (categoryList == null) {
+            System.out.println("No categories to show!");
+        }
         System.out.println(getCategoryList(getCurrentWalletName()));
     }
 
@@ -308,4 +313,16 @@ public class WalletService {
         menuManageWallets.executeChoice(choice);
     }
 
+    public boolean hasUserAccess(String userEmailToCheck) {
+        if (userEmailToCheck.equals(getLoggedInUserName())) {
+            return true;
+        }
+        if (userEmailToCheck.equals(getWalletByName(getCurrentWalletName()).getOwnerEmail())) {
+            return true;
+        }
+        if (getWalletByName(getCurrentWalletName()).getSharedUsersEmails().contains(userEmailToCheck)) {
+            return true;
+        }
+        return false;
+    }
 }

@@ -50,6 +50,10 @@ public class MenuPickWallet extends AbstractMenu {
                 walletService.getWallets().getOrderedWalletsString();
     }
 
+    public String getWalletName(int choice) {
+        return walletService.getWallets().getWallets().get(choice-1).getName();
+    }
+
     public void executeChoice(int choice) {
         switch (choice) {
             default:

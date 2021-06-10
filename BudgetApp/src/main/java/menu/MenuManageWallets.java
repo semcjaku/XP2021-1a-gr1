@@ -8,10 +8,6 @@ public class MenuManageWallets extends AbstractMenu {
 
     private WalletService walletService;
 
-    private enum ManageMode {
-        CREATE, ARCHIVE, RENAME
-    }
-
     public MenuManageWallets(WalletService walletService) {
         super(walletService.getScanner());
         this.walletService = walletService;
@@ -24,10 +20,6 @@ public class MenuManageWallets extends AbstractMenu {
     public MenuManageWallets(InputStream inputStream) {
         super(inputStream);
     }
-//
-//    public MenuManageWallets(WalletList walletList) {
-//        this(new Scanner(System.in));
-//    }
 
 //    public MenuManageWallets(Scanner scanner) {
 //        super(scanner);
@@ -40,7 +32,7 @@ public class MenuManageWallets extends AbstractMenu {
 
     @Override
     public int getMaxInputNumber() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -50,6 +42,7 @@ public class MenuManageWallets extends AbstractMenu {
                 "2. Archive wallet\n" +
                 "3. Rename wallet\n" +
                 "4. Show logged in user wallets\n" +
+                "5. Add user to wallet\n" +
                 "0. Exit";
     }
 
@@ -67,9 +60,20 @@ public class MenuManageWallets extends AbstractMenu {
             case 4:
                 hndShowUserWallets();
                 break;
+            case 5:
+                hndAddUserToWallet();
             case 0:
                 break;
         }
+    }
+
+    private void hndAddUserToWallet() {
+        String userEmailToAdd = getEmailFromUser();
+        if (walletService.hasUserAccess(userEmailToAdd)) {
+            System.out.println("User "+userEmailToAdd+" already has access to wallet "+walletService.getCurrentWalletName());
+            return;
+        }
+        walletService.getWalletByName(walletService.getCurrentWalletName()).addSharedUserEmail(userEmailToAdd);
     }
 
     private void hndShowUserWallets() {
@@ -83,74 +87,47 @@ public class MenuManageWallets extends AbstractMenu {
     }
 
     private void hndRenameWallet() {
-        System.out.println(showUserWallets());
-        String oldWalletName = getWalletName(ManageMode.RENAME,true);
-        String newWalletName = getWalletName(ManageMode.CREATE,false);
-
-        if (walletService.checkIfWalletExists(newWalletName)) {
-            System.out.println("Wallet with this name already exists!");
-            return;
-        }
+        String oldWalletName = getWalletNameFromPickMenu();
+        String newWalletName = getNewWalletNameFromUser();
         walletService.renameWallet(oldWalletName,newWalletName);
     }
 
     private void hndArchiveWallet() {
-        System.out.println(showUserWallets());
-        String walletName = getWalletName(ManageMode.ARCHIVE,true);
+        String walletName = getWalletNameFromPickMenu();
         walletService.archiveWallet(walletName);
+        //TODO if archived wallet was current wallet then force change of wallet
     }
 
-    private String hndCreateWallet() {
-        String walletName = getWalletName(ManageMode.CREATE,false);
-        walletService.addWallet(walletName, walletService.getLoggedInUserName());
-        walletService.setCurrentWalletName(walletName);
-        return walletName;
-    }
-
-    private String getWalletName(ManageMode manageMode, boolean canWalletExist) {
-        String walletName = "";
-        do {
-            switch (manageMode) {
-                case CREATE:
-                    walletName = getNewWalletNameFromUser();
-                    break;
-                case ARCHIVE:
-                    walletName = getWalletNameToArchiveFromUser();
-                    break;
-                case RENAME:
-                    walletName = getOldWalletNameFromUser();
-                    break;
-            }
-
-            boolean walletExists = walletService.checkIfWalletExists(walletName);
-
-            if (walletExists && !canWalletExist) {
-                System.out.println("Wallet with name " + walletName + " already exists!");
-                walletName = "";
-            } else if (!walletExists && canWalletExist) {
-                System.out.println("Wallet with name " + walletName + " does not exist!");
-                walletName = "";
-            }
-
-        } while (walletName.equals(""));
-
-        return walletName;
+    private void hndCreateWallet() {
+        String newWalletName = getNewWalletNameFromUser();
+        walletService.addWallet(newWalletName, walletService.getLoggedInUserName());
+        walletService.setCurrentWalletName(newWalletName);
+        System.out.println("Current wallet name:"+newWalletName);
     }
 
     private String getNewWalletNameFromUser() {
-        return getStringFromUser("Provide new name for wallet:");
+        String newWalletName;
+        do {
+            newWalletName = getStringFromUser("Provide wallet name:");
+            if (walletService.checkIfWalletExists(newWalletName)) {
+                System.out.println("Wallet with this name already exists!");
+                newWalletName = "";
+            }
+        } while (newWalletName.equals(""));
+        return newWalletName;
     }
 
-    private String getOldWalletNameFromUser() {
-        return getStringFromUser("Provide wallet old name:");
+    private String getWalletNameFromPickMenu() {
+        MenuPickWallet menuPickWallet = new MenuPickWallet(walletService);
+        System.out.println(menuPickWallet.show());
+        int choice = menuPickWallet.getChoiceFromUser();
+        return menuPickWallet.getWalletName(choice);
     }
 
-    private String getWalletNameToArchiveFromUser() {
-        return getStringFromUser("Provide name of wallet to be archived:");
+
+    private String getEmailFromUser() {
+        return getStringFromUser("Provide email of user to add:");
     }
 
-    private String getWalletNameToUpdateFromUser() {
-        return getStringFromUser("Provide name of wallet to be renamed:");
-    }
 
 }
