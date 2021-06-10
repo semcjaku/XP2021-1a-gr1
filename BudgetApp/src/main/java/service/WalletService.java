@@ -12,7 +12,7 @@ public class WalletService {
     private SerializerService serializerService;
     private Scanner scanner;
 
-    private String currentWalletName;
+    private String currentWalletName = "";
     private String loggedInUserName;
 
     public WalletService(Scanner scanner) {
