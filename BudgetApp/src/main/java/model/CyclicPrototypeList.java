@@ -6,23 +6,31 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
 
-public class CyclicPrototypeList implements Serializable {
+public class CyclicPrototypeList implements Serializable, ListManager<CyclicEntryPrototype>, PrintableList {
     private final List<CyclicEntryPrototype> prototypes;
 
     public CyclicPrototypeList() {
         this.prototypes = new LinkedList<>();
     }
 
-    public List<CyclicEntryPrototype> getPrototypes() {
+    public List<CyclicEntryPrototype> asList() {
         return this.prototypes;
     }
 
-    public void addPrototype(CyclicEntryPrototype prototype) {
+    public void add(CyclicEntryPrototype prototype) {
         this.prototypes.add(prototype);
     }
 
-    public void removePrototype(int index) {
+    public CyclicEntryPrototype getAt(int index) {
+        return this.prototypes.get(index);
+    }
+
+    public void removeAt(int index) {
         prototypes.remove(index);
+    }
+
+    public int getLength() {
+        return prototypes.size();
     }
 
     public String getOrderedEntriesString() {
@@ -34,10 +42,6 @@ public class CyclicPrototypeList implements Serializable {
             counter++;
         }
         return output.toString();
-    }
-
-    public int length() {
-        return prototypes.size();
     }
 
     @Override
@@ -58,9 +62,5 @@ public class CyclicPrototypeList implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(prototypes);
-    }
-
-    public CyclicEntryPrototype getCyclicEntry(int index) {
-        return this.prototypes.get(index);
     }
 }

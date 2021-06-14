@@ -7,7 +7,6 @@ import org.junit.Test;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.LinkedList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -23,8 +22,8 @@ public class SerializerServiceTests {
         Entry entry = new Entry(150);
         Entry entry2 = new Entry(3);
 
-        entryList.addEntry(entry);
-        entryList.addEntry(entry2);
+        entryList.add(entry);
+        entryList.add(entry2);
 
         LinkedList<Entry> testList1 = new LinkedList<>();
         LinkedList<Entry> testList2 = new LinkedList<>();
@@ -35,16 +34,16 @@ public class SerializerServiceTests {
         SerializerService serializerService = new SerializerService();
         serializerService.writeObjectToFile(Path.of("").toAbsolutePath() + "/data/testEntryList.ser", entryList);
 
-        entryList.removeEntry(0);
-        entryList.removeEntry(0);
+        entryList.removeAt(0);
+        entryList.removeAt(0);
 
         // Assert
-        assertEquals(entryList.getEntries(),testList1);
+        assertEquals(entryList.asList(),testList1);
 
         // Act 2
         entryList = (EntryList) serializerService.readObjectFromFile(Path.of("").toAbsolutePath() + "/data/testEntryList.ser");
 
         // Assert 2
-        assertEquals(entryList.getEntries(), testList2);
+        assertEquals(entryList.asList(), testList2);
     }
 }

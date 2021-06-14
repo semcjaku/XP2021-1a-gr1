@@ -130,14 +130,14 @@ public class WalletService {
         Wallet wallet = wallets.getWalletByName(getCurrentWalletName());
         EntryList entryList = wallet.getEntryList();
 
-        if (entryList.length() == 0) {
-            System.out.println("No entries to remove!");
+        try {
+            stopIfListIsEmpty(entryList);
+        }
+        catch (OperationOnEmptyListException ignore) {
             return;
         }
 
-        System.out.print(entryList.getOrderedEntriesString());
-//        int entry_num = getIntFromUser(String.format("Select an entry from 1 to %d to be removed:\n", wallet.getEntryList().length()));
-        System.out.printf("Select an entry from 1 to %d to be removed:\n", entryList.length());
+        printOptions(entryList, "removed");
 
         int entry_choice;
         try {
@@ -146,8 +146,8 @@ public class WalletService {
             System.out.println("Invalid input!");
             return;
         }
-        if (entry_choice >= 1 && entry_choice <= wallet.getEntryList().length()) {
-            entryList.removeEntry(entry_choice - 1);
+        if (validateChoiceFromList(entryList, entry_choice)) {
+            removeAtUserProvidedIndex(entryList, entry_choice);
             System.out.println("Entry removed!");
         }
         else {
@@ -159,13 +159,14 @@ public class WalletService {
         Wallet wallet = wallets.getWalletByName(getCurrentWalletName());
         CyclicPrototypeList cyclicPrototypes = wallet.getCyclicPrototypes();
 
-        if (cyclicPrototypes.length() == 0) {
-            System.out.println("No cyclic entries to remove!");
+        try {
+            stopIfListIsEmpty(cyclicPrototypes);
+        }
+        catch (OperationOnEmptyListException ignore) {
             return;
         }
 
-        System.out.print(cyclicPrototypes.getOrderedEntriesString());
-        System.out.printf("Select a cyclic  entry from 1 to %d to be removed:\n", cyclicPrototypes.length());
+        printOptions(cyclicPrototypes, "removed");
 
         int entry_choice;
         try {
@@ -174,8 +175,8 @@ public class WalletService {
             System.out.println("Invalid input!");
             return;
         }
-        if (entry_choice >= 1 && entry_choice <= cyclicPrototypes.length()) {
-            cyclicPrototypes.removePrototype(entry_choice - 1);
+        if (validateChoiceFromList(cyclicPrototypes, entry_choice)) {
+            removeAtUserProvidedIndex(cyclicPrototypes, entry_choice);
             System.out.println("Cyclic entry removed!");
         }
         else {
@@ -187,14 +188,15 @@ public class WalletService {
         Wallet wallet = wallets.getWalletByName(getCurrentWalletName());
         EntryList entryList = wallet.getEntryList();
 
-        System.out.print(entryList.getOrderedEntriesString());
-        if (entryList.length() == 0) {
-            System.out.println("No entries to modify!");
+        try {
+            stopIfListIsEmpty(entryList);
+        }
+        catch (OperationOnEmptyListException ignore) {
             return;
         }
 
         MenuModifyEntries menuModEntries = new MenuModifyEntries(scanner);
-        System.out.printf("Select an entry from 1 to %d to be modified:\n", entryList.length());
+        printOptions(entryList, "modified");
 
         int entry_choice;
         try {
@@ -206,15 +208,15 @@ public class WalletService {
         }
 
         int optionChoice;
-        if (entry_choice >= 1 && entry_choice <= entryList.length()) {
+        if (entry_choice >= 1 && entry_choice <= entryList.getLength()) {
             do {
                 System.out.println("Chosen entry:");
-                System.out.print(entryList.getEntry(entry_choice-1)+"\n");
+                System.out.print(entryList.getAt(entry_choice-1)+"\n");
 
                 System.out.println(menuModEntries.show());
                 optionChoice = menuModEntries.getChoiceFromUser();
 
-                menuModEntries.executeActions(optionChoice, entryList.getEntry(entry_choice - 1));
+                menuModEntries.executeActions(optionChoice, entryList.getAt(entry_choice - 1));
             } while (optionChoice != 0);
         }
         else {
@@ -227,14 +229,15 @@ public class WalletService {
         Wallet wallet = wallets.getWalletByName(getCurrentWalletName());
         CyclicPrototypeList cyclicPrototypes = wallet.getCyclicPrototypes();
 
-        System.out.print(cyclicPrototypes.getOrderedEntriesString());
-        if (cyclicPrototypes.length() == 0) {
-            System.out.println("No entries to modify!");
+        try {
+            stopIfListIsEmpty(cyclicPrototypes);
+        }
+        catch (OperationOnEmptyListException ignore) {
             return;
         }
 
         MenuModifyCyclicEntries menuModCyclicEntries = new MenuModifyCyclicEntries(scanner);
-        System.out.printf("Select a cyclic entry from 1 to %d to be modified:\n", cyclicPrototypes.length());
+        printOptions(cyclicPrototypes, "modified");
 
         int entry_choice;
         try {
@@ -246,15 +249,15 @@ public class WalletService {
         }
 
         int optionChoice;
-        if (entry_choice >= 1 && entry_choice <= cyclicPrototypes.length()) {
+        if (validateChoiceFromList(cyclicPrototypes, entry_choice)) {
             do {
                 System.out.println("Chosen entry:");
-                System.out.print(cyclicPrototypes.getCyclicEntry(entry_choice-1)+"\n");
+                System.out.print(cyclicPrototypes.getAt(entry_choice-1)+"\n");
 
                 System.out.println(menuModCyclicEntries.show());
                 optionChoice = menuModCyclicEntries.getChoiceFromUser();
 
-                menuModCyclicEntries.executeActions(optionChoice, cyclicPrototypes.getPrototypes().get(entry_choice - 1));
+                menuModCyclicEntries.executeActions(optionChoice, cyclicPrototypes.asList().get(entry_choice - 1));
             } while (optionChoice != 0);
         }
         else {
@@ -324,5 +327,25 @@ public class WalletService {
             return true;
         }
         return false;
+    }
+
+    private boolean validateChoiceFromList(PrintableList list, int choice) {
+        return choice >= 1 && choice <= list.getLength();
+    }
+
+    private void stopIfListIsEmpty(PrintableList list) throws OperationOnEmptyListException {
+        if (list.getLength() == 0) {
+            System.out.println("Nothing to remove (list empty)!");
+            throw new OperationOnEmptyListException();
+        }
+    }
+
+    private void printOptions(PrintableList list, String action) {
+        System.out.print(list.getOrderedEntriesString());
+        System.out.printf("Select an entry from 1 to %d to be %s:\n", list.getLength(), action);
+    }
+
+    private <T> void removeAtUserProvidedIndex(ListManager<T> list, int index) {
+        list.removeAt(index - 1);
     }
 }

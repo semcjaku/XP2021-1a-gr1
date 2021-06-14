@@ -12,7 +12,7 @@ public class WalletTests {
         Wallet wallet = new Wallet("wallet1","user1");
 
         // Act
-        EntryList entryList = wallet.getEntryList();
+        ListManager<Entry> entryList = wallet.getEntryList();
 
         // Assert
         assertEquals(new EntryList(), entryList);
@@ -92,7 +92,7 @@ public class WalletTests {
         wallet.addEntry(entry);
 
         // Assert
-        assertEquals(wallet.getEntryList().getEntry(0).getAmount(),123);
+        assertEquals(wallet.getEntryList().getAt(0).getAmount(),123);
     }
 
     @Test

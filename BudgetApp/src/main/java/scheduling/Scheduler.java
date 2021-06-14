@@ -37,11 +37,11 @@ public class Scheduler {
                 .stream()
                 .collect(Collectors.toMap(Wallet::getEntryList, Wallet::getCyclicPrototypes))
                 .forEach((entryList, prototypes) -> prototypes
-                                .getPrototypes()
+                                .asList()
                                 .stream()
                                 .filter(CyclicEntryPrototype::shouldBeReplicatedToday)
                                 .map(prototype -> prototype.generateNewEntry(LocalDate.now()))
-                                .forEach(entryList::addEntry)
+                                .forEach(entryList::add)
                 );
     }
 }

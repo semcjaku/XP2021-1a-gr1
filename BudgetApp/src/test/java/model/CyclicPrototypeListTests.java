@@ -1,6 +1,5 @@
 package model;
 
-import model.*;
 import org.junit.Test;
 
 import java.util.LinkedList;
@@ -20,10 +19,10 @@ public class CyclicPrototypeListTests {
         testPrototypes.add(prototype);
 
         // Act
-        prototypeList.addPrototype(prototype);
+        prototypeList.add(prototype);
 
         // Assert
-        assertEquals(prototypeList.getPrototypes(), testPrototypes);
+        assertEquals(prototypeList.asList(), testPrototypes);
     }
 
     @Test
@@ -32,7 +31,7 @@ public class CyclicPrototypeListTests {
         CyclicPrototypeList prototypeList = new CyclicPrototypeList();
 
         // Assert
-        assertEquals(prototypeList.getPrototypes(), new LinkedList<>());
+        assertEquals(prototypeList.asList(), new LinkedList<>());
     }
 
     @Test
@@ -45,11 +44,11 @@ public class CyclicPrototypeListTests {
         int expected = 2;
 
         // Act
-        prototypeList.addPrototype(firstPrototype);
-        prototypeList.addPrototype(secondPrototype);
+        prototypeList.add(firstPrototype);
+        prototypeList.add(secondPrototype);
 
         // Assert
-        assertEquals(prototypeList.length(), expected);
+        assertEquals(prototypeList.getLength(), expected);
     }
 
     @Test
@@ -60,7 +59,7 @@ public class CyclicPrototypeListTests {
         int expected = 0;
 
         // Assert
-        assertEquals(prototypeList.length(), expected);
+        assertEquals(prototypeList.getLength(), expected);
     }
 
     @Test
@@ -74,12 +73,12 @@ public class CyclicPrototypeListTests {
         testPrototypes.add(secondPrototype);
 
         // Act
-        prototypeList.addPrototype(firstPrototype);
-        prototypeList.addPrototype(secondPrototype);
-        prototypeList.removePrototype(0);
+        prototypeList.add(firstPrototype);
+        prototypeList.add(secondPrototype);
+        prototypeList.removeAt(0);
 
         // Assert
-        assertEquals(prototypeList.getPrototypes(), testPrototypes);
+        assertEquals(prototypeList.asList(), testPrototypes);
     }
 
     @Test
@@ -90,8 +89,8 @@ public class CyclicPrototypeListTests {
         CyclicEntryPrototype secondPrototype = new MonthlyCyclicEntryPrototype(new Entry(3), 19);
 
         // Act
-        prototypeList.addPrototype(firstPrototype);
-        prototypeList.addPrototype(secondPrototype);
+        prototypeList.add(firstPrototype);
+        prototypeList.add(secondPrototype);
 
         // Assert
         assertEquals(prototypeList.getOrderedEntriesString(), "1. " + firstPrototype + "\n" + "2. " + secondPrototype + "\n");
@@ -113,8 +112,8 @@ public class CyclicPrototypeListTests {
         CyclicEntryPrototype secondPrototype = new MonthlyCyclicEntryPrototype(entry, cyclicDayOfMonth);
 
         CyclicPrototypeList prototypeList = new CyclicPrototypeList();
-        prototypeList.addPrototype(firstPrototype);
-        prototypeList.addPrototype(secondPrototype);
+        prototypeList.add(firstPrototype);
+        prototypeList.add(secondPrototype);
 
         // Assert
         assertEquals(prototypeList.toString(), "CyclicPrototypeList{" +

@@ -177,7 +177,7 @@ public class MenuCyclicEntryTests {
         menuCyclicEntry.executeChoice(1);
 
         // Assert
-        CyclicEntryPrototype result = walletService.getCyclicPrototypes("wallet").getPrototypes().get(0);
+        CyclicEntryPrototype result = walletService.getCyclicPrototypes("wallet").asList().get(0);
         assertEquals(amount, result.getPrototypeEntry().getAmount());
         assertTrue(result.toString().contains("intervalInDays=" + interval));
     }
@@ -199,7 +199,7 @@ public class MenuCyclicEntryTests {
         menuCyclicEntry.executeChoice(2);
 
         // Assert
-        CyclicEntryPrototype result = walletService.getCyclicPrototypes("wallet").getPrototypes().get(0);
+        CyclicEntryPrototype result = walletService.getCyclicPrototypes("wallet").asList().get(0);
         assertEquals(amount, result.getPrototypeEntry().getAmount());
         assertTrue(result.toString().contains("dayOfMonth=" + dayOfMonth));
     }

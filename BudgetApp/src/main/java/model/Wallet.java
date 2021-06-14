@@ -75,7 +75,7 @@ public class Wallet implements Serializable {
     }
 
     public void addEntry(Entry entry) {
-        entryList.addEntry(entry);
+        entryList.add(entry);
     }
 
     public void addCategory(String category) {
@@ -83,7 +83,7 @@ public class Wallet implements Serializable {
     }
 
     public void addCyclicPrototype(CyclicEntryPrototype cyclicEntryPrototype) {
-        this.cyclicPrototypes.addPrototype(cyclicEntryPrototype);
+        this.cyclicPrototypes.add(cyclicEntryPrototype);
     }
 
     @Override

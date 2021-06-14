@@ -42,7 +42,7 @@ public class WalletServiceTest {
         walletService.hndRemoveEntry();
 
         // Assert
-        assertEquals(walletService.getEntryList("wallet").length(),0);
+        assertEquals(walletService.getEntryList("wallet").getLength(),0);
     }
 
     @Test
@@ -63,7 +63,7 @@ public class WalletServiceTest {
         walletService.hndRemoveEntry();
 
         // Assert
-        assertEquals(1,walletService.getEntryList("wallet").length());
+        assertEquals(1,walletService.getEntryList("wallet").getLength());
     }
 
     @Test
@@ -254,7 +254,7 @@ public class WalletServiceTest {
         walletService.hndModifyEntry();
 
         // Assert
-        assertEquals(walletService.getEntryList("wallet").getEntry(0).getCategories().toString(),"[fun]");
+        assertEquals(walletService.getEntryList("wallet").getAt(0).getCategories().toString(),"[fun]");
     }
 
     @Test
@@ -274,7 +274,7 @@ public class WalletServiceTest {
         walletService.hndModifyEntry();
 
         // Assert
-        assertEquals(walletService.getEntryList("wallet").getEntry(0).getCategories().toString(),"[fun]");
+        assertEquals(walletService.getEntryList("wallet").getAt(0).getCategories().toString(),"[fun]");
     }
     @Test
     public void WalletServiceHndModifyEntryRemoveCategoriesInvalidEntryChoiceNotANumberShouldComeBackToMainMenuTest() {
@@ -293,7 +293,7 @@ public class WalletServiceTest {
         walletService.hndModifyEntry();
 
         // Assert
-        assertEquals(walletService.getEntryList("wallet").getEntry(0).getCategories().toString(),"[fun]");
+        assertEquals(walletService.getEntryList("wallet").getAt(0).getCategories().toString(),"[fun]");
     }
 
     @Test
@@ -310,7 +310,7 @@ public class WalletServiceTest {
         walletService.hndAddEntry();
 
         // Assert
-        assertEquals(walletService.getEntryList("wallet").getEntry(0).getAmount(),6);
+        assertEquals(walletService.getEntryList("wallet").getAt(0).getAmount(),6);
     }
 
     @Test
@@ -328,8 +328,8 @@ public class WalletServiceTest {
         walletService.hndAddEntry();
 
         // Assert
-        assertEquals(walletService.getEntryList("wallet").getEntry(0).getAmount(),6);
-        assertEquals(walletService.getEntryList("wallet").getEntry(0).getCategories().toString(),"[fun]");
+        assertEquals(walletService.getEntryList("wallet").getAt(0).getAmount(),6);
+        assertEquals(walletService.getEntryList("wallet").getAt(0).getCategories().toString(),"[fun]");
     }
 
     @Test
@@ -347,8 +347,8 @@ public class WalletServiceTest {
         walletService.hndAddEntry();
 
         // Assert
-        assertEquals(walletService.getEntryList("wallet").getEntry(0).getAmount(),6);
-        assertEquals(walletService.getEntryList("wallet").getEntry(0).getCategories().toString(),"[fun, food, folks]");
+        assertEquals(walletService.getEntryList("wallet").getAt(0).getAmount(),6);
+        assertEquals(walletService.getEntryList("wallet").getAt(0).getCategories().toString(),"[fun, food, folks]");
     }
 
     @Test
@@ -367,8 +367,8 @@ public class WalletServiceTest {
         walletService.hndAddCyclicEntry();
 
         // Assert
-        assertEquals(walletService.getCyclicPrototypes("wallet").getCyclicEntry(0).getPrototypeEntry().getAmount(),10);
-        assertEquals(((IntervalCyclicEntryPrototype)walletService.getCyclicPrototypes("wallet").getPrototypes().get(0)).getCyclicParameter() ,5);
+        assertEquals(walletService.getCyclicPrototypes("wallet").getAt(0).getPrototypeEntry().getAmount(),10);
+        assertEquals(((IntervalCyclicEntryPrototype)walletService.getCyclicPrototypes("wallet").asList().get(0)).getCyclicParameter() ,5);
     }
 
     @Test
@@ -387,8 +387,8 @@ public class WalletServiceTest {
         walletService.hndAddCyclicEntry();
 
         // Assert
-        assertEquals(walletService.getCyclicPrototypes("wallet").getCyclicEntry(0).getPrototypeEntry().getAmount(),10);
-        assertEquals(((MonthlyCyclicEntryPrototype)walletService.getCyclicPrototypes("wallet").getPrototypes().get(0)).getCyclicParameter() ,5);
+        assertEquals(walletService.getCyclicPrototypes("wallet").getAt(0).getPrototypeEntry().getAmount(),10);
+        assertEquals(((MonthlyCyclicEntryPrototype)walletService.getCyclicPrototypes("wallet").asList().get(0)).getCyclicParameter() ,5);
     }
 
     @Test
@@ -409,7 +409,7 @@ public class WalletServiceTest {
         walletService.hndRemoveCyclicEntry();
 
         // Assert
-        assertEquals(walletService.getCyclicPrototypes("wallet").length(),0);
+        assertEquals(walletService.getCyclicPrototypes("wallet").getLength(),0);
 //        assertEquals(((MonthlyCyclicEntryPrototype)walletService.getCyclicPrototypes("wallet").getPrototypes().get(0)).getCyclicParameter() ,5);
     }
 
@@ -425,7 +425,7 @@ public class WalletServiceTest {
         walletService.hndRemoveCyclicEntry();
 
         // Assert
-        assertEquals(walletService.getCyclicPrototypes("wallet").length(),0);
+        assertEquals(walletService.getCyclicPrototypes("wallet").getLength(),0);
     }
 
     @Test
@@ -449,7 +449,7 @@ public class WalletServiceTest {
         walletService.hndModifyCyclicEntry();
 
         // Assert
-        assertEquals(walletService.getCyclicPrototypes("wallet").getCyclicEntry(0).getPrototypeEntry().getAmount(),20);
+        assertEquals(walletService.getCyclicPrototypes("wallet").getAt(0).getPrototypeEntry().getAmount(),20);
 
     }
 

@@ -162,7 +162,7 @@ public class MenuEntryTests {
         menuEntry.executeChoice(1);
 
         // Assert
-        Entry result = walletService.getEntryList("Wallet").getEntry(0);
+        Entry result = walletService.getEntryList("Wallet").getAt(0);
         assertEquals(12, result.getAmount());
     }
 
@@ -180,7 +180,7 @@ public class MenuEntryTests {
         menuEntry.executeChoice(2);
 
         // Assert
-        Entry result = walletService.getEntryList("Wallet").getEntry(0);
+        Entry result = walletService.getEntryList("Wallet").getAt(0);
         assertEquals(12, result.getAmount());
         assertEquals(1, result.getCategories().size());
         assertEquals("Food", result.getCategories().get(0));

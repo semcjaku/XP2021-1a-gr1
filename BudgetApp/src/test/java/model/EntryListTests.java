@@ -1,7 +1,5 @@
 package model;
 
-import model.Entry;
-import model.EntryList;
 import org.junit.Test;
 
 import java.util.LinkedList;
@@ -21,10 +19,10 @@ public class EntryListTests {
         testEntries.add(entry);
 
         // Act
-        entryList.addEntry(entry);
+        entryList.add(entry);
 
         // Assert
-        assertEquals(entryList.getEntries(), testEntries);
+        assertEquals(entryList.asList(), testEntries);
     }
 
     @Test
@@ -38,12 +36,12 @@ public class EntryListTests {
         testEntries.add(entry2);
 
         // Act
-        entryList.addEntry(entry);
-        entryList.addEntry(entry2);
-        entryList.removeEntry(0);
+        entryList.add(entry);
+        entryList.add(entry2);
+        entryList.removeAt(0);
 
         // Assert
-        assertEquals(entryList.getEntries(), testEntries);
+        assertEquals(entryList.asList(), testEntries);
     }
 
     @Test
@@ -56,11 +54,11 @@ public class EntryListTests {
         int expected = 2;
 
         // Act
-        entryList.addEntry(entry);
-        entryList.addEntry(entry2);
+        entryList.add(entry);
+        entryList.add(entry2);
 
         // Assert
-        assertEquals(entryList.length(), expected);
+        assertEquals(entryList.getLength(), expected);
     }
 
     @Test
@@ -71,7 +69,7 @@ public class EntryListTests {
         int expected = 0;
 
         // Assert
-        assertEquals(entryList.length(), expected);
+        assertEquals(entryList.getLength(), expected);
     }
 
     @Test
@@ -80,7 +78,7 @@ public class EntryListTests {
         EntryList entryList = new EntryList();
 
         // Assert
-        assertEquals(entryList.getEntries(), new LinkedList<>());
+        assertEquals(entryList.asList(), new LinkedList<>());
     }
 
     @Test
@@ -92,7 +90,7 @@ public class EntryListTests {
         EntryList entryList = new EntryList(testEntries);
 
         // Assert
-        assertEquals(entryList.getEntries(), testEntries);
+        assertEquals(entryList.asList(), testEntries);
     }
 
     @Test
@@ -103,8 +101,8 @@ public class EntryListTests {
         Entry entry2 = new Entry(3);
 
         // Act
-        entryList.addEntry(entry);
-        entryList.addEntry(entry2);
+        entryList.add(entry);
+        entryList.add(entry2);
 
         // Assert
         assertEquals(entryList.getOrderedEntriesString(), "1. " + entry + "\n" + "2. " + entry2 + "\n");
@@ -119,7 +117,7 @@ public class EntryListTests {
         testList.add("rent");
         Entry entry = new Entry(amount, testList);
         EntryList entryList = new EntryList();
-        entryList.addEntry(entry);
+        entryList.add(entry);
 
         // Assert
         assertEquals(entryList.toString(), "EntryList{" +
@@ -140,11 +138,11 @@ public class EntryListTests {
         Entry entry = new Entry(amount, testList);
         Entry entry2 = new Entry(amount2);
         EntryList entryList = new EntryList();
-        entryList.addEntry(entry);
-        entryList.addEntry(entry2);
+        entryList.add(entry);
+        entryList.add(entry2);
 
         // Assert
-        assertEquals(entryList.getEntry(1), new Entry(amount2));
+        assertEquals(entryList.getAt(1), new Entry(amount2));
     }
 
     @Test
@@ -165,6 +163,6 @@ public class EntryListTests {
         entryList.setEntries(testList);
 
         // Assert
-        assertEquals(entryList.getEntries(), testList);
+        assertEquals(entryList.asList(), testList);
     }
 }

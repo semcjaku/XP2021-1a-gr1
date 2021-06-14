@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
 
-public class EntryList implements Serializable {
+public class EntryList implements Serializable, ListManager<Entry>, PrintableList {
     private List<Entry> entries;
 
     public EntryList() {
@@ -17,28 +17,28 @@ public class EntryList implements Serializable {
         this.entries = entries;
     }
 
-    public List<Entry> getEntries() {
+    public List<Entry> asList() {
         return this.entries;
+    }
+
+    public void add(Entry entry) {
+        this.entries.add(entry);
+    }
+
+    public Entry getAt(int index) {
+        return this.entries.get(index);
+    }
+
+    public void removeAt(int index) {
+        this.entries.remove(index);
+    }
+
+    public int getLength() {
+        return this.entries.size();
     }
 
     public void setEntries(List<Entry> entries) {
         this.entries = entries;
-    }
-
-    public void addEntry(Entry entry) {
-        this.entries.add(entry);
-    }
-
-    public void removeEntry(int index) {
-        this.entries.remove(index);
-    }
-
-    public Entry getEntry(int index) {
-        return this.entries.get(index);
-    }
-
-    public int length() {
-        return this.entries.size();
     }
 
     public String getOrderedEntriesString() {

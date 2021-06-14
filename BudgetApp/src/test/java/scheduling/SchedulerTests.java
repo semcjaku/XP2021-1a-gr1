@@ -1,13 +1,6 @@
 package scheduling;
 
-import model.Wallet;
-import model.WalletList;
-import model.CyclicEntryPrototype;
-import model.Entry;
-import model.EntryList;
-import model.CyclicPrototypeList;
-import model.IntervalCyclicEntryPrototype;
-import model.MonthlyCyclicEntryPrototype;
+import model.*;
 import org.junit.Test;
 
 import java.time.LocalDate;
@@ -33,13 +26,13 @@ public class SchedulerTests {
         walletList.addWallet("wallet1","user1");
         Wallet wallet = walletList.getWallets().get(0);
 
-        EntryList entries = wallet.getEntryList();
-        entries.addEntry(firstEntry);
-        entries.addEntry(secondEntry);
+        ListManager<Entry> entries = wallet.getEntryList();
+        entries.add(firstEntry);
+        entries.add(secondEntry);
 
         CyclicPrototypeList prototypes = wallet.getCyclicPrototypes();
-        prototypes.addPrototype(firstPrototype);
-        prototypes.addPrototype(secondPrototype);
+        prototypes.add(firstPrototype);
+        prototypes.add(secondPrototype);
 
         Scheduler scheduler = new Scheduler(walletList);
 
@@ -47,9 +40,9 @@ public class SchedulerTests {
         scheduler.addPeriodicEntries();
 
         // Assert
-        assertEquals(4, entries.getEntries().size());
-        assertTrue(entries.getEntries().contains(firstEntry.cloneAt(LocalDate.now())));
-        assertTrue(entries.getEntries().contains(secondEntry.cloneAt(LocalDate.now())));
+        assertEquals(4, entries.asList().size());
+        assertTrue(entries.asList().contains(firstEntry.cloneAt(LocalDate.now())));
+        assertTrue(entries.asList().contains(secondEntry.cloneAt(LocalDate.now())));
     }
 
     @Test
@@ -69,13 +62,13 @@ public class SchedulerTests {
         walletList.addWallet("wallet1","user1");
         Wallet wallet = walletList.getWallets().get(0);
 
-        EntryList entries = wallet.getEntryList();
-        entries.addEntry(firstEntry);
-        entries.addEntry(secondEntry);
+        ListManager<Entry> entries = wallet.getEntryList();
+        entries.add(firstEntry);
+        entries.add(secondEntry);
 
         CyclicPrototypeList prototypes = wallet.getCyclicPrototypes();
-        prototypes.addPrototype(firstPrototype);
-        prototypes.addPrototype(secondPrototype);
+        prototypes.add(firstPrototype);
+        prototypes.add(secondPrototype);
 
         Scheduler scheduler = new Scheduler(walletList);
 
@@ -83,9 +76,9 @@ public class SchedulerTests {
         scheduler.addPeriodicEntries();
 
         // Assert
-        assertEquals(2, entries.getEntries().size());
-        assertFalse(entries.getEntries().contains(firstEntry.cloneAt(LocalDate.now())));
-        assertFalse(entries.getEntries().contains(secondEntry.cloneAt(LocalDate.now())));
+        assertEquals(2, entries.asList().size());
+        assertFalse(entries.asList().contains(firstEntry.cloneAt(LocalDate.now())));
+        assertFalse(entries.asList().contains(secondEntry.cloneAt(LocalDate.now())));
     }
 
     @Test
@@ -106,13 +99,13 @@ public class SchedulerTests {
         walletList.addWallet("wallet1","user1");
         Wallet wallet = walletList.getWallets().get(0);
 
-        EntryList entries = wallet.getEntryList();
-        entries.addEntry(firstEntry);
-        entries.addEntry(secondEntry);
+        ListManager<Entry> entries = wallet.getEntryList();
+        entries.add(firstEntry);
+        entries.add(secondEntry);
 
         CyclicPrototypeList prototypes = wallet.getCyclicPrototypes();
-        prototypes.addPrototype(firstPrototype);
-        prototypes.addPrototype(secondPrototype);
+        prototypes.add(firstPrototype);
+        prototypes.add(secondPrototype);
 
         Scheduler scheduler = new Scheduler(walletList);
         scheduler.addPeriodicEntries();
@@ -121,8 +114,8 @@ public class SchedulerTests {
         scheduler.addPeriodicEntries();
 
         // Assert
-        assertEquals(4, entries.getEntries().size());
-        assertTrue(entries.getEntries().contains(firstEntry.cloneAt(LocalDate.now())));
-        assertTrue(entries.getEntries().contains(secondEntry.cloneAt(LocalDate.now())));
+        assertEquals(4, entries.asList().size());
+        assertTrue(entries.asList().contains(firstEntry.cloneAt(LocalDate.now())));
+        assertTrue(entries.asList().contains(secondEntry.cloneAt(LocalDate.now())));
     }
 }

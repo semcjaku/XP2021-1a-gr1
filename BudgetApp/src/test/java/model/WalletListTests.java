@@ -132,19 +132,19 @@ public class WalletListTests {
         Entry entry2 = new Entry(10);
 
         // Assert
-        assertEquals(walletList.getEntryList("wallet").length(), 0);
+        assertEquals(walletList.getEntryList("wallet").getLength(), 0);
 
         // Act
         walletList.addEntry("wallet",entry);
 
         // Assert
-        assertEquals(walletList.getEntryList("wallet").length(), 1);
+        assertEquals(walletList.getEntryList("wallet").getLength(), 1);
 
         // Act
         walletList.addEntry("wallet",entry2);
 
         // Assert
-        assertEquals(walletList.getEntryList("wallet").length(), 2);
+        assertEquals(walletList.getEntryList("wallet").getLength(), 2);
     }
     @Test
     public void WalletListAddCategoryTest() {
@@ -238,9 +238,9 @@ public class WalletListTests {
         EntryList entryList = walletList.getEntryList("wallet");
 
         // Assert
-        assertEquals(entryList.length(), 2);
-        assertEquals(entryList.getEntry(0).getAmount(), 123);
-        assertEquals(entryList.getEntry(1).getAmount(), 10);
+        assertEquals(entryList.getLength(), 2);
+        assertEquals(entryList.getAt(0).getAmount(), 123);
+        assertEquals(entryList.getAt(1).getAmount(), 10);
     }
 
     @Test
