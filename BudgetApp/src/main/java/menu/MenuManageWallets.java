@@ -77,10 +77,10 @@ public class MenuManageWallets extends AbstractMenu {
     }
 
     private void hndShowUserWallets() {
-        System.out.println(showUserWallets());
+        System.out.println(getUserWalletsString());
     }
 
-    public String showUserWallets() {
+    public String getUserWalletsString() {
         return new StringBuilder("Available wallets for user ")
                 .append(walletService.getLoggedInUserName()).append(": ")
                 .append(walletService.getUserWalletsNames(walletService.getLoggedInUserName())).toString();
