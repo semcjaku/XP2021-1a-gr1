@@ -169,7 +169,7 @@ public class MenuEntryTests {
     @Test
     public void MenuEntryExecuteChoiceOptionTwoTest() {
         // Arrange
-        ByteArrayInputStream in = new ByteArrayInputStream(("12" + System.getProperty("line.separator") + "Food").getBytes());
+        ByteArrayInputStream in = new ByteArrayInputStream(("12" + System.getProperty("line.separator") + "food").getBytes());
         WalletService walletService = new WalletService(new Scanner(in));
         walletService.setLoggedInUser("user1");
         walletService.addWallet("Wallet","user1");
@@ -183,6 +183,6 @@ public class MenuEntryTests {
         Entry result = walletService.getEntryList("Wallet").getAt(0);
         assertEquals(12, result.getAmount());
         assertEquals(1, result.getCategories().size());
-        assertEquals("Food", result.getCategories().get(0));
+        assertEquals("food", result.getCategories().get(0));
     }
 }

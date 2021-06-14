@@ -75,6 +75,14 @@ public class Wallet implements Serializable {
     }
 
     public void addEntry(Entry entry) {
+        List<String> all_categories = entry.getCategories();
+        List<String> valid_categories = new LinkedList<>();
+        for(String cat : all_categories) {
+            if (categoryList.contains(cat)) {
+                valid_categories.add(cat);
+            }
+        }
+        entry.setCategories(valid_categories);
         entryList.add(entry);
     }
 

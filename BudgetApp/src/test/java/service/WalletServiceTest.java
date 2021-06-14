@@ -267,14 +267,14 @@ public class WalletServiceTest {
         walletService.setLoggedInUser("user1");
         walletService.addWallet("wallet","user1");
         walletService.setCurrentWalletName("wallet");
-        Entry entry = new Entry(123, List.of("fun"));
+        Entry entry = new Entry(123, List.of("entertainment"));
         walletService.addEntry("wallet",entry);
 
         // Act
         walletService.hndModifyEntry();
 
         // Assert
-        assertEquals(walletService.getEntryList("wallet").getAt(0).getCategories().toString(),"[fun]");
+        assertEquals(walletService.getEntryList("wallet").getAt(0).getCategories().toString(),"[entertainment]");
     }
     @Test
     public void WalletServiceHndModifyEntryRemoveCategoriesInvalidEntryChoiceNotANumberShouldComeBackToMainMenuTest() {
@@ -286,14 +286,14 @@ public class WalletServiceTest {
         walletService.setLoggedInUser("user1");
         walletService.addWallet("wallet","user1");
         walletService.setCurrentWalletName("wallet");
-        Entry entry = new Entry(123, List.of("fun"));
+        Entry entry = new Entry(123, List.of("entertainment"));
         walletService.addEntry("wallet",entry);
 
         // Act
         walletService.hndModifyEntry();
 
         // Assert
-        assertEquals(walletService.getEntryList("wallet").getAt(0).getCategories().toString(),"[fun]");
+        assertEquals(walletService.getEntryList("wallet").getAt(0).getCategories().toString(),"[entertainment]");
     }
 
     @Test
@@ -317,7 +317,7 @@ public class WalletServiceTest {
     public void WalletServiceHndAddEntryWithAmountAndOneCategoryShouldAddEntryTest() {
         ByteArrayInputStream in = new ByteArrayInputStream(("2" + System.getProperty("line.separator")      // Entry menu - Add entry with amount and category list
                                                           + "6" + System.getProperty("line.separator")      // amount
-                                                          + "fun" + System.getProperty("line.separator")).getBytes());    // category
+                                                          + "entertainment" + System.getProperty("line.separator")).getBytes());    // category
         Scanner scanner = new Scanner(in);
         WalletService walletService = new WalletService(scanner);
         walletService.setLoggedInUser("user1");
@@ -329,14 +329,14 @@ public class WalletServiceTest {
 
         // Assert
         assertEquals(walletService.getEntryList("wallet").getAt(0).getAmount(),6);
-        assertEquals(walletService.getEntryList("wallet").getAt(0).getCategories().toString(),"[fun]");
+        assertEquals(walletService.getEntryList("wallet").getAt(0).getCategories().toString(),"[entertainment]");
     }
 
     @Test
     public void WalletServiceHndAddEntryWithAmountAndManyCategoriesShouldAddEntryTest() {
         ByteArrayInputStream in = new ByteArrayInputStream(("2" + System.getProperty("line.separator")      // Entry menu - Add entry with amount and category list
                                                           + "6" + System.getProperty("line.separator")      // amount
-                                                          + "fun;food;folks" + System.getProperty("line.separator")).getBytes());    // category
+                                                          + "entertainment;food;friendly exchange" + System.getProperty("line.separator")).getBytes());    // category
         Scanner scanner = new Scanner(in);
         WalletService walletService = new WalletService(scanner);
         walletService.setLoggedInUser("user1");
@@ -348,7 +348,7 @@ public class WalletServiceTest {
 
         // Assert
         assertEquals(walletService.getEntryList("wallet").getAt(0).getAmount(),6);
-        assertEquals(walletService.getEntryList("wallet").getAt(0).getCategories().toString(),"[fun, food, folks]");
+        assertEquals(walletService.getEntryList("wallet").getAt(0).getCategories().toString(),"[entertainment, food, friendly exchange]");
     }
 
     @Test
