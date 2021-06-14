@@ -29,4 +29,13 @@ public class Config {
         this.walletListPath = walletListPath;
     }
 
+    @Override
+    public String toString() {
+        return "Config{" +
+                "usersDbPath='" + usersDbPath + '\'' +
+                ", walletListPath='" + walletListPath + '\'' +
+                '}';
+    }
+
+
 }

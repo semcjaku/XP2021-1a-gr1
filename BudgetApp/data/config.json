@@ -1,4 +1,1 @@
-{
-  "usersDbPath": "/data/users_db2.txt",
-  "walletListPath": "/data/WalletList.ser"
-}
+{"usersDbPath":"/data/users_db.txt","walletListPath":"/data/WalletList.ser"}
