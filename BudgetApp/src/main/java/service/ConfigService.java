@@ -10,6 +10,12 @@ import java.nio.file.Paths;
 
 public class ConfigService {
 
+    public static String configPath = Path.of("").toAbsolutePath() + "/data/config.json";
+
+    public static void setConfigPath(String newConfigPath) {
+        configPath = Path.of("").toAbsolutePath() + newConfigPath;
+    }
+
     public static Config readConfig(String[] args) throws IOException {
 
         Options options = new Options();
@@ -26,8 +32,8 @@ public class ConfigService {
             if (inputFilePath == null || inputFilePath.isEmpty()) {
                 return getDefaultConfig();
             }
-
-            return getConfigFromFile(inputFilePath);
+            configPath = inputFilePath;
+            return getConfigFromFile();
 
         } catch (ParseException e) {
             System.out.println(e.getMessage());
@@ -35,12 +41,12 @@ public class ConfigService {
         }
     }
 
-    public static Config getConfigFromFile(String filepath) throws IOException {
-        System.out.println("Getting config from path: " + filepath);
+    public static Config getConfigFromFile() throws IOException {
+        System.out.println("Getting config from path: " + configPath);
 
         ObjectMapper mapper = new ObjectMapper();
 
-        Config config = mapper.readValue(Paths.get(filepath).toFile(), Config.class);
+        Config config = mapper.readValue(Paths.get(configPath).toFile(), Config.class);
 
         config.setUsersDbPath(Path.of("").toAbsolutePath() + config.getUsersDbPath());
         config.setWalletListPath(Path.of("").toAbsolutePath() + config.getWalletListPath());
@@ -56,5 +62,13 @@ public class ConfigService {
                 Path.of("").toAbsolutePath() + "/data/users_db.txt",
                 Path.of("").toAbsolutePath() + "/data/WalletList.ser"
         );
+    }
+
+    public static Config saveNewConfig(Config config) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+
+        mapper.writeValue(Paths.get(configPath).toFile(), config);
+
+        return getConfigFromFile();
     }
 }

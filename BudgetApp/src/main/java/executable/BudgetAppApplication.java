@@ -1,6 +1,9 @@
 package executable;
 
-import menu.*;
+import menu.Menu;
+import menu.MenuConfig;
+import menu.MenuPickOrCreateWallet;
+import menu.MenuUser;
 import model.Config;
 import model.User;
 import scheduling.Scheduler;
@@ -19,14 +22,36 @@ public class BudgetAppApplication {
 
         Scanner keyboard = new Scanner(System.in);
 
-        Config config = ConfigService.readConfig(args);
+        Config currentConfig = ConfigService.readConfig(args);
+        int choice;
+
+        MenuConfig menuConfig = new MenuConfig();
+
+        do {
+            System.out.println(menuConfig.show());
+            choice = menuConfig.getChoiceFromUser();
+
+            switch (choice) {
+                case 1:
+                    break;
+                case 2:
+                    System.out.println(currentConfig);
+                    break;
+                case 3:
+                    Config newConfig = menuConfig.getNewConfigFromUser();
+                    ConfigService.saveNewConfig(newConfig);
+                    System.out.println("Successfully saved new config");
+                    break;
+                case 0:
+                    break;
+            }
+        } while (choice != 0 && choice != 1);
 
         UserService userService = new UserService();
-        userService.loadUsersOnStart(config.getUsersDbPath());
+        userService.loadUsersOnStart(currentConfig.getUsersDbPath());
 
         MenuUser menuUser = new MenuUser();
 
-        int choice;
         do {
             System.out.println(menuUser.show());
             choice = menuUser.getChoiceFromUser();
@@ -52,12 +77,12 @@ public class BudgetAppApplication {
         } while (choice != 0 && loggedInUser == null);
 
         if (loggedInUser == null) {
-            userService.saveOnStop(config.getUsersDbPath());
+            userService.saveOnStop(currentConfig.getUsersDbPath());
             return;
         }
 
         WalletService walletService = new WalletService(keyboard);
-        walletService.loadWalletsOnStart(config.getWalletListPath());
+        walletService.loadWalletsOnStart(currentConfig.getWalletListPath());
         walletService.setLoggedInUser(loggedInUser.getEmail());
 
         Scheduler scheduler = new Scheduler(walletService.getWallets());
@@ -121,8 +146,8 @@ public class BudgetAppApplication {
         } while (mainChoice != 0);
 
         scheduler.stopScheduler();
-        userService.saveOnStop(config.getUsersDbPath());
-        walletService.saveOnStop(config.getWalletListPath());
+        userService.saveOnStop(currentConfig.getUsersDbPath());
+        walletService.saveOnStop(currentConfig.getWalletListPath());
     }
 
 }

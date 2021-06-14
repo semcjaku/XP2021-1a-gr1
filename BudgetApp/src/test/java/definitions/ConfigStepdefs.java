@@ -44,4 +44,25 @@ public class ConfigStepdefs {
         assertEquals(path + "/usersTest.csv", config.getUsersDbPath());
         assertEquals(path + "/walletTest.ser", config.getWalletListPath());
     }
+
+    @Given("Config service with default path")
+    public void configServiceWithDefaultPath() {
+        ConfigService.setConfigPath("/src/test/resources/newTestConfigFeatures.json");
+    }
+
+    @When("I add config with users database {string} and wallet database {string}")
+    public void iAddConfigWithUsersDatabaseAndWalletDatabase(String arg0, String arg1) throws IOException {
+        Config configToSave = new Config(arg0, arg1);
+
+        ConfigService.saveNewConfig(configToSave);
+    }
+
+    @Then("Config saved to file have user database {string} and wallet database {string}")
+    public void configSavedToFileHaveUserDatabaseAndWalletDatabase(String arg0, String arg1) throws IOException {
+
+        Config configFromFile = ConfigService.getConfigFromFile();
+
+        assertEquals(Path.of("").toAbsolutePath() + arg0, configFromFile.getUsersDbPath());
+        assertEquals(Path.of("").toAbsolutePath() + arg1, configFromFile.getWalletListPath());
+    }
 }
