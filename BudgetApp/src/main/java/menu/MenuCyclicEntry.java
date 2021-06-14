@@ -66,7 +66,7 @@ public class MenuCyclicEntry extends AbstractMenu {
         }
     }
 
-    public Entry getEntryInputShow()  {
+    public Entry getEntryFromUser()  {
         MenuEntry menuEntry = new MenuEntry(walletService);
         System.out.println("First, input entry itself...");
         System.out.println(menuEntry.show());
@@ -88,7 +88,7 @@ public class MenuCyclicEntry extends AbstractMenu {
     }
 
     public void hndAddCyclicEntryWithConstInterval() {
-        Entry entry = getEntryInputShow();
+        Entry entry = getEntryFromUser();
         if (entry == null) { return; }
         int intervalInDays = getCyclicIntervalInDaysFromUser();
         CyclicEntryPrototype prototype = new IntervalCyclicEntryPrototype(entry, intervalInDays);
@@ -97,7 +97,7 @@ public class MenuCyclicEntry extends AbstractMenu {
     }
 
     public void hndAddCyclicEntryWithMonthlyInterval() {
-        Entry entry = getEntryInputShow();
+        Entry entry = getEntryFromUser();
         int dayOfMonth = getCyclicDayOfMonthFromUser();
         CyclicEntryPrototype prototype = new MonthlyCyclicEntryPrototype(entry, dayOfMonth);
         walletService.addEntry(walletService.getCurrentWalletName(), entry);

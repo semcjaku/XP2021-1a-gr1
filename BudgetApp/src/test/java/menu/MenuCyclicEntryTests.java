@@ -142,7 +142,7 @@ public class MenuCyclicEntryTests {
     }
 
     @Test
-    public void MenuCyclicEntryGetEntryInputShowTest() throws InvalidInputException {
+    public void MenuCyclicEntryGetEntryFromUserTest() throws InvalidInputException {
         // Arrange
         int amount = 5;
         ByteArrayInputStream in = new ByteArrayInputStream(("1" + System.getProperty("line.separator") + "5").getBytes());
@@ -153,14 +153,14 @@ public class MenuCyclicEntryTests {
         MenuCyclicEntry menuCyclicEntry = new MenuCyclicEntry(walletService);
 
         // Act
-        Entry result = menuCyclicEntry.getEntryInputShow();
+        Entry result = menuCyclicEntry.getEntryFromUser();
 
         // Assert
-        assertEquals(new Entry(amount), result);
+        assertEquals(new Entry("user1",amount), result);
     }
 
     @Test
-    public void MenuCyclicEntryExecuteChoiceOptionOneTest() throws InvalidInputException {
+    public void MenuCyclicEntryExecuteChoiceOptionOneTest(){
         // Arrange
         int amount = 3;
         int interval = 5;
@@ -183,7 +183,7 @@ public class MenuCyclicEntryTests {
     }
 
     @Test
-    public void MenuCyclicEntryExecuteChoiceOptionTwoTest() throws InvalidInputException {
+    public void MenuCyclicEntryExecuteChoiceOptionTwoTest() {
         // Arrange
         int amount = 3;
         int dayOfMonth = 5;

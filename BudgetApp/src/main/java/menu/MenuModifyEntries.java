@@ -40,47 +40,42 @@ public class MenuModifyEntries extends AbstractMenu {
                 "0.Return";
     }
 
-    public Integer getAmountInputShow() { // TODO us getStringFromUser
-        System.out.println("Provide new amount:");
-        String line = scanner.nextLine();
-        return Integer.parseInt(line);
+    public Integer getAmountFromUser() {
+        return getIntFromUser("Provide new amount:");
     }
 
-    public ArrayList<String> getCategoriesInputShow() {
-        System.out.println("Provide categories separated by commas:");
-        String line = scanner.nextLine();
+    public ArrayList<String> getCategoriesFromUser() {
+        String line = getStringFromUser("Provide categories separated by commas:");
         ArrayList<String> newCategories = new ArrayList<>(Arrays.asList(line.split(",")));
         newCategories.replaceAll(String::trim);
         return newCategories;
     }
 
-    public String addCategoryInputShow() {
-        System.out.println("Provide new category:");
-        return scanner.nextLine();
+    public String getNewCategoryFromUser() {
+        return getStringFromUser("Provide new category:");
     }
 
-    public String removeCategoryInputShow() {
-        System.out.println("Choose a category to be removed:");
-        return scanner.nextLine();
+    public String getCategoryToBeRemovedFromUser() {
+        return getStringFromUser("Choose a category to be removed:");
     }
 
     public void executeActions(int choice, Entry entry) {
         switch(choice) {
             case 1:
-                Integer newAmount = getAmountInputShow();
+                Integer newAmount = getAmountFromUser();
                 entry.setAmount(newAmount);
                 break;
             case 2:
-                ArrayList<String> newCategories = getCategoriesInputShow();
+                ArrayList<String> newCategories = getCategoriesFromUser();
                 entry.setCategories(newCategories);
                 break;
             case 3:
-                String newCategory = addCategoryInputShow();
+                String newCategory = getNewCategoryFromUser();
                 entry.addCategory(newCategory);
                 break;
             case 4:
                 System.out.println(entry.getCategories());
-                String cat = removeCategoryInputShow();
+                String cat = getCategoryToBeRemovedFromUser();
                 entry.removeCategory(cat);
                 break;
             default:

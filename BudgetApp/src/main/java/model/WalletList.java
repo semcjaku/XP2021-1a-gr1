@@ -58,7 +58,6 @@ public class WalletList implements Serializable {
                 .filter(w -> w.getOwnerEmail().equals(userEmail) ||
                         w.getSharedUsersEmails().contains(userEmail))
                 .collect(Collectors.toList()); // ALWAYS returns list, if nothing is found than empty.
-
     }
 
     public boolean checkIfWalletExists(String walletName) {
@@ -70,23 +69,15 @@ public class WalletList implements Serializable {
         wallets.stream()
                 .filter(w -> w.getName().equals(walletName))
                 .findFirst()
-                .orElse(null) // optional? :(
+                .orElse(null)
                 .addEntry(entry);
     }
-
-//    public Entry getLastAddedEntry(String walletName) {
-//        wallets.stream()
-//                .filter(w -> w.getName().equals(walletName))
-//                .findFirst()
-//                .orElse(null) // optional? :(
-//                .getLastAddedEntry();
-//    }
 
     public void addCyclicPrototype(String walletName,  CyclicEntryPrototype cyclicEntryPrototype) {
         wallets.stream()
                 .filter(w -> w.getName().equals(walletName))
                 .findFirst()
-                .orElse(null) // optional? :(
+                .orElse(null)
                 .addCyclicPrototype(cyclicEntryPrototype);
     }
 

@@ -97,12 +97,13 @@ public class MenuEntry extends AbstractMenu {
 
     private Entry makeEntry(boolean withCategories) {
         int amount = getAmountFromUser();
-        if (withCategories == true) {
+        String creator = walletService.getLoggedInUserName();
+        if (withCategories) {
             List<String> catList = getCategoriesFromUser();
-            return new Entry(amount, catList);
+            return new Entry(creator, amount, catList);
         }
         else {
-            return new Entry(amount);
+            return new Entry(creator, amount);
         }
     }
 }

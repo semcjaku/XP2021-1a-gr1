@@ -1,7 +1,5 @@
 package model;
 
-import executable.BudgetAppApplication;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.LinkedList;
@@ -12,12 +10,23 @@ public class Entry implements Serializable {
     private int amount; // TODO powinien być double
     private List<String> categories;
     private LocalDate date = LocalDate.now();
-    private User creator;
+    private String creatorEmail;
 
-    public Entry(int amount){
-        this.creator = BudgetAppApplication.loggedInUser; // TODO pozbyć się zależności!
+    public Entry(String creatorEmail, int amount){
+        this.creatorEmail = creatorEmail;
         this.amount = amount;
         this.categories = new LinkedList<>();
+    }
+
+    public Entry(int amount){
+        this.creatorEmail = "admin";
+        this.amount = amount;
+        this.categories = new LinkedList<>();
+    }
+
+    public Entry(String creatorEmail, int amount, List<String> cat){
+        this(creatorEmail, amount);
+        this.categories = cat;
     }
 
     public Entry(int amount, List<String> cat){
@@ -25,10 +34,16 @@ public class Entry implements Serializable {
         this.categories = cat;
     }
 
+    public Entry(String creatorEmail, int amount, List<String> cat, LocalDate date){
+        this(creatorEmail, amount, cat);
+        this.date = date;
+    }
+
     public Entry(int amount, List<String> cat, LocalDate date){
         this(amount, cat);
         this.date = date;
     }
+
 
     public int getAmount() {
         return amount;
@@ -40,6 +55,10 @@ public class Entry implements Serializable {
 
     public List<String> getCategories() {
         return categories;
+    }
+
+    public String getCreatorEmail() {
+        return creatorEmail;
     }
 
     public void setCategories(List<String> categories) {
@@ -57,18 +76,13 @@ public class Entry implements Serializable {
     }
 
     public Entry cloneAt(LocalDate date) {
-        return new Entry(amount, categories, date);
+        return new Entry(creatorEmail, amount, categories, date);
     }
 
     @Override
     public String toString() {
         String username;
-        if(creator != null) {
-            username = creator.getEmail();
-        }
-        else {
-            username = "admin";
-        }
+        username = Objects.requireNonNullElse(creatorEmail, "admin");
         return "Entry{" +
                 "amount=" + amount +
                 ", categories=" + categories +

@@ -40,6 +40,19 @@ public class EntryTests {
 
         // Assert
         assertEquals(entry.getAmount(), amount);
+        assertEquals("admin",entry.getCreatorEmail());
+    }
+
+
+    @Test
+    public void EntryConstructorWithAmountAndCreatorTest() {
+        // Arrange
+        int amount = 515;
+        Entry entry = new Entry("user1",amount);
+
+        // Assert
+        assertEquals(entry.getAmount(), amount);
+        assertEquals("user1",entry.getCreatorEmail());
     }
 
     @Test
@@ -54,6 +67,22 @@ public class EntryTests {
         // Assert
         assertEquals(entry.getAmount(), amount);
         assertEquals(entry.getCategories(), testList);
+        assertEquals("admin",entry.getCreatorEmail());
+    }
+
+    @Test
+    public void EntryConstructorWithAmountAndCategoriesAndCreatorTest() {
+        // Arrange
+        int amount = 515;
+        List<String> testList = new LinkedList<>() {};
+        testList.add("food");
+        testList.add("rent");
+        Entry entry = new Entry("user1", amount, testList);
+
+        // Assert
+        assertEquals(entry.getAmount(), amount);
+        assertEquals(entry.getCategories(), testList);
+        assertEquals("user1",entry.getCreatorEmail());
     }
 
     @Test
@@ -70,10 +99,11 @@ public class EntryTests {
         assertEquals(entry.getAmount(), amount);
         assertEquals(entry.getCategories(), testList);
         assertEquals(date, entry.getDate());
+        assertEquals("admin",entry.getCreatorEmail());
     }
 
     @Test
-    public void EntryToStringTest() {
+    public void EntryToStringDefaultCreatorTest() {
         // Arrange
         int amount = 515;
         List<String> testList = new LinkedList<>() {};
@@ -86,6 +116,23 @@ public class EntryTests {
                 "amount=" + amount +
                 ", categories=" + testList +
                 ", created by=admin" +
+                '}');
+    }
+
+    @Test
+    public void EntryToStringTest() {
+        // Arrange
+        int amount = 515;
+        List<String> testList = new LinkedList<>() {};
+        testList.add("food");
+        testList.add("rent");
+        Entry entry = new Entry("user1",amount, testList);
+
+        // Assert
+        assertEquals(entry.toString(), "Entry{" +
+                "amount=" + amount +
+                ", categories=" + testList +
+                ", created by=user1" +
                 '}');
     }
 

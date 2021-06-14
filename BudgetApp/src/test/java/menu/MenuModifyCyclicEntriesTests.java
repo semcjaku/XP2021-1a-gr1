@@ -130,7 +130,7 @@ public class MenuModifyCyclicEntriesTests {
     }
 
     @Test
-    public void MenuModifyCyclicEntriesExecuteActionsModifyEntryChangeAmountTest() throws InvalidInputException {
+    public void MenuModifyCyclicEntriesExecuteActionsModifyEntryChangeAmountTest() {
         // Arrange
         int oldAmount = 45;
         int newAmount = 37;
