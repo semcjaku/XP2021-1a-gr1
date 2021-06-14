@@ -39,7 +39,7 @@ public class BudgetAppApplication {
                     break;
                 case 3:
                     Config newConfig = menuConfig.getNewConfigFromUser();
-                    ConfigService.saveNewConfig(newConfig);
+                    currentConfig = ConfigService.saveNewConfig(newConfig);
                     System.out.println("Successfully saved new config");
                     break;
                 case 0:
