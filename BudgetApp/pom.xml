@@ -64,7 +64,7 @@
                             </descriptorRefs>
                             <archive>
                                 <manifest>
-                                    <mainClass>executable.BudgetAppApplication</mainClass>
+                                    <mainClass>main.BudgetApp</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>
